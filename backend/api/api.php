@@ -202,7 +202,14 @@
 				ControllerSIDF::searchLast();
 				break;																			
 			/////////////////////////////////////////////////////////////
-
+			/*****************SECCION DE ANTICIPOS******************/
+			case 'searchRemi':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['search'];
+				ControllerSIDF::searchRemi($data);
+				break;			
+			/*******************************************************/
 			// seccion de operadores ...
 			case 'operador':
 				header('Access-Control-Allow-Origin: * ');

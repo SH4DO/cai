@@ -1236,6 +1236,21 @@ class CrudSIDF extends Conection
         }
     }
 
+    /**
+     *  SECCION DE ANTICIPOS
+     */
+    
+    //buscar remitente
+    public function searchRemit($data) {
+        $query="";                  
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
 } // end class CrudPCV .. 
 
 

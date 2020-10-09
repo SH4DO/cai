@@ -394,60 +394,32 @@ class ControllerSIDF extends CrudSIDF
     /**
      *  seccion de VALES DE COMBUSTIBLE
      */
-    public function listeTiposE()
-    {
-        CrudSIDF::listEq();
-    }
+    public function listeTiposE() {CrudSIDF::listEq();}
 
-    public function listeTiposO()
-    {
-        CrudSIDF::listOp();
-    }
+    public function listeTiposO() {CrudSIDF::listOp();}
 
-    public function searchVE($val)
-    {
-        CrudSIDF::searchVEq($val);
-    }
+    public function searchVE($val) {CrudSIDF::searchVEq($val);}
 
-    public function searchFlete($val,$fc)
-    {
-        CrudSIDF::searchFlet($val,$fc);
-    }
+    public function searchFlete($val,$fc) {CrudSIDF::searchFlet($val,$fc);}
 
-    public function listeGas($val)
-    {
-        CrudSIDF::listGas($val);
-    }
+    public function listeGas($val) {CrudSIDF::listGas($val);}
 
-    public function listeCombs()
-    {
-        CrudSIDF::listCombs();
-    }
+    public function listeCombs() {CrudSIDF::listCombs();}
 
-    public function updatCombs($val,$pre,$id)
-    {
-        CrudSIDF::updateCombs($val,$pre,$id);
-    }
+    public function updatCombs($val,$pre,$id) {CrudSIDF::updateCombs($val,$pre,$id);}
 
-    public function createVal($val)
-    {
-        CrudSIDF::creatVal($val);
-    }
+    public function createVal($val) {CrudSIDF::creatVal($val);}
 
-    public function searchVal($val)
-    {
-        CrudSIDF::searchVale($val);
-    }
+    public function searchVal($val) {CrudSIDF::searchVale($val);}
 
-    public function updateVal($val)
-    {
-        CrudSIDF::updateVale($val);
-    }
+    public function updateVal($val) {CrudSIDF::updateVale($val);}
 
-    public function searchLast()
-    {
-        CrudSIDF::searchLastV();
-    }
+    public function searchLast() {CrudSIDF::searchLastV();}
+
+    /**
+    *  seccion de ANTICIPOS
+    */
+    public function searchRemi($data){CrudSIDF::searchRemit($val);}
 
 }
 

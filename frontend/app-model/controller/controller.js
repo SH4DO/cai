@@ -3406,17 +3406,26 @@ app.controller("crudVales", [
 app.controller("crudAnticipos",[
   "$scope",
   "anticipos",
-  function($scope, anticipos){
+  "equipo",
+  "crudOperator",
+  function($scope, anticipos, equipo, crudOperator){
     $scope.listanticp;
     $scope.anticp = {};
     $scope.search = "";
     $scope.showMessage = true;
     $scope.showDisable = true;
     $scope.express = "\\d+";
+    $scope.listOp;
 
     $scope.buttonOption = function (option){
       switch(option){
         case 1:
+          {
+            $scope.showDisable = false;            
+            $scope.anticp = {};
+            $scope.anticp.fecha=new Date();
+
+          }
           break;
         case 2:
           break;
@@ -3424,6 +3433,46 @@ app.controller("crudAnticipos",[
           break;
       }
     };
+
+
+    //seccion de busqueda de Remitente
+    $scope.ban=true;
+    $scope.items = [];
+    $scope.searchEq= function(name){
+      if(name!==""){
+        $scope.ban = false;
+        $scope.listOp=anticipos.searchRemitente(name).then(function succes(res){
+          $scope.items = res;
+        });
+      }
+      else  $scope.ban = true;
+    };
+    
+    //seccion de busqueda de Operador
+    $scope.ban2=true;
+    $scope.searchOp = function(name){
+      if(name!==""){
+        $scope.ban2 = false;
+        $scope.listOp=crudOperator.searchOperator(name).then(function succes(res){
+          $scope.items = res;
+        });
+      }
+      else  $scope.ban2 = true;
+    };
+
+    //seccion de busqueda de Equipo
+    $scope.ban3=true;
+    $scope.searchEq= function(name){
+      if(name!==""){
+        $scope.ban3 = false;
+        $scope.listOp=equipo.searchEquipo(name).then(function succes(res){
+          $scope.items = res;
+        });
+      }
+      else  $scope.ban3 = true;
+    };
+
+
   },
 ]);
 
