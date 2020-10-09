@@ -1,0 +1,200 @@
+<div class="card shadow" ng-controller="crudEquipoFlotilla">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h4><i class="fas fa-truck"></i> <b>Equipo</b></h4>
+            </div>
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <div class="row">
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-edit icon" data-toggle="tooltip" data-placement="top" title="Crear"
+                            ng-click="optionsButton('create')" ng-disabled="showCreate"></i>
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-save icon" data-toggle="tooltip" data-placement="top" title="Guardar"
+                            ng-click="optionsButton('save')" ng-disabled="showSave"></i>
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-undo icon" data-toggle="tooltip" data-placement="top" title="Reset"
+                            ng-click="optionsButton('reset')" ng-disabled="showReset"></i>
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-file-alt icon" data-toggle="tooltip" data-placement="top" title="Documentos"
+                            ng-click="viewTemplate('documentse')"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body scroll">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-6 col-xs-6 col-lg-6">
+                    <form>
+                        <div class="from-group">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4 col-xl-4">
+                                    <input type="text" ng-model="viewForm.noeconomic" placeholder="No econimico" class="form-control" disabled>
+                                </div>
+                                 <div class="col-md-4 col-lg-4 col-xl-4">
+                                    <input type="text" ng-model="viewForm.placa" placeholder="Placas" class="form-control" disabled>
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                  <i class="fas fa-clipboard icon" data-toggle="tooltip"  data-placement="top"
+                                   title="Reporte" ng-click="viewTemplate('report-equipo')" ></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6 col-xs-6 col-lg-6">
+                    <div class="input-group">
+                        <input type="search" ng-class="form.search ? 'form-control is-valid' : 'form-control'"
+                            ng-keyup="search($event.target.value)" ng-model="form.search"
+                            placeholder="Busqueda No Economico / Placas">
+                        <div class="input-group-append">
+                            <span ng-class="form.search ? 'input-group-text btn-danger cursor' : 'input-group-text' "
+                                ng-click="emptySearch()">
+                                <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' ">
+                                </i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="positionFloat cursor" ng-if="!ban">
+                        <div ng-repeat="searchItems in items">
+                            <p ng-click="showSearch(searchItems)">
+                                {{ searchItems.num_economico }} / {{searchItems.placas}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+			<div ng-controller="menuEquipo">
+			  <nav>
+			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			    <a class="nav-item nav-link" id="equipof" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true" ng-click="ruta('equipoflotilla')" style="cursor: pointer;"><b><i class="fas fa-car"></i> Equipo</b></a>
+			    <a class="nav-item nav-link" id="vamb" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false" ng-click="ruta('ambiental')" style="cursor: pointer;"><b><i class="fas fa-sun"></i> V. Ambiental</b></a>
+			    <a class="nav-item nav-link" id="vmeca" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false" ng-click="ruta('fisicomecanico')" style="cursor: pointer;"><b><i class="fas fa-tools"></i> V. Físico-Mecánica</b></a>
+			  </div>
+			</nav>
+            <br>
+			<div ng-include="view_equipo" style="margin-top: .2rem;"></div>
+			</div>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+    <!--div class="modal fade" id="archiveupload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="showdocuments"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="form-group">
+                        <form action="" class="dropzone dropzone-margin" drop-zone id="filedropzone">
+                            <div class="fallback">
+                                <input type="file" name="file">
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Subir</button>
+            </div>
+        </div>
+    </div-->
+
+<div class="modal fade" id="archiveupload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Subir Archivo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-center">
+            <div class="form-group">
+                <form action="" class="dropzone dropzone-margin" drop-zone id="filedropzone">
+                    <div class="fallback">
+                        <input type="file" name="file">
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" ng-click="uploadSubir()">Subir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+    <div class="modal fade" id="showdocuments" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="showdocuments">Ver Documentos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body scroll">
+                    <!-- aqui va la seccion.. -->
+                    <div class="container">
+                        <div class="row">
+                            <div ng-repeat="item in listar" class="col-md-6 col-xl-6 col-lg-6">
+
+                                <img src="{{item.img}}" ng-click="viewPDF(item.archive)" class="img" data-toggle="modal"
+                                    data-target="#viewPDF">
+                                <br>
+                                <button class="btn btn-danger" ng-click="delete(item)"><i
+                                        class="fas fa-times"></i></button>
+                                <br>
+                                <span class="title">{{item.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- vista del pdf ... -->
+
+    <div id="modal" class="mascara">
+        <div class="contenido">
+            <span class="cerrar" onclick="document.getElementById('modal').style.display='none'">&times;</span>
+            <iframe src="{{pdf}}" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+
+    
+
+    <!---->
+</div>

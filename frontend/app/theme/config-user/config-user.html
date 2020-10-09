@@ -1,0 +1,39 @@
+<div class="card shadow" ng-controller="crudConfig">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h4><b>CONFIGURACIÓN DE USUARIO </b></h4>
+            </div>
+            <div class="col-md-4 col-xs-4 col-lg-4"></div>
+        </div>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+                <label><b>Nombre Completo</b></label>
+                <div class="inner-addon  right-addon">
+                    <i class="fas fa-user-tie"></i>
+                    <input type="text" ng-model="updateUserdata.name" class="form-control">
+                </div>
+                <label><b>Usuario</b></label>
+                <div class="inner-addon  right-addon">
+                    <i class="fas fa-user-tie"></i>
+                    <input type="text" ng-model="updateUserdata.user" class="form-control" maxlength="8">
+                </div>
+                <label><b>Contraseña</b></label>
+                <div class="inner-addon  right-addon">
+                    <i ng-if="ban" class="fas fa-eye cursor" ng-click="viewPassword(true)"></i>
+                    <i ng-if="!ban" class="fas fa-eye-slash cursor" ng-click="viewPassword(false)"></i>
+                    <input type="{{type}}" ng-model="updateUserdata.password" class="form-control">
+                </div>
+                <label><b>Rol</b></label>
+                <div class="inner-addon  right-addon">
+                    <i class="fas fa-user-tie"></i>
+                    <input type="text" ng-model="updateUserdata.role" class="form-control" disabled>
+                </div>
+                <br>
+                <button type="button" class="btn btn-primary btn-block" ng-click="actualizar()"><b>Actualizar Datos</b></button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<div class="card shadow" ng-controller="crudConfig">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h4><b>AGREGAR USUARIO</b></h4>
+            </div>
+            <div class="col-md-4 col-xs-4 col-lg-4"></div>
+        </div>
+    </div>
+    <div class="card-body scroll">
+        <form>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <label><b>Nombre Completo</b></label>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-user-tie"></i>
+                            <input type="text" name="name" placeholder="Nombre Completo" ng-model="creatUserdata.name" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6 col-xs-6">
+                        <label><b>Usuario</b></label>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-user-tie"></i>
+                            <input type="text" name="user" placeholder="usuario" ng-model="creatUserdata.user" class="form-control" maxlength="8">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <label><b>Contraseña</b></label>
+                        <div class="inner-addon  right-addon">
+                            <i ng-if="ban" class="fas fa-eye cursor" ng-click="viewPassword(true)"></i>
+                            <i ng-if="!ban" class="fas fa-eye-slash cursor" ng-click="viewPassword(false)"></i>
+                            <input type="{{type}}" name="password" placeholder="Contraseña" ng-model="creatUserdata.password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xs-6">
+                        <label><b>Rol</b></label>
+                        <select class="form-control" ng-model="creatUserdata.role" name="role" ng-change="opciones()">
+              <option value="admin">admin</option>
+              <option value="invitado">invitado</option>
+            </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <label><b>Opciones</b></label>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-list-ul"></i>
+                            <input type="text" id="opciones" placeholder="opciones" ng-model="creatUserdata.opciones" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-xs-4" style="margin-top: .5rem;">
+                        <label><b>Agregar Módulo</b></label>
+                        <select class="form-control" ng-model="creatUserdata.lista" required ng-disabled="disabled">
+              <option ng-repeat="op in options" value="{{op.id}}">{{op.label}}</option>
+            </select>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xs-2">
+                        <button type="button" class="btn btn-success marign-button" ng-click="agregaLista()" ng-disabled="disabled"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-md-2 col-lg-2 col-xs-2"></div>
+                    <div class="col-md-6 col-lg-6 col-xs-6">
+                        <button type="submit" class="btn btn-primary btn-block" ng-click="register()"><b>Registrar</b></button>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xs-2"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

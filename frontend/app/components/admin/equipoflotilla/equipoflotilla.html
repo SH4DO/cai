@@ -1,0 +1,311 @@
+<h5><b>CARACTERÍSTICAS FÍSICO-MECÁNICAS</b></h5>
+            <hr>
+            <form name="equipo">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>No. Económico</b>
+                                <b class="alert-danger-message" ng-show="equipo.nume.$error.required">
+                                    *
+                                </b>
+                                <b class="alert-danger-message" ng-show="valideco">
+                                    Ya existe
+                                </b>
+                            </label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-sort-numeric-up-alt"></i>
+                                <input type="text" class="form-control" name="nume" ng-model="formequipo.nume"
+                                    placeholder="TC-36" ng-required="true" maxlength="7"
+                                    ng-keyup="vericaNumE($event.target.value)" ng-disabled="showCreateInput">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Placas</b>
+                                <b class="alert-danger-message" ng-show="equipo.placas.$error.required">
+                                    *
+                                </b>
+                            </label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-car"></i>
+                                <input type="text" class="form-control" name="placas" ng-model="formequipo.placas"
+                                    placeholder="37-AG-4S" ng-required="true" maxlength="8" ng-disabled="valideconext">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3"></div>
+                        <div class="col-md-3 col-xs-3 col-lg-3"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Tipo</b>
+                                <b class="alert-danger-message" ng-show="equipo.tipo.$error.required">
+                                    *
+                                </b></label>
+                            <select class="form-control" name="tipo" ng-model="formequipo.tipo" ng-required="true"
+                                ng-disabled="!formequipo.placas">
+                                <option value="Tractor">Tractor</option>
+                                <option value="Caja seca">Caja seca</option>
+                                <option value="Plataforma">Plataforma</option>
+                                <option value="Plataforma encotinada">Plataforma encortinada</option>
+                                <option value="Dolly">Dolly</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+
+                            <label><b>Marca</b>
+                                <b class="alert-danger-message" ng-show="equipo.marca.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-car"></i>
+                                <input type="text" class="form-control" name="marca" ng-model="formequipo.marca"
+                                    placeholder="Marca" ng-required="true" maxlength="20"
+                                    ng-disabled="!formequipo.tipo">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Niv.</b>
+                                <b class="alert-danger-message" ng-show="equipo.niv.$error.required">
+                                    *
+                                </b>
+                                <b class="alert-danger-message" ng-show="validniv">
+                                    Ya existe
+                                </b>
+                            </label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-sort-numeric-up-alt"></i>
+                                <input type="text" class="form-control" name="niv"
+                                    ng-keyup="vericaNiv($event.target.value)" ng-model="formequipo.niv"
+                                    placeholder="Niv." ng-required="true" maxlength="20"
+                                    ng-disabled="!formequipo.marca">
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Motor</b>
+                                <b class="alert-danger-message" ng-show="equipo.motor.$error.required">
+                                    *
+                                </b>
+                            </label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-bezier-curve"></i>
+                                <input type="text" class="form-control" name="motor" ng-model="formequipo.motor"
+                                    placeholder="Motor" ng-required="true" maxlength="15" ng-disabled="validnivnext">
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Modelo</b>
+                                <b class="alert-danger-message" ng-show="equipo.modelo.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-car"></i>
+                                <input type="text" class="form-control" name="modelo" ng-model="formequipo.modelo"
+                                    placeholder="2000" ng-required="true" ng-pattern="numeros" maxlength="4"
+                                    ng-disabled="!formequipo.motor">
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Diferencial</b>
+                                <b class="alert-danger-message" ng-show="equipo.diferencial.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-directions"></i>
+                                <input type="text" class="form-control" name="diferencial"
+                                    ng-model="formequipo.diferencial" placeholder="46.000.000 LBS" ng-required="true"
+                                    maxlength="14" ng-disabled="!formequipo.modelo">
+                            </div>
+
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Suspensión</b>
+                                <b class="alert-danger-message" ng-show="equipo.suspension.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <select class="form-control" name="suspension" ng-model="formequipo.suspension"
+                                    ng-required="true" ng-disabled="!formequipo.diferencial">
+                                    <option value="Neumatica">Neumatica</option>
+                                    <option value="Mecanica">Mecanica</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Largo</b>
+                                <b class="alert-danger-message" ng-show="equipo.largo.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-ruler-horizontal"></i>
+                                <input type="text" class="form-control" name="largo" ng-model="formequipo.largo"
+                                    placeholder="3.00 M" ng-required="true" maxlength="6"
+                                    ng-disabled="!formequipo.suspension">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Ancho</b>
+                                <b class="alert-danger-message" ng-show="equipo.ancho.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-ruler-vertical"></i>
+                                <input type="text" class="form-control" name="ancho" ng-model="formequipo.ancho"
+                                    placeholder="2.00 M" ng-required="true" maxlength="6"
+                                    ng-disabled="!formequipo.largo">
+                            </div>
+
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Alto</b>
+                                <b class="alert-danger-message" ng-show="equipo.alto.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-ruler-vertical"></i>
+                                <input type="text" class="form-control" name="alto" ng-model="formequipo.alto"
+                                    placeholder="2.00 M" ng-required="true" maxlength="6"
+                                    ng-disabled="!formequipo.ancho">
+                            </div>
+
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Ejes</b>
+                                <b class="alert-danger-message" ng-show="equipo.ejes.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-cog"></i>
+                                <input type="text" class="form-control" name="ejes" ng-model="formequipo.eje"
+                                    placeholder="Ejes" ng-required="true" ng-pattern="numeros" maxlength="2"
+                                    ng-disabled="!formequipo.alto">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3 marign-button">
+                            <button class="btn btn-success btn-block" ng-disabled="showView" data-toggle="modal"
+                                data-target="#showdocuments"><b>Ver Documentos</b></button>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h5><b>CARACTERÍSTICAS ADMINISTRATIVAS</b></h5>
+                    <hr>
+
+
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Estatus</b>
+                                <b class="alert-danger-message" ng-show="equipo.estatus.$error.required">
+                                    *
+                                </b></label>
+                            <select class="form-control" name="estatus" ng-model="formequipo.estatus" ng-required="true"
+                                ng-change="changeStatus()" ng-disabled="!formequipo.eje">
+                                <option value="operando">Operando</option>
+                                <option value="baja_definitiva">Baja definitiva</option>
+                                <option value="vendido">Vendido</option>
+                                <option value="accidentado">Accidentado</option>
+                                <option value="robado">Robado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Alta STC</b>
+                                <b class="alert-danger-message" ng-show="equipo.altastc.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+
+                                <input type="date" class="form-control" name="altastc" ng-model="formequipo.altastc"
+                                    ng-required="true" ng-disabled="!formequipo.estatus">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Baja STC</b>
+                                <b class="alert-danger-message" ng-show="equipo.bajastc.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+
+                                <input type="date" class="form-control" name="bajastc" ng-model="formequipo.bajastc"
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>No. Tarjeta Circulación</b>
+                                <b class="alert-danger-message" ng-show="equipo.numct.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-address-card"></i>
+                                <input type="text" class="form-control" name="numct" ng-model="formequipo.numct"
+                                    placeholder="No. Tarjeta Circulación" ng-required="true" maxlength="8"
+                                    ng-disabled="!formequipo.altastc">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>No. de Póliza</b>
+                                <b class="alert-danger-message" ng-show="equipo.poliza.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-sort-numeric-up-alt"></i>
+                                <input type="text" class="form-control" name="poliza" ng-model="formequipo.poliza"
+                                    placeholder="No. Poliza" ng-required="true" maxlength="15"
+                                    ng-disabled="!formequipo.numct">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Vigencia Desde</b>
+                                <b class="alert-danger-message" ng-show="equipo.vd.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+
+                                <input type="date" class="form-control" name="vd" ng-model="formequipo.vd"
+                                    placeholder="" ng-required="true" ng-disabled="!formequipo.poliza">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Vigencia Hasta</b>
+                                <b class="alert-danger-message" ng-show="equipo.vh.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+
+                                <input type="date" class="form-control" name="vh" ng-model="formequipo.vh"
+                                    placeholder="" ng-required="true" ng-disabled="!formequipo.vd">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3"></div>
+                    </div>
+
+
+
+                </div>
+            </form>

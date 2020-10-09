@@ -1,0 +1,20 @@
+[
+  {
+    "id": "reporte",
+    "class": "list-group-item cursor",
+    "icon": "fas fa-clipboard",
+    "label": "Reporte Mantenimiento"
+  },
+  {
+    "id": "bitacora",
+    "class": "list-group-item cursor",
+    "icon": "fas fa-clipboard",
+    "label": "Bitácora/Horas de servicio"
+  },
+  {
+    "id": "salir",
+    "class": "list-group-item cursor",
+    "icon": "fas fa-sign-in-alt",
+    "label": "Salir"
+  }
+]

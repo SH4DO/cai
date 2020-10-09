@@ -1,0 +1,324 @@
+<div class="card shadow" ng-controller="crudVales">
+
+    <div class="card-header">
+      <div class="row">
+          <div class="col-md-8 col-xs-8 col-lg-8">
+              <h4><i class="fas fa-users"></i> <b>COMBUSTIBLE.</b></h4>
+          </div>
+          <div class="col-md-4 col-xs-4 col-lg-4">
+              <div class="row">
+                  <div class="col-md-2 col-xs-2 col-lg-2">
+                      <i class="fas fa-edit icon" ng-click="buttonOption(1)" ng-disabled="showCreateCliente"></i>
+                  </div>
+                  <div class="col-md-2 col-xs-2 col-lg-2">
+                      <label><i class="fas fa-save icon" ng-click="buttonOption(2)" ng-disabled="showSaveCliente"></i></label>
+                  </div>
+                  <div class="col-md-2 col-xs-2 col-lg-2">
+                      <i class="fas fa-undo icon" ng-click="buttonOption(3)" ng-disabled="showResetCliente"></i>
+                  </div>
+                  <div class="col-md-2 col-xs-2 col-lg-2">
+                    <i class="fas fa-print icon" ng-click="viewTemplate('vale-imprimir')" ng-disabled="showImpCliente"></i>
+                </div>
+                  <div class="col-md-2 col-xs-2 col-lg-2">
+                    <i class="fas fa-cog icon" data-toggle="modal" data-target="#DivCombs" ng-click="verPrecios()"></i>     
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+    <div class="card-body scroll" id="DivPrincipal">
+    
+    <!-- BARRA DE BUSQUEDA-->
+    <div class="row">
+        <div class="col-md-6 col-xs-6 col-lg-6"></div>
+        <div class="col-md-6 col-xs-6 col-lg-6">
+            <div class="input-group">
+                <input type="search" ng-class="form.search2 ? 'form-control is-valid' : 'form-control'" ng-keyup="search2($event.target.value)" ng-model="form.search2" placeholder="Busqueda por ID del Vale"  ng-disabled="showDisable">
+                <div class="input-group-append">
+                    <span ng-class="form.search2 ? 'input-group-text btn-danger cursor' : 'input-group-text' " ng-click="emptySearch()">
+          <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' ">
+          </i>
+        </span>
+                </div>
+            </div>
+            <div class="positionFloat cursor" ng-if="!ban3">
+                <div ng-repeat="searchItems in items2">
+                    <p ng-click="llenado(searchItems)">
+                        {{ searchItems.idvale }} 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>        
+
+      <form name="clientes">
+        <div class="form-group" id="imprimirDiv">
+            <div ng-show="mostrarAlert">
+                <h4> <b class="alert-danger-message">Los datos ya han sido actualizados hoy</b></h4>
+            </div>
+
+            <div class="row"> <!-- COL DE NO VALE Y FECHA-->
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <label><b>No. Vale</b>
+                    </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-key"></i>
+                        <input type="text"  ng-model="cliente.idvale"
+                            placeholder="######" name="idvale" 
+                            ng-class=" cliente.idvale ? 'form-control is-valid' : 'form-control'"
+                              disabled>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <label><b>Fecha.</b></label>
+                    <div class="inner-addon  right-addon">   
+                        <input type="date" name="fa" 
+                                ng-disabled="showDisable" ng-model="cliente.fecha"
+                                ng-class=" cliente.fecha ? 'form-control is-valid' : 'form-control'" required>
+                    </div>
+                </div>
+            </div>    
+
+            <div class="row"> <!--COL DE FLITRO POR CLIENTE-->
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <label><b>Filtrar por Cliente</b>
+                        <b class="alert-danger-message" ng-show="validadores[6]">
+                            *
+                        </b></label>
+                    <div class="input-group">
+                        <input type="search" ng-model="cliente.nombrecliente"  ng-class="form.search2 ? 'form-control is-valid' : 'form-control'" ng-keyup="searchC($event.target.value)"  
+                            placeholder="Buscar Cliente" ng-disabled="showDisable"  required>
+    
+                    </div>
+                    <div class="positionFloat cursor" ng-if="!ban2">
+                        <div ng-repeat="searchItems in itemsC">
+                            <p ng-click="filtradoCl(searchItems)">
+                                {{ searchItems.cliente}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"> <!--COL DE FLETE-->
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <label><b>Clave Flete</b>
+                        <b class="alert-danger-message" ng-show="validadores[0]">
+                            *
+                        </b></label>
+                    <div class="input-group">
+                        <input type="search" ng-model="cliente.claveF" ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="search($event.target.value)" ng-model="form.search"
+                            placeholder="Clave Flete" ng-disabled="showDisable"  required>
+    
+                    </div>
+                    <div class="positionFloat cursor" ng-if="!ban">
+                        <div ng-repeat="searchItems in items">
+                            <p ng-click="llenadoFlete(searchItems)">
+                                {{ searchItems.flete}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <label><b>Descripci&oacute;n</b>
+                        <b class="alert-danger-message" ng-show="operadores.nombre.$error.required">
+                            *
+                        </b></label>
+                    <div class="inner-addon  right-addon">
+                        
+                        <input type="text" ng-model="cliente.desc" name="descripcion" placeholder="Descripcion."
+                            ng-class=" cliente.desc ? 'form-control is-valid' : 'form-control'"
+                            maxlength="18" disabled  required>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <label><b>Nombre Operador</b>
+                        <b class="alert-danger-message" ng-show="validadores[1]">
+                            *
+                        </b></label>
+                    <!--TEST 1.0-->
+                    <div class="inner-addon  right-addon">
+                        <select name="mercancia" ng-class=" cliente.mercancia ? 'form-control is-valid' : 'form-control'"  ng-model="cliente.mercancia" ng-change="clave()" ng-click="" ng-disabled="showDisable" required>
+                            <option ng-repeat="product in listproduct" value="{{product.idoperador}}">
+                                {{product.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row"> <!--COL DE EQUIPO-->
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <label><b>Clave Eq.</b>
+                        <b class="alert-danger-message" ng-show="validadores[2]">
+                            *
+                        </b></label>
+                
+                <div class="inner-addon  right-addon">
+                    <select name="claveEq" ng-class=" cliente.equipo ? 'form-control is-valid' : 'form-control'"  ng-model="cliente.equipo" ng-change="llenadoEq()" ng-click="" ng-disabled="showDisable" required>
+                        <option ng-repeat="product in listEq" value="{{product.idequipo}}">
+                            {{product.num_economico}}
+                        </option>
+                    </select>
+                </div> 
+                
+
+                </div>
+
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <label><b>Placa_Equipo</b>
+                        <b class="alert-danger-message" ng-show="operadores.curp.$error.required">
+                            *
+                        </b></label>
+                    <div class="inner-addon  right-addon">
+                        
+                        <input type="text" ng-model="cliente.placa" name="curp" placeholder="Placa de Equipo"
+                            ng-class="cliente.placa ? 'form-control is-valid' : 'form-control'"
+                            maxlength="18" disabled>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <label><b>Gasolinera</b>
+                        <b class="alert-danger-message" ng-show="validadores[3]">
+                            *
+                        </b></label>
+                    <div class="inner-addon  right-addon">
+                        <select name="gasolinera" ng-class="cliente.gasolinera ? 'form-control is-valid' : 'form-control'"  ng-model="cliente.gasolinera" ng-change="clave()" ng-click="resetLisr()" ng-disabled="showDisable" required>
+                            <option ng-repeat="product in listGas" value="{{product.idproveedor}}">
+                                {{product.nombreprov}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row"> <!--COL DE COMBUSTIBLE-->
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <label><b>Tipo Combs.</b>
+                        <b class="alert-danger-message" ng-show="validadores[4]">
+                            *
+                    </b></label>
+                    <div class="inner-addon right-addon">
+                        <select name="combs" ng-class="cliente.combs ? 'form-control is-valid' : 'form-control'" ng-model="cliente.combs" ng-change="precioCombs()" ng-click="" ng-disabled="showDisable" required>
+                            <option ng-repeat="combs in listcombs" value="{{combs.idcomb}}">
+                                {{combs.nombrecomb}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <label><b>Precio</b>
+                        <b class="alert-danger-message" ng-show="operadores.nimss.$error.required">
+                            *
+                        </b></label>
+                    <div class="inner-addon  right-addon">
+
+                        <input type="text"  ng-model="cliente.precioCombustible"
+                            placeholder="$0.00" name="precio"
+                            ng-class=" cliente.precioCombustible ? 'form-control is-valid' : 'form-control'"
+                             disabled required>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <label><b>Cantidad</b>
+                        <b class="alert-danger-message" ng-show="validadores[5]">
+                            *
+                        </b>
+                    </label>
+                    <div class="inner-addon  right-addon">
+                        
+                        <input type="text" ng-model="cliente.cantidadcombs"
+                            placeholder="0" name="cantidadComb"  ng-keyup="generarImporte()"
+                            ng-class=" cliente.cantidadcombs? 'form-control is-valid' : 'form-control'"
+                            ng-pattern="numeros" ng-disabled="showDisable"  ng-required="true">
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <label><b>Importe</b></label>
+                    <div class="inner-addon  right-addon">
+
+                        <input type="text" ng-model="cliente.importe"
+                            placeholder="$0.00" name="nimss" maxlength="11"
+                            ng-class=" cliente.importe ? 'form-control is-valid' : 'form-control'"
+                            ng-pattern="numeros" disabled required>
+                    </div>
+                </div>
+
+            </div>
+        </div>               
+
+    </form>
+  
+  
+  </div>
+
+  <!-----------VENTANA EMERGENTE CON LA CONFIGURACION DE PRECIOS DE COMBUSTIBLES-------------->
+  <div class="modal fade" id="DivCombs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mercancia"><b>Ajustes de Precio del Combustible</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body" >
+                <form>
+                    <div ng-show="mostrarAlert">
+                        <h4> <b class="alert-danger-message">Los precios del combustible ya han sido actualizados hoy</b></h4>
+                    </div>
+                    <div class="form-group">
+                        <label><b>Los Precios del combustible actuales son: </b></label><br>
+                        <div class="row">
+                            <div div class="col-md-6 col-xs-6 col-lg-6">
+                                <label >Magna:</label>
+                            </div>
+                            <div div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-pattern="numeros" ng-model="gasolina.magna" class="form-control" ng-disabled="showValueCombs" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div div class="col-md-6 col-xs-6 col-lg-6">
+                                <label > Premium: </label>
+                            </div>
+                            <div div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="gasolina.premium" class="form-control" ng-disabled="showValueCombs" required> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div div class="col-md-6 col-xs-6 col-lg-6">
+                                <label >Diesel: </label>
+                            </div>
+                            <div div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="gasolina.diesel" class="form-control" ng-disabled="showValueCombs" required>
+                            </div>
+                        </div>
+                        <label ><b>¿Los valores son correctos?</b></label>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <submit type="button" class="btn btn-success btn-block" data-dismiss="modal" ng-click="guardarajustes()" aria-label="Close"><b>Si</b></button>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <button class="btn btn-success btn-block" ng-click="abrirajustes()"><b>No</b></button>
+                            </div>
+                        </div>                      
+                    </div>
+                </form>
+            </div>
+  
+        </div>
+    </div>
+  </div>
+  
+  
+</div>

@@ -1,0 +1,220 @@
+/*@import url("https://use.fontawesome.com/releases/v5.6.3/css/all.css");*/
+
+body {
+    /*background-image: url("../img/trailers.svg");*/
+    background-color: #ffffff;
+}
+
+.shadow {
+    /*box-shadow: 0px 0px 33px -8px rgba(0,0,0,0.75) !important;
+  box-shadow: 0px 0px 7px 1px rgba(0,0,0,0.75);*/
+    box-shadow: 0px 0px 15px -6px rgba(0, 0, 0, 0.75);
+    /*box-shadow: 0px 0px 0px 2px rgba(0,0,0,0.75);*/
+}
+
+.margin {
+    margin-right: 4rem;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.config-aler-danger {
+    color: red;
+}
+
+.li-change {
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.img {
+    width: 4rem;
+}
+
+.inner-addon {
+    position: relative;
+}
+
+.inner-addon .fas {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+}
+
+.left-addon .fas {
+    left: 0px;
+}
+
+.right-addon .fas {
+    right: 0px;
+}
+
+.img-fondo {
+    width: 15rem;
+    height: 15rem;
+    margin-left: 6rem;
+}
+
+.marign-button {
+    margin-top: 2rem;
+}
+
+.alert-danger-message {
+    color: red;
+}
+
+.scroll {
+    overflow: auto;
+    height: 30rem;
+}
+
+.scroll1 {
+    overflow: auto;
+    height: 38rem;
+}
+
+.inner-addon .fas {
+    pointer-events: auto !important;
+}
+
+.icon {
+    pointer-events: auto !important;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.change-alert {
+    position: absolute;
+    top: 5rem;
+    right: 0;
+    left: 55rem;
+}
+
+.positionFloat {
+    position: absolute;
+    z-index: 1;
+    background: #f2f2f2;
+    width: 32.4rem;
+    overflow: auto;
+    height: 10rem;
+}
+
+.reloj {
+    font-size: 1.5rem;
+    color: rgb(54, 54, 236);
+}
+
+
+/* crate modal para viewPDF*/
+
+.mascara {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    outline: 0;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.contenido {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.cerrar {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* seccion de contenedor que almancena el archivo....*/
+
+
+/*.dropzone {
+    width: 17rem;
+    height: 8rem;
+    border: .5rem solid #ccc;
+    text-align: center;
+    padding: 30px;
+    margin: 20px;
+    font-family: Arial;
+}*/
+
+.dropzone-margin {
+    margin-left: 3rem;
+    margin-top: 1rem;
+}
+
+.image-container {
+    width: 300px;
+    height: 300px;
+}
+
+.image-container img {
+    max-width: 100%;
+}
+
+.file-name {
+    font-family: Arial;
+}
+
+.title {
+    text-align: center;
+    font-size: .7rem;
+}
+
+.img {
+    width: 6rem;
+    cursor: pointer;
+}
+
+.position {
+    position: fixed;
+    left: 6rem;
+    border: .2rem solid black;
+    border-radius: 67%;
+    background-color: black;
+    color: white;
+    font-size: 1.5rem;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+hr {
+    border-top: 2px solid rgba(0, 0, 0, .1) !important;
+}
+
+.imgs-fondo {
+    background-image: url("/cai/frontend/assets/img/pcv.jpg");
+    height: 30rem;
+}
+
+.font-th{
+  font-size: .5rem !important;
+  font-weight: normal;
+}
+
+.font-td{
+  font-size: .5rem !important;
+  color: white !important;
+}

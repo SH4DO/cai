@@ -1,0 +1,32 @@
+<div class="row scroll1" ng-controller="alert">
+  <div
+    ng-repeat="list in alerts.examen_medico"
+    class="col-md-4 col-xs-4 col-lg-4"
+  >
+    <div class="alert alert-danger" role="alert">
+      <strong>Operador</strong><br />
+      <strong>Tipo: Examen Medico</strong><br />
+      <strong>Nombre: </strong>{{list.nombre}}<br />
+      <strong>Vigencia: </strong>{{list.exa_hasta | date: 'dd-MMMM-yyyy' }}<br />
+    </div>
+  </div>
+  <div ng-repeat="list in alerts.licencia" class="col-md-4 col-xs-4 col-lg-4">
+    <div class="alert alert-danger" role="alert">
+      <strong>Operador</strong><br />
+      <strong>Tipo: Licencia</strong><br />
+      <strong>Nombre: </strong>{{list.nombre}}<br />
+      <strong>Vigencia: </strong>{{list.vig_hasta | date: 'dd-MMMM-yyyy'}}<br />
+    </div>
+  </div>
+
+  <div ng-repeat="list in alerts.equipo" class="col-md-4 col-xs-4 col-lg-4">
+    <div class="alert alert-danger" role="alert">
+      <strong>Equipo</strong><br />
+      <strong>Tipo: Poliza</strong><br />
+      <strong>NO. Econimico: </strong>{{list.num_economico}}<br />
+      <strong>Placas: </strong>{{list.placas}}<br />
+      <strong>Vigencia: </strong>{{list.vh | date: 'dd-MMMM-yyyy'}}<br />
+    </div>
+  </div>
+
+</div>

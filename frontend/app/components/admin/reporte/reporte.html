@@ -1,0 +1,46 @@
+<div class="row">
+                <div class="col-md-4 col-lg-4 col-xl-4">
+                    <select class="form-control" ng-model="reporteform.opcion" ng-change="cambio()">
+                        <option value="status">Por estatus</option>
+                        <option value="vambiental">Verificacion ambiental</option>
+                        <option value="vfisicomecanico">Verificacion Fisico Mecanico</option>
+                    </select>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-8" ng-if="!showstatus">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-xl-4">
+                            <select class="form-control" ng-model="reporteform.status" ng-change="cahngeStatus()">
+                                <option value="todos">Todos</option>
+                                <option value="operando">Operando</option>
+                                <option value="baja_definitiva">Baja definitiva</option>
+                                <option value="vendido">Vendido</option>
+                                <option value="accidentado">Accidentado</option>
+                                <option value="robado">Robado</option>
+                            </select>
+                        </div>
+
+                        <div ng-if="reporteform.status !== 'todos'" class="col-md-4 col-lg-4 col-xl-4">
+                            <select class="form-control" name="tipo" ng-model="reporteform.tipo" ng-change="busquedaStatus()">
+                                <option value="Tractor">Tractor</option>
+                                <option value="Caja seca">Caja seca</option>
+                                <option value="Plataforma">Plataforma</option>
+                                <option value="Plataforma encotinada">Plataforma encortinada</option>
+                                <option value="Dolly">Dolly</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 col-lg-8 col-xl-8" ng-if="!showsvA || !showsvFM">
+                  <div class="row">
+                    <div class="col-md-4 col-lg-4 col-xl-4">
+                        <select class="form-control" name="tipo" ng-model="reporteform.fecha" ng-change="reportesF()">
+                            <option ng-repeat="date in listYear" value="{{date['YEAR(fm.fecha)']}}">{{date["YEAR(fm.fecha)"]}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                      <!--button class="btn btn-primary" ng-click="resetfecha()"><i class="fas fa-undo"></i></button-->
+                    </div>
+                  </div>
+                </div>
+            </div>

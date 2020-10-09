@@ -1,0 +1,89 @@
+<div ng-controller="crudArchivoEquipo">
+    <div class="card shadow">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8 col-xs-8 col-lg-8">
+                    <h4><i class="fas fa-file-alt"></i> <b>Subir Archivos</b></h4>
+                </div>
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <i class="fas fa-save icon" data-toggle="tooltip" data-placement="top" title="Guardar" ng-click="createDocuments()" ng-disabled="viewSave"></i>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <i class="fas fa-undo icon" data-toggle="tooltip" data-placement="top" title="Reset" ng-click="reset()"></i>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <i class="fas fa-times icon" data-toggle="tooltip" data-placement="top" title="Cancelar" ng-click="viewTemplate('equipo')"></i>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body scroll">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 col-lg-6"></div>
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <div class="input-group">
+                            <input type="search" ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="search($event.target.value)" ng-model="form.search" placeholder="Busqueda No Economico / Placas">
+                            <div class="input-group-append">
+                                <span ng-class="form.search ? 'input-group-text btn-danger cursor' : 'input-group-text' " ng-click="emptySearch()">
+                                    <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' ">
+                                    </i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="positionFloat cursor" ng-if="!ban">
+                            <div ng-repeat="searchItems in items">
+                                <p ng-click="itemequipo(searchItems)">
+                                    {{ searchItems.num_economico }} / {{searchItems.placas}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr style="border-top: 4px solid rgba(0,0,0,.1) !important;">
+
+
+                <div ng-if="!showUpload">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-6 col-lg-4">
+                            <span style="margin-left: 2rem;"><b>{{name}}</b></span>
+                        </div>
+                        <div class="col-md-6 col-xl-6 col-lg-4"></div>
+                    </div>
+                    <hr style="border-top: 4px solid rgba(0,0,0,.1) !important;">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-6 col-lg-6"></div>
+                        <div class="col-md-6 col-xs-6 col-lg-6">
+                            <div class="form-group">
+                                <label>Numero de documentos a subir</label>
+                                <select class="form-control" ng-model="options.iteration" ng-change="iteration()" ng-disabled="bander">
+                                    <option ng-repeat="item in numarch" [value]="item.id">{{item.value}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div ng-repeat="it in iteraciones">
+
+                                <form action="" class="dropzone dropzone-margin" drop-zone id="filedropzone">
+                                    <div class="fallback">
+                                        <input type="file" name="file">
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>

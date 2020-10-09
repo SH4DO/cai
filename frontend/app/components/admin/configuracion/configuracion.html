@@ -1,0 +1,13 @@
+<div class="row" ng-controller="configuracion">
+    <div class="col-md-2 col-xs-2 col-lg-2">
+        <ul class="list-group shadow">
+            <li ng-repeat="listConfig in configMenu" id="{{listConfig.id}}" class="{{listConfig.class}}" ng-click="viewConfig(listConfig.id)">
+                <h5><i class="{{listConfig.icon}}"></i>
+                    <b>{{listConfig.label}}</b></h5>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-10 col-xs-10 col-lg-10 scroll">
+        <div ng-include="viewTemplate"></div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary">
+  <h5 class="navbar-brand text-white cursor" ng-click="home()"><b>SISTEMA DE INFORMACIÓN Y ADMINISTRACIÓN DE
+      FLOTILLAS</b></h5>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <div class="nav-item dropdown margin cursor">
+      <a class="nav-link dropdown-toggle text-white" id="navbarDropdownMenuLink" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        {{username}}
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <a class="dropdown-item" ng-click="configuracion()"><i class="fas fa-cog"></i> Configurar</a>
+        <a class="dropdown-item" ng-click="logauth()"><i class="fas fa-sign-in-alt"></i> Salir</a>
+      </div>
+    </div>
+  </div>
+</nav>

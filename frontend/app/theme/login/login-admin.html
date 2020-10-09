@@ -1,0 +1,32 @@
+<div ng-include="'frontend/app/theme/navbar-gral/navbar-gral.html'"></div>
+<br><br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-xs-4 col-lg-4"></div>
+    <div class="col-md-4 col-xs-4 col-lg-4">
+      <form>
+        <div class="form-group">
+          <label><b>Usuario</b></label>
+          <div class="inner-addon  right-addon">
+            <i class="fas fa-user"></i>
+            <input type="text" ng-model="form.user" class="{{class}}" placeholder="Usuario" maxlength="8" required>
+          </div>
+          <label><b>Contraseña</b></label>
+          <div class="inner-addon right-addon">
+            <i class="fas fa-lock"></i>
+            <input type="password" ng-model="form.password" class="{{class}}" placeholder="Contraseña" required>
+          </div>
+
+        </div>
+        <button class="btn btn-primary btn-block" ng-click="login()"><b>Login</b></button>
+        <a href="#!" class="btn btn-danger btn-block"><b>Cancelar</b></a>
+      </form><br>
+      <div ng-if="!viewMessage" class="alert alert-danger" role="alert">
+        <span>
+          {{message}}
+        </span>
+      </div>
+    </div>
+    <div class="col-md-4 col-xs-4 col-lg-4"></div>
+  </div>
+</div>

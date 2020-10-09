@@ -1,0 +1,154 @@
+<div class="row">
+  <div class="col-lg-10 col-md-10 col-xl-10">
+    <h5><b>VERIFICACION AMBIENTAL</b></h5>
+  </div>
+  <div class="col-lg-2 col-md-2 col-xl-2">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#crearVambiental"
+      ng-disabled="btnshowFmecanico"
+      title="AgregarA"
+    >
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+</div>
+<br />
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Fecha</th>
+      <th scope="col">Folio</th>
+      <th scope="col">P. Verif.</th>
+      <th scope="col">Un. Verif.</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in listambiental">
+      <td>{{item.fecha | date:'yyyy-MM-dd' }}</td>
+      <td>{{item.folio}}</td>
+      <td>{{item.periodo}}</td>
+      <td>{{item.unidadveifi}}</td>
+      <th>
+        <button
+          type="button"
+          class="btn btn-info"
+          data-toggle="modal"
+          data-target="#archiveupload"
+          ng-click="archiveUpload(item, 'ambiental')"
+          title="Subir PDF"
+        >
+          <i class="fas fa-file-pdf"></i>
+        </button>
+      </th>
+      <th>
+        <button
+          type="button"
+          class="btn btn-success"
+          ng-click="verArchivo(item.idvambiental)"
+          title="Ver PDF"
+        >
+          <i class="fas fa-eye"></i>
+        </button>
+      </th>
+    </tr>
+  </tbody>
+</table>
+
+<!-- modal para ingresar los datos -->
+<div
+  class="modal fade"
+  id="crearVambiental"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearVambiental">
+          Crear Verificacion Ambiental
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          ng-click="resetearform()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Fecha</label>
+            <input
+              type="date"
+              ng-model="formAmbiental.fecha"
+              class="form-control"
+              ng-change="dateChange()"
+            />
+            <label>Folio</label>
+            <div class="inner-addon right-addon">
+              <i class="fas fa-exclamation-triangle"></i>
+              <input
+                type="text"
+                ng-model="formAmbiental.folio"
+                class="form-control"
+                ng-keyup="validarFolio(formAmbiental.folio)"
+                placeholder="A-3636769"
+                maxlength="9"
+              />
+            </div>
+            <label>Periodo Verificacion</label>
+            <div class="inner-addon right-addon">
+              <i class="fas fa-calendar-week"></i>
+              <input
+                type="text"
+                class="form-control"
+                ng-model="formAmbiental.periodo"
+                disabled
+              />
+            </div>
+            <label>No unidad verificadora</label>
+            <div class="inner-addon right-addon">
+              <i class="fas fa-check"></i>
+              <input
+                type="text"
+                ng-model="formAmbiental.noverifi"
+                class="form-control"
+                placeholder=""
+                maxlength="15"
+              />
+            </div>
+
+            <label>Unidad</label>
+            <div class="inner-addon right-addon">
+              <i class="fas fa-car"></i>
+              <input
+                type="text"
+                ng-model="formAmbiental.unidad"
+                class="form-control mb-3"
+                disabled
+              />
+            </div>
+            <input type="hidden" ng-model="formAmbiental.idequipo" />
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+              ng-click="crearAmbiental()"
+            >
+              Registrar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

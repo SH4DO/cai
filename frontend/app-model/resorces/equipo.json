@@ -1,0 +1,17 @@
+[
+    {
+        "id": "equipo",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-truck",
+        "label": "Equipo"
+    },
+    {
+        "id": "operador",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-users-cog",
+        "label": "Operador"
+    },
+    {
+        
+    }
+]

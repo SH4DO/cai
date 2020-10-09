@@ -1,0 +1,20 @@
+[
+	{
+          "id": "cuenta",
+          "class": "list-group-item cursor",
+          "icon": "fas fa-users-cog",
+          "label": "Cuenta"
+        },
+        {
+          "id": "addinvitado",
+          "class": "list-group-item cursor",
+          "icon": "fas fa-user-plus",
+          "label": "Agregar invitado"
+        },
+        {
+          "id": "listUser",
+          "class": "list-group-item cursor",
+          "icon": "fas fa-user",
+          "label": "Lista de usuarios"
+        }
+]

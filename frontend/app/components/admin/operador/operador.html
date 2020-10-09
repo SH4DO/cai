@@ -1,0 +1,388 @@
+<div ng-controller="crudOperador">
+
+    <div class="card shadow">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8 col-xs-8 col-lg-8">
+                    <h4><i class="fas fa-users-cog"></i> <b>Operadores</b></h4>
+                </div>
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <i class="fas fa-edit icon" data-toggle="tooltip" data-placement="top" title="Crear"
+                                ng-click="optionsButton('create')" ng-disabled="showCreate"></i>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <i class="fas fa-save icon" data-toggle="tooltip" data-placement="top" title="Guardar"
+                                ng-click="optionsButton('save')" ng-disabled="showSave"></i>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <i class="fas fa-undo icon" data-placement="top" title="Reset"
+                                ng-click="optionsButton('reset')" ng-disabled="showReset"></i>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <i class="fas fa-file-alt icon" data-toggle="tooltip" data-placement="top"
+                                title="Documentos" ng-click="viewTemplate('documents')"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body scroll">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 col-lg-6"></div>
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <div class="input-group">
+                            <input type="search" ng-class="form.search ? 'form-control is-valid' : 'form-control'"
+                                ng-keyup="search($event.target.value)" ng-model="form.search"
+                                placeholder="Busqueda por Operador">
+                            <div class="input-group-append">
+                                <span
+                                    ng-class="form.search ? 'input-group-text btn-danger cursor' : 'input-group-text' "
+                                    ng-click="emptySearch()">
+                                    <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' ">
+                                    </i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="positionFloat cursor" ng-if="!ban">
+                            <div ng-repeat="searchItems in items">
+                                <p ng-click="showSearch(searchItems)">
+                                    {{ searchItems.nombre }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <h5><b>DATOS PERSONALES</b></h5>
+                <hr>
+
+                <form name="operadores">
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2 col-lg-2">
+                                <label><b>No. Trabajador</b></label>
+                                <div class="inner-addon  right-addon">
+                                    <i class="fas fa-key"></i>
+                                    <input type="text" ng-model="operador.idoperador" class="form-control"
+                                        placeholder="No. Trabajador" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xs-5 col-lg-5">
+                                <label><b>Nombres</b>
+                                    <b class="alert-danger-message" ng-show="operadores.nombre.$error.required">
+                                        *
+                                    </b></label>
+                                <div class="inner-addon  right-addon">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" ng-model="operador.nombre" name="nombre"
+                                        ng-class=" operador.nombre ? 'form-control is-valid' : 'form-control'"
+                                        placeholder="Apellido Paterno, Apellido Materno , Nombre (s)"
+                                        ng-disabled="showDisable" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-xs-5 col-lg-5">
+                                <label><b>Fecha de Nacimiento</b>
+                                    <b class="alert-danger-message" ng-show="operadores.fn.$error.required">
+                                        *
+                                    </b></label>
+                                <div class="inner-addon  right-addon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <input type="text" ng-model="operador.fn"
+                                        ng-class=" operador.fn ? 'form-control is-valid' : 'form-control'" name="fn"
+                                        ng-change="fechadate()" placeholder="dd/mm/aaaa" ng-disabled="!operador.nombre"
+                                        ng-required="true">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2 col-lg-2">
+                                <label><b>Edad</b></label>
+                                <div class="inner-addon  right-addon">
+                                    <i class="fas fa-male"></i>
+                                    <input type="text" ng-model="operador.edad" class="form-control" placeholder="Edad"
+                                        disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xs-4 col-lg-4">
+                                <label><b>Curp</b>
+                                    <b class="alert-danger-message" ng-show="operadores.curp.$error.required">
+                                        *
+                                    </b></label>
+                                <div class="inner-addon  right-addon">
+                                    <i class="fas fa-credit-card"></i>
+                                    <input type="text" ng-model="operador.curp" name="curp" placeholder="CURP"
+                                        ng-class=" operador.curp ? 'form-control is-valid' : 'form-control'"
+                                        ng-disabled="!operador.edad" ng-required="true" maxlength="18">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-3 col-lg-3">
+                                <label><b>Tipo de Sangre</b>
+                                    <b class="alert-danger-message" ng-show="operadores.ts.$error.required">
+                                        *
+                                    </b></label>
+                                <div class="inner-addon  right-addon">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <input type="text" ng-model="operador.ts" class="form-control" placeholder="0+"
+                                        maxlength="2" name="ts"
+                                        ng-class=" operador.ts ? 'form-control is-valid' : 'form-control'"
+                                        ng-disabled="!operador.curp" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-3 col-lg-3">
+                                <label><b>Estatus</b>
+                                    <b class="alert-danger-message" ng-show="operadores.status.$error.required">
+                                        *
+                                    </b></label>
+                                <select ng-model="operador.status" name="status"
+                                    ng-class=" operador.status ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="!operador.ts" ng-required="true" ng-change="changeBaja()">
+                                    <option value="Alta">Alta</option>
+                                    <option value="Baja">Baja</option>
+                                    <option value="Reingreso">Reingreso</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>No. IMSS</b>
+                                <b class="alert-danger-message" ng-show="operadores.nimss.$error.required">
+                                    *
+                                </b>
+                                <b class="alert-danger-message" ng-show="numimss">
+                                    el numero ya existe
+                                </b>
+                            </label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-credit-card"></i>
+                                <input type="text" ng-keyup="searchImss($event.target.value)" ng-model="operador.nimss"
+                                    placeholder="No. IMSS" name="nimss" maxlength="11"
+                                    ng-class=" operador.nimss ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="!operador.status" ng-required="true" ng-pattern="numeros">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Fecha Alta</b>
+                                <b class="alert-danger-message" ng-show="operadores.nimss.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+
+                                <input type="date" ng-model="operador.fa" name="fa"
+                                    ng-class=" operador.fa ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="viewFAlta" ng-required="true">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3">
+                            <label><b>Fecha Baja</b></label>
+                            <div class="inner-addon  right-addon">
+
+                                <input type="date" ng-model="operador.fb"
+                                    ng-class=" operador.fb ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="showfb">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-3 col-lg-3 marign-button">
+                            <button class="btn btn-success btn-block" ng-disabled="showView" data-toggle="modal"
+                                data-target="#showdocuments"><b>Ver Documentos</b></button>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h5><b>LICENCIA FEDERAL</b></h5>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4 col-lg-4">
+                            <label><b>No. /Tipo de Licencia</b>
+                                <b class="alert-danger-message" ng-show="operadores.nl.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-hashtag"></i>
+                                <input type="text" name="nl" ng-model="operador.nl" placeholder="No. de Licencia"
+                                    ng-class=" operador.nl ? 'form-control is-valid' : 'form-control'"
+                                    ng-required="true" ng-change="caracter()" maxlength="13" ng-disabled="!operador.fa">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-4 col-lg-4">
+                            <label><b>Vigencia Desde</b>
+                                <b class="alert-danger-message" ng-show="operadores.vd.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <input type="date" ng-model="operador.vd" name="vd" id="vd"
+                                    ng-class=" operador.vd ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="!operador.nl" ng-required="true" ng-change="calcularvh()">
+                            </div>
+
+                        </div>
+                        <div class="col-md-4 col-xs-4 col-lg-4">
+                            <label><b>Vigencia Hasta</b>
+                                <b class="alert-danger-message" ng-show="operadores.vh.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <!--i class="fas fa-calendar-alt"></i-->
+                                <input type="date" ng-model="operador.vh" name="vh"
+                                    ng-class="operador.vh ? 'form-control is-valid' : 'form-control'" ng-disabled="true"
+                                    ng-required="true">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4 col-lg-4">
+                            <label><b>No. de Examen Médico</b>
+                                <b class="alert-danger-message" ng-show="operadores.exm.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-hashtag"></i>
+                                <input type="text" ng-model="operador.exm" placeholder="Examen Medico" maxlength="6"
+                                    name="exm" ng-class=" operador.exm ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="!operador.vh" ng-required="true" ng-pattern="numeros">
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 col-xs-4 col-lg-4">
+                            <label><b>Vigencia Desde</b>
+                                <b class="alert-danger-message" ng-show="operadores.exd.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+
+                                <input type="date" id="exd" ng-model="operador.exd" name="exd"
+                                    ng-class=" operador.exd ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="!operador.exm" ng-required="true" ng-change="calcexmh()">
+                            </div>
+
+                        </div>
+                        <div class="col-md-4 col-xs-4 col-lg-4">
+                            <label><b>Vigencia Hasta</b>
+                                <b class="alert-danger-message" ng-show="operadores.exh.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <!--i class="fas fa-calendar-alt"></i-->
+                                <input type="date" ng-model="operador.exh" name="exh"
+                                    ng-class=" operador.exh ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="true" ng-required="true">
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr>
+
+                    <h5><b>DOMICILIO</b></h5>
+                    <hr>
+
+                    <div class="row">
+
+                        <div class="col-md-12 col-xs-12 col-lg-12">
+                            <label><b>Domicilio</b>
+                                <b class="alert-danger-message" ng-show="operadores.domicilio.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" ng-model="operador.domicilio" placeholder="Calle, Colonia, interior"
+                                    name="domicilio"
+                                    ng-class=" operador.domicilio ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="!operador.exh" ng-required="true">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-xs-6 col-lg-6">
+                            <label><b>Código Postal</b>
+                                <b class="alert-danger-message" ng-show="operadores.cp.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" ng-model="operador.cp" placeholder="Codigo Postal" name="cp"
+                                    ng-class=" operador.cp ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="!operador.domicilio" ng-required="true" ng-pattern="numeros"
+                                    maxlength="5">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-6 col-lg-6">
+                            <label><b>Ciudad, EDO.</b>
+                                <b class="alert-danger-message" ng-show="operadores.ciudad.$error.required">
+                                    *
+                                </b></label>
+                            <div class="inner-addon  right-addon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" ng-model="operador.ciudad" placeholder="Ciudad, Estado" name="ciudad"
+                                    ng-class=" operador.ciudad ? 'form-control is-valid' : 'form-control'"
+                                    ng-disabled="!operador.cp" ng-required="true">
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="showdocuments" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="showdocuments">Ver Documentos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body scroll">
+                    <!-- aqui va la seccion.. -->
+                    <div class="container">
+                        <div class="row">
+                            <div ng-repeat="item in lista" class="col-md-6 col-xl-6 col-lg-6">
+
+                                <img src="{{item.img}}" ng-click="viewPDF(item.archive)" class="img" data-toggle="modal"
+                                    data-target="#viewPDF">
+                                <br>
+                                <button class="btn btn-danger" ng-click="delete(item)"><i
+                                        class="fas fa-times"></i></button>
+                                <br>
+                                <span class="title">{{item.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- vista del pdf ... -->
+
+    <div id="modal" class="mascara">
+        <div class="contenido">
+            <span class="cerrar" onclick="document.getElementById('modal').style.display='none'">&times;</span>
+            <iframe src="{{pdf}}" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+
+    <!---->
+</div>

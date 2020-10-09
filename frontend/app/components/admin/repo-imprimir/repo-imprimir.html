@@ -1,0 +1,21 @@
+ <div class="row">
+              <div class="col-md-6 col-lg-6 col-xl-6">
+               <h6> <b>REPORTE DE  {{ verificacion }}</b></h6>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-6"></div>
+            </div>
+            <div class="row" ng-if="estatus === 'status'">
+              <div class="col-md-6 col-lg-6 col-xl-6">
+                REPORTE DE  {{ verificacion }}  ESTATUS  {{ mystatus | uppercase }}
+                <p>REPORTE REALIZADO EL DIA:  {{ date | date: 'short'}}</p>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-6"></div>
+            </div>
+
+             <div class="row" ng-if="estatus !== 'status' ">
+              <div class="col-md-6 col-lg-6 col-xl-6">
+                  REPORTE DE  {{ verificacion }}   DEL {{ 'año' | uppercase }}  {{ year }}
+                 <p>REPORTE REALIZADO EL DIA: {{ date | date: 'short'}}</p>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-6"></div>
+            </div>

@@ -1,0 +1,237 @@
+<div class="card shadow" ng-controller="crudProveedores">
+
+  <div class="card-header">
+    <div class="row">
+        <div class="col-md-8 col-xs-8 col-lg-8">
+            <h4><i class="fas fa-users"></i> <b>Proveedores</b></h4>
+        </div>
+        <div class="col-md-4 col-xs-4 col-lg-4">
+            <div class="row">
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <i class="fas fa-edit icon" ng-click="buttonOption(1)" ng-disabled="showCreateCliente"></i>
+                </div>
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <i class="fas fa-save icon" ng-click="buttonOption(2)" ng-disabled="showSaveCliente"></i>
+                </div>
+
+                <div class="col-md-3 col-xs-3 col-lg-3">
+                    <i class="fas fa-undo icon" ng-click="buttonOption(4)" ng-disabled="showEditCliente"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div class="card-body scroll">
+    <!-- BARRA DE BUSQUEDA-->
+    <div class="row">
+        <div class="col-md-6 col-xs-6 col-lg-6"></div>
+        <div class="col-md-6 col-xs-6 col-lg-6">
+            <div class="input-group">
+                <input type="search" ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="search($event.target.value)" ng-model="form.search" placeholder="Busqueda por Proveedor">
+                <div class="input-group-append">
+                    <span ng-class="form.search ? 'input-group-text btn-danger cursor' : 'input-group-text' " ng-click="emptySearch()">
+          <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' ">
+          </i>
+        </span>
+                </div>
+            </div>
+            <div class="positionFloat cursor" ng-if="!ban">
+                <div ng-repeat="searchItems in items">
+                    <p ng-click="llenado(searchItems)">
+                        {{ searchItems.nombreprov }} 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <form name="clientes">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-lg-2 col-xs-2">
+                    <label><b>No. Proveedor</b></label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-key"></i>
+                        <input type="text" ng-model="cliente.idclientes" placeholder="No. Prov" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-5 col-xs-5">
+                    <label><b>Proveedor</b>
+          <b class="alert-danger-message" ng-show="clientes.cliente.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-user-tie"></i>
+                        <input type="text" ng-class=" cliente.cliente ? 'form-control is-valid' : 'form-control'" name="cliente" ng-model="cliente.cliente" placeholder="Proveedor" ng-disabled="showDisable" ng-required="true">
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-5 col-xs-5">
+                    <label><b>RFC</b>
+          <b class="alert-danger-message" ng-show="clientes.rfc.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-credit-card"></i>
+                        <input type="text" name="rfc" ng-class=" cliente.rfc ? 'form-control is-valid' : 'form-control'" ng-model="cliente.rfc" placeholder="RFC" ng-disabled="!cliente.cliente" maxlength="13" minlength="12"  pattern="^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <label><b>Domicilio</b>
+          <b class="alert-danger-message" ng-show="clientes.domicilio.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" name="domicilio" ng-class="cliente.domicilio ? 'form-control is-valid' : 'form-control'" ng-model="cliente.domicilio" placeholder="Domicilio, calle, col, Numero, Interior" ng-disabled="!cliente.rfc" maxlength="255" ng-required="true">
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <label><b>Ciudad, EDO. </b>
+          <b class="alert-danger-message" ng-show="clientes.ciudad.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" name="ciudad" ng-class=" cliente.ciudad ? 'form-control is-valid' : 'form-control'" ng-model="cliente.ciudad" placeholder="Ciudad, Estado" ng-disabled="!cliente.domicilio" maxlength="100" ng-required="true">
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-4 col-lg-4">
+                    <label><b>Codigo Postal</b>
+          <b class="alert-danger-message" ng-show="clientes.codigo.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-mail-bulk"></i>
+                        <input type="text" name="codigo" ng-class="cliente.codigo ? 'form-control is-valid' : 'form-control'" ng-model="cliente.codigo" placeholder="Codigo Postal" ng-disabled="!cliente.ciudad" maxlength="5" ng-pattern="express" ng-required="true">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <label><b>Encargado</b>
+          <b class="alert-danger-message" ng-show="clientes.encargado.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-user-tie"></i>
+                        <input type="text" ng-class=" cliente.encargado ? 'form-control is-valid' : 'form-control'" name="encargado" ng-model="cliente.encargado" placeholder="Encargado" ng-disabled="!cliente.codigo" maxlength="80" ng-required="true">
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <label><b>Correo</b>
+          <b class="alert-danger-message" ng-show="!clientes.email.$valid">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" ng-class=" cliente.email ? 'form-control is-valid' : 'form-control'" ng-model="cliente.email" placeholder="example@example.com.mx" ng-disabled="!cliente.encargado" ng-required="true">
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <label><b>Telefono</b>
+          <b class="alert-danger-message" ng-show="clientes.telefono.$error.required">
+            *</b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-phone"></i>
+                        <input type="text" name="telefono" ng-class=" cliente.telefono ? 'form-control is-valid' : 'form-control'" ng-model="cliente.telefono" placeholder="Telefono" ng-disabled="!cliente.email" ng-pattern="express" maxlength="10" ng-required="true">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-8 col-lg-8 col-xs-8">
+                    <label><b>Tipo de Proveedor</b>
+          <b class="alert-danger-message" ng-show="clientes.mercancia.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <select name="mercancia" ng-class=" cliente.mercancia ? 'form-control is-valid' : 'form-control'" ng-disabled="!cliente.telefono" ng-model="cliente.mercancia" ng-change="clave()" ng-required="true" ng-click="resetLisr()">
+            <option ng-repeat="product in listproduct" value="{{product.idTProv}}">
+              {{product.Tipo_Proveedor}}
+            </option>
+          </select>
+                    </div>
+                </div>
+                <div class="col-md-2 col-xs-2 col-lg-2">
+                    <button class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#mercancia" ng-disabled="!cliente.telefono">
+          <i class="fas fa-plus"></i>
+        </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-xs-6">
+                    <label><b>Plazo Facturacion</b>
+          <b class="alert-danger-message" ng-show="clientes.plazo_c.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <input type="text" name="plazo_f" ng-class=" cliente.plazo_f ? 'form-control is-valid' : 'form-control'" class="form-control" ng-model="cliente.plazo_f" placeholder="Plazo Facturacion" ng-pattern="express" ng-disabled="!cliente.clave_m" ng-required="true"
+                            maxlength="2">
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xs-6">
+                    <label><b>Plazo cobranza</b>
+          <b class="alert-danger-message" ng-show="clientes.plazo_c.$error.required">
+            *
+          </b>
+        </label>
+                    <div class="inner-addon  right-addon">
+                        <input type="text" name="plazo_c" ng-class=" cliente.plazo_c  ? 'form-control is-valid' : 'form-control'" ng-model="cliente.plazo_c" placeholder="Plazo cobranza" ng-pattern="express" ng-disabled="!cliente.plazo_f" ng-required="true" maxlength="2">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+
+</div>
+
+
+</div>
+<br>
+<!-- TABLA DE MERCANCIA ---**CORREGIR PARA ENVIAR EL TIPO DE PROVEEDOR DIRECTAMENTE**-->
+<div class="modal fade" id="mercancia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="mercancia"><b>Agregar Tipo Proveedor</b></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+          </div>
+          <div class="modal-body" ng-controller="crudProveedores">
+              <form>
+                  <div class="form-group">
+                      <label><b>Nuevo Tipo</b></label>
+                      <input type="text" id="nmercancia" ng-model="mercancia.producto" class="form-control" placeholder="Nombre del Producto"><br>
+                      <button type="submit" class="btn btn-success btn-block" ng-click="agregaMercancia()"><b>Agregar</b></button>
+                  </div>
+              </form>
+          </div>
+
+      </div>
+  </div>
+</div>

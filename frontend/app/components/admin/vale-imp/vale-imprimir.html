@@ -1,0 +1,148 @@
+<div class="card shadow" ng-controller="valeImp">
+
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h4><i class="fas fa-clipboard"></i> <b>Vale de Combustible.</b></h4>
+            </div>
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <div class="row">
+              <div class="col-md-3 col-xs-3 col-lg-3"></div>
+              <div class="col-md-3 col-xs-3 col-lg-3">
+                  <i class="fas fa-search icon" data-toggle="modal" data-target="#DivCombs" ng-click="verPrecios()"></i>
+              </div>
+              <div class="col-md-3 col-xs-3 col-lg-3">
+                  <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir2()"></i>
+              </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-times icon" data-toggle="tooltip" data-placement="top" title="Cancelar" ng-click="viewTemplate('trafico')"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body " id="imprimirDiv">
+
+        <div class="row">
+            <div class="col-md-12 col-xs-12 col-lg-12">
+                <img src="frontend/assets/img/membrete.jpg" alt="PCV" width="100%" height="100%">
+            </div>
+            <!--
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <p style="color:darkcyan">PORTEADORES DEL CENTRO DE VERACRUZ S. DE R.L. DE C.V.<br>
+                    TRES GENERACIONES CUMPLIENDO DESTINOS.<br>
+                    And. Cipr&eacute;s No ....<br>
+                    C.P. 94328, Orizaba Veracruz M&eacute;xico.<br>
+                    R.F.C. PCV</p><br>  
+            </div>
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <img src="frontend/assets/img/membrete.jpg" alt="PCV" width="150" height="120">
+            </div>
+        -->
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h4>VALE DE COMBUSTIBLE.</h4>
+            </div>
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <h4>No. Vale: <strong>{{valec.idvale}}</strong></h4>
+            </div>
+        </div>
+        <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%; text-align:center;">
+            Recib&iacute; de  <strong>{{empresa}}</strong>  la cantidad de : <br>
+            <strong>{{valec.cantidad}} {{valec.cantidadL}}</strong> 
+            <br>litros de combustible <strong>{{valec.combustible}}</strong> para realizar el siguiente viaje: <br>
+        </p>    
+            <div class="row">
+                <div class="col-md-6 col-xs-6 col-lg-6" >
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 250%; text-align:justify;">
+                        Clave de Flete: <strong>{{valec.clave}}</strong> <br>
+                        Descripci&oacute;n: <strong>{{valec.descripcion}}</strong>  <br>
+                         
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6" >
+                                Equipo: <strong>{{valec.equipo}}</strong>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                Placa: <strong>{{valec.placa}}</strong>
+                            </div> 
+                        </div>
+                     
+                    </p>   
+                </div>
+                <div class="col-md-6 col-xs-6 col-lg-6" style="background-color:white;">
+                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%; text-align:justify;">
+                        Fecha: <strong>{{valec.fecha}}</strong> <br>
+                        Gasolinera: <strong>{{valec.gasolinera}}</strong> <br>
+                        Precio de Combustible: <strong>{{valec.preciocombs}}</strong> <br>
+                    </p>
+                </div>
+            </div> <br>
+            <div class="row">
+               <!-- <div class="col-md-1 col-xs-1 col-lg-1"></div>-->
+                <div class="col-md-6 col-xs-6 col-lg-6">
+                    <strong>
+                        ___________________________________ <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Autoriza.
+                        </strong> 
+                </div>
+                <div class="col-md-6 col-xs-6 col-lg-6">
+                    <strong>
+                        ___________________________________ <br>
+                        &nbsp;&nbsp;{{valec.operador}}
+                    </strong> 
+                </div>
+
+            </div>
+        
+                
+
+    </div>
+
+
+      <!-----------VENTANA EMERGENTE CON LA CONFIGURACION DE VALE A IMPRIMIR-------------->
+  <div class="modal fade" id="DivCombs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mercancia"><b>Ajustes de Precio del Combustible</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+            </div>
+            <div class="modal-body" >
+                <div class="row">
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <div class="input-group">
+                            <input type="search" ng-class="form.search2 ? 'form-control is-valid' : 'form-control'" ng-keyup="search2($event.target.value)" ng-model="form.search2" placeholder="Busqueda por ID del Vale"  ng-disabled="showDisable">
+                            <div class="input-group-append">
+                                <span ng-class="form.search2 ? 'input-group-text btn-danger cursor' : 'input-group-text' " ng-click="emptySearch()">
+                      <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' ">
+                      </i>
+                    </span>
+                            </div>
+                        </div>
+                        <div class="positionFloat cursor" ng-if="!ban3">
+                            <div ng-repeat="searchItems in items2">
+                                <p ng-click="llenado(searchItems)">
+                                    {{ searchItems.idvale }} 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <submit type="button" class="btn btn-success btn-block" data-dismiss="modal"  aria-label="Close"><b>Aceptar</b></button>
+                    </div>
+                </div>
+                <br>
+
+            </div>
+  
+        </div>
+    </div>
+  </div>
+
+
+</div>

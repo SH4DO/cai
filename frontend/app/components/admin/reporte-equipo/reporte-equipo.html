@@ -1,0 +1,137 @@
+<div class="card shadow" ng-controller="reporte">
+
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h4><i class="fas fa-clipboard"></i> <b>Reporte</b></h4>
+            </div>
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <div class="row">
+              <div class="col-md-3 col-xs-3 col-lg-3"></div>
+              <div class="col-md-3 col-xs-3 col-lg-3">
+                  <i class="fas fa-file-pdf icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="rutas('report-imprimir')"></i>
+              </div>
+              <div class="col-md-3 col-xs-3 col-lg-3">
+                  <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir()"></i>
+              </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-times icon" data-toggle="tooltip" data-placement="top" title="Cancelar" ng-click="viewTemplate('equipo')"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body scroll" id="tabledata">
+        <div class="container-fluid">
+           <div ng-include="view_equipos" style="margin-top: .2rem;"></div>
+        </div>
+        <br>
+
+        <!-- contedor de la tabla -->
+        <div class="continer-fluid">
+          <!---->
+            <div class="table-responsive" ng-if="!tablestatShow">
+                <table class="table">
+                    <thead class="bg-primary">
+                        <tr>
+                            <th class="font-td">No econ.</th>
+                            <th class="font-td">Placas</th>
+                            <th class="font-td">Modelo</th>
+                            <th class="font-td">Marca</th>
+                            <th class="font-td">Niv</th>
+                            <th class="font-td">Motor</th>
+                            <th class="font-td">ejes</th>
+                            <th class="font-td">Suspen.</th>
+                            <th class="font-td">Cap. dif.</th>
+                            <th class="font-td">Ancho</th>
+                            <th class="font-td">Alto</th>
+                            <th class="font-td">Largo</th>
+                            <th class="font-td">poliza</th>
+                            <th class="font-td">F. Incio</th>
+                            <th class="font-td">F. termino</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in listreporte">
+                            <th class="font-th">{{item.num_economico}}</th>
+                            <th class="font-th">{{item.placas}}</th>
+                            <th class="font-th">{{item.modelo}}</th>
+                            <th class="font-th">{{item.marca}}</th>
+                            <th class="font-th">{{item.niv}}</th>
+                            <th class="font-th">{{item.motor}}</th>
+                            <th class="font-th">{{item.eje}}</th>
+                            <th class="font-th">{{item.suspencion}}</th>
+                            <th class="font-th">{{item.diferencial}}</th>
+                            <th class="font-th">{{item.ancho}}</th>
+                            <th class="font-th">{{item.alto}}</th>
+                            <th class="font-th">{{item.largo}}</th>
+                            <th class="font-th">{{item.num_poliza}}</th>
+                            <th class="font-th">{{item.vd | date}}</th>
+                            <th class="font-th">{{item.vh | date }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-responsive" ng-if="!showsvA">
+                <table class="table">
+                    <thead class="bg-primary">
+                      <tr>
+                          <th class="font-td">Folio</th>
+                          <th class="font-td">No economico</th>
+                          <th class="font-td">Placas</th>
+                          <th class="font-td">Tipo</th>
+                          <th class="font-td">Periodo</th>
+                          <th class="font-td">Unidad Verif.</th>
+                          <th class="font-td">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in listreporte">
+                        <th class="font-th">{{item.folio}}</th>
+                        <th class="font-th">{{item.num_economico}}</th>
+                        <th class="font-th">{{item.placas}}</th>
+                        <th class="font-th">{{item.tipo}}</th>
+                        <th class="font-th">{{item.periodo}}</th>
+                        <th class="font-th">{{item.unidadveifi}}</th>
+                        <th class="font-th">{{item.estatus}}</th>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="table-responsive" ng-if="!showsvFM">
+                <table class="table">
+                    <thead class="bg-primary">
+                        <tr>
+                            <th class="font-td">Folio</th>
+                            <th class="font-td">No economico</th>
+                            <th class="font-td">Placas</th>
+                            <th class="font-td">Tipo</th>
+                            <th class="font-td">Periodo</th>
+                            <th class="font-td">Unidad Verif.</th>
+                            <th class="font-td">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in listreporte">
+                          <th class="font-th">{{item.folio}}</th>
+                          <th class="font-th">{{item.num_economico}}</th>
+                          <th class="font-th">{{item.placas}}</th>
+                          <th class="font-th">{{item.tipo}}</th>
+                          <th class="font-th">{{item.periodo}}</th>
+                          <th class="font-th">{{item.unidadveifi}}</th>
+                          <th class="font-th">{{item.estatus}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- --->
+
+        </div>
+
+    </div>
+</div>
+<br>

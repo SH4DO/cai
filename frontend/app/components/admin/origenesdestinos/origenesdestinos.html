@@ -1,0 +1,196 @@
+<div class="card shadow" ng-controller="crudOrigenesD">
+
+    <div class="card-header">
+      <div class="row">
+          <div class="col-md-8 col-xs-8 col-lg-8">
+              <h4><i class="fas fa-users"></i> <b>ORIGENES Y DESTINOS</b></h4>
+          </div>
+          <div class="col-md-4 col-xs-4 col-lg-4">
+              <div class="row">
+                  <div class="col-md-3 col-xs-3 col-lg-3">
+                      <i class="fas fa-edit icon" ng-click="buttonOption(1)" ng-disabled="showCreateCliente"></i>
+                  </div>
+                  <div class="col-md-3 col-xs-3 col-lg-3">
+                      <i class="fas fa-save icon" ng-click="buttonOption(2)" ng-disabled="showSaveCliente"></i>
+                  </div>
+  
+                  <div class="col-md-3 col-xs-3 col-lg-3">
+                      <i class="fas fa-undo icon" ng-click="buttonOption(4)" ng-disabled="showEditCliente"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  
+    <div class="card-body scroll">
+  
+      <form name="vales">
+        <div class="form-group">
+            <!----------INSERT CODIGO------------>
+          <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-2">
+             <label><b>No. Viaje:</b> </label>
+                <div class="inner-addon  right-addon">
+                  <i class="fas fa-sort-numeric-up-alt"></i>
+                    <input type="numero" class="form-control" name="idviaje" ng-model="cliente.idviaje"
+                    placeholder="000" ng-required="true"  disabled>
+                    </div>
+              </div>
+
+              <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b>Clave de Flete:</b></label>
+                  <div class="inner-addon  right-addon">
+                      <input type="text" name="flete" class="form-control" ng-model="cliente.flete" placeholder="Ingrese clave" ng-required="true" ng-disabled="showDisable">
+                    </div>
+            </div>
+
+
+              <div class="col-md-3 col-xs-3 col-lg-6">
+                <label><b>Descripcion:</b> </label>
+                  <div class="inner-addon right-addon">
+                       <i class="fas fa-file-alt"></i>
+                      <input type="text" class="form-control" ng-model="cliente.descripcion" name="descripcion" placeholder="Descripcion viaje"  ng-required="true"ng-disabled="showDisable">
+                                    
+                  </div>
+                            
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-4">
+
+              <label><b>Origen:</b></label>
+              <div class="inner-addon  right-addon">
+                <i class="fas fa-map-pin"></i>
+                <input type="text" class="form-control" name="origen" ng-model="cliente.origen"
+                placeholder="Origen" ng-required="true" maxlength="40" ng-disabled="showDisable">
+              </div>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-4">
+              <label><b>Destino:</b></label>
+                <div class="inner-addon  right-addon">
+                  <i class="fas fa-map-pin"></i>
+                  <input type="text" class="form-control" name="destino"
+                  ng-model="cliente.destino"
+                  placeholder="Destino" ng-required="true" maxlength="40" ng-disabled="showDisable">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-3 col-lg-2">
+              <label><b>Distancia:</b></label>
+                <div class="inner-addon  right-addon">
+                  <i class="fas fa-ruler-horizontal"></i>
+                  <input type="numero" class="form-control" name="distancia" ng-model="cliente.distancia"
+                  placeholder="Km" ng-required="true" maxlength="5" ng-pattern="numeros" ng-disabled="showDisable">
+                </div>
+            </div>
+                        
+          </div>
+
+<!----Seccion de datos del cliente-->
+
+<hr><h5><b>DATOS DEL CLIENTE</b></h5><hr>
+                         
+
+<div class="row">
+
+  <div class="col-md-3 col-xs-3 col-lg-2">
+    <label><b>No. Cliente:</b></label>
+    <div class="inner-addon  right-addon">
+      <i class="fas fa-sort-numeric-up-alt"></i>
+      <input type="text" class="form-control" placeholder="000"  ng-model="cliente.clave_m"  disabled>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-xs-3 col-lg-5">
+    <label><b>Cliente:</b></label>
+    <div class="inner-addon  right-addon">
+    <select name="mercancia" ng-class=" cliente.mercancia ? 'form-control is-valid' : 'form-control'"  ng-model="cliente.mercancia"  ng-required="true" ng-click="resetLisr()" ng-disabled="showDisable" ng-change="clave()">
+        <option value=""> -Seleccione una opcion-</option>
+        <option ng-repeat="nomCliente in listproduct" value="{{nomCliente.idclientes}}">
+           {{nomCliente.cliente}}
+        </option>
+      </select>
+    </div>
+
+  </div>
+                       
+</div>
+
+<div class="row">
+  <div class=" col-md-3 col-xs-3 col-lg-6">
+    <label><b>Lugar de Carga:</b></label>
+    <div class="inner-addon right-addon">
+      <i class="fas fa-truck-moving"></i>
+      <input type="text" name="Lcarga" class="form-control" ng-model="cliente.Lcarga" placeholder="lugar de carga" ng-required="true" maxlength="20" ng-disabled="showDisable" >
+    </div>                   
+  </div>
+</div>
+
+<!--Seccion datos del destinatario-->
+
+<hr><h5><b>DATOS DEL DESTINATARIO</b></h5><hr>
+
+<div class="row">
+  <div class="col-md-3 col-xs-3 col-lg-6">
+    <label><b>Destinatario:</b></label>
+    <div class="inner-addon  right-addon">
+      <i class="fas fa-truck-loading"></i>
+      <input type="text" class="form-control" name="destinatario" ng-model="cliente.destinatario"
+      placeholder="Destinatario" ng-required="true" maxlength="20" ng-disabled="showDisable">
+    </div>
+
+  </div>
+
+    
+  <div class="col-md-3 col-xs-3 col-lg-6">
+    <label><b>Domicilio:</b></label>
+    <div class="inner-addon  right-addon">
+      <i class="fas fa-home"></i>
+      <input type="text" class="form-control" name="domicilio" ng-model="cliente.domicilio"
+      placeholder="Domicilio" ng-required="true" maxlength="80" ng-disabled="showDisable">
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-3 col-xs-3 col-lg-6">
+    <label><b>Lugar de entrega: </b></label>
+    <div class="inner-addon  right-addon">
+      <i class="fas fa-truck"></i>
+      <input type="text" class="form-control" name="Lentrega" ng-model="cliente.Lentrega"
+      placeholder="Lugar de entrega" ng-required="true"  maxlength="20" ng-disabled="showDisable">
+    </div>
+  </div>
+</div>
+
+<!--Seccion de la parte de tarifas--->
+
+<hr><h5><b>TARIFAS</b></h5><hr>
+
+<div class="row">
+  <div class="col-md-3 col-xs-3 col-lg-3">
+    <label><b>Tipo tarifa:</b></label>
+    <select class="form-control" name="tarifas"  ng-required="true" ng-model="cliente.tarifas" ng-disabled="showDisable">
+      <option value="">Seleccione una opcion</option>
+      <option value="Tonelada">Tonelada</option>
+      <option value="T3-S2">T3-S2</option>
+      <option value="T3-S2-R4">T3-S2-R4</option>
+    </select>
+  </div>
+
+  <div class="col-md-3 col-xs-3 col-lg-3">
+    <label><b>Tarifa:  </b></label>
+    <div class="inner-addon  right-addon">
+      <input type="text" class="form-control" name="costo" ng-model="cliente.costo" placeholder="$$$" ng-required="true"  maxlength="10"  ng-pattern="numeros" ng-disabled="showDisable">
+    </div>
+
+  </div>
+</div>
+</form>
+
+  </div>
+
+  </div>

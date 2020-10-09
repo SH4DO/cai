@@ -1,0 +1,55 @@
+[{
+        "id": "alert",
+        "class": "list-group-item cursor active",
+        "icon": "fas fa-home",
+        "label": "Inicio"
+    },
+    {
+        "id": "operador",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-users-cog",
+        "label": "Operador"
+    },
+    {
+        "id": "equipo",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-truck",
+        "label": "Equipo"
+    },
+    {
+        "id": "cliente",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-users",
+        "label": "Clientes"
+    },
+    {
+        "id": "reporte",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-clipboard",
+        "label": "Reporte Mantenimiento"
+    },
+    {
+        "id": "bitacora",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-clipboard",
+        "label": "Bitácora/Horas de Servicio"
+    },
+    {
+        "id": "almacen",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-warehouse",
+        "label": "Almacen"
+    },
+    {
+        "id": "proveedores",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-user-tie",
+        "label": "Proveedores"
+    },
+    {
+        "id": "trafico",
+        "class": "list-group-item cursor",
+        "icon": "fas fa-map-marker-alt",
+        "label": "Tráfico Logístico"
+    }
+]
