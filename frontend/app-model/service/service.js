@@ -399,6 +399,12 @@ app.factory('anticipos',['crudService', function(crudService){
         searchDestinatario: function(data){
             return crudService.crudGet('searchDesti&search='+data);
         },
+        readClaveF: function(data){
+            return crudService.crudGet('readClaveF&fl='+data);
+        },
+        searchFlete: function(fc) { //buscar flete escogido
+            return crudService.crudGet('searchFleteA&search='+fc); 
+        }
     }
 }]);
 

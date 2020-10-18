@@ -208,7 +208,25 @@
 				header('Access-Control-Allow-Headers: * ');
 				$data = $_GET['search'];
 				ControllerSIDF::searchRemi($data);
-				break;			
+				break;
+			case 'searchDesti':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['search'];
+				ControllerSIDF::searchDesti($data);
+				break;
+			case 'readClaveF':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['fl'];
+				ControllerSIDF::readClaveF($data);
+				break;
+			case 'searchFleteA':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$fc = $_GET['search'];
+				ControllerSIDF::searchFleteA($fc);
+				break;														
 			/*******************************************************/
 			// seccion de operadores ...
 			case 'operador':

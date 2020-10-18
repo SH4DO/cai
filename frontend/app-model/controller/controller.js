@@ -2700,6 +2700,13 @@ app.controller("valeImp", [
         $scope.valec.cantidadL=NumeroALetras($scope.valec.cantidad).toLowerCase();
         $scope.valec.combustible=$scope.combs[(val.tipocombs)-1];
         $scope.valec.preciocombs=$scope.preciocombs[(val.tipocombs)-1];
+
+        console.log("El tipo de combustible en el array es: "+$scope.combs[(val.tipocombs)-1]);
+        console.log("El precio en valec es : "+$scope.valec.combustible);
+
+        console.log("El precio del combustible en el array es: "+$scope.preciocombs[(val.tipocombs)-1]);
+        console.log("El precio en valec es : "+$scope.valec.preciocombs);
+
         $scope.valec.idvale=val.idvale;
         $scope.valec.clave=val.claveflete;
         $scope.valec.fecha=formatDate(val.fechaval);
@@ -3408,13 +3415,15 @@ app.controller("crudAnticipos",[
   "anticipos",
   "equipo",
   "crudOperator",
-  function($scope, anticipos, equipo, crudOperator){
+  "client",
+  function($scope, anticipos, equipo, crudOperator, client){
     $scope.listanticp;
     $scope.anticp = {};
     $scope.search = "";
     $scope.showMessage = true;
     $scope.showDisable = true;
     $scope.express = "\\d+";
+    $scope.listFlete;
     $scope.listOp;
 
     $scope.buttonOption = function (option){
@@ -3430,23 +3439,69 @@ app.controller("crudAnticipos",[
         case 2:
           break;
         case 3:
+          //$scope.editBan = false;
+          $scope.anticp = {};
+          $scope.showDisable = true;
           break;
       }
     };
 
 
-    //seccion de busqueda de Remitente
+    //seccion de busqueda de Remitente (Cliente)
     $scope.ban=true;
     $scope.items = [];
-    $scope.searchEq= function(name){
+    $scope.searchC = function(name){
       if(name!==""){
-        $scope.ban = false;
-        $scope.listOp=anticipos.searchRemitente(name).then(function succes(res){
+        $scope.ban= false;
+        $scope.listC=client.search(name).then(function succes(res){
           $scope.items = res;
         });
       }
-      else  $scope.ban = true;
+      else{
+        $scope.ban = true;
+      }
     };
+
+    //filtrar los datos del cliente
+    $scope.filtradoCl = function (search){
+      $scope.ban = true;
+      $scope.anticp.cliente=search.cliente;
+      $scope.anticp.idcliente=search.idclientes;
+      $scope.anticp.home=search.domicilio;
+      $scope.anticp.merch=search.tipo_mercancia;
+      listClaveF();
+    }
+
+    var listClaveF= function () {
+      anticipos.readClaveF($scope.anticp.idcliente).then(function succes(res) {
+      $scope.listFlete = res;
+      console.log(res);
+      });
+    };
+
+    //llenar los datos de flete en anticipos
+    $scope.aux=[];
+    $scope.llenadoFlete = function (){
+      let idE=$scope.anticp.clave;
+      if ($scope.anticp.clave !== "") {
+          anticipos.searchFlete(idE).then(function succes(res){
+            
+            $.each(res, function(key,val){ //--TEST SEGUIR PROBANDO :C
+              $scope.anticp.recolecta=val.Lcarga;
+              $scope.anticp.destino=val.destino;
+              $scope.anticp.destinro=val.destinatario;
+              $scope.anticp.homeD=val.domicilio;
+              $scope.anticp.entrega=val.Lentrega;
+              $scope.anticp.distancia=val.distancia;   
+            });
+            
+          }); 
+      }
+      else{
+        console.log("no hay datos en equipo ID");
+      }
+      
+    }
     
     //seccion de busqueda de Operador
     $scope.ban2=true;

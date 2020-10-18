@@ -350,46 +350,22 @@ class ControllerSIDF extends CrudSIDF
 //*****************************************************************************************************/
 
     /*
-     *  seccion tabla Proveedores
+     *  seccion Proveedores
      */
-
-    // crear proveedor
-    
-    public function creatProv($prov)
-    {
-        CrudSIDF::createProv($prov);
-    }
-
+    // crear proveedor    
+    public function creatProv($prov) {CrudSIDF::createProv($prov);}
     // buscar proveedor
-    public function searchProv($prov)
-    {
-        CrudSIDF::searchProv($prov);
-    }
-    /*
-     * actualizar proveedor
-     */
-    
-    public function updatProv($prov)
-    {
-        CrudSIDF::updateProv($prov);
-    }
-    
+    public function searchProv($prov) {CrudSIDF::searchProv($prov);}
+    //update provedor  
+    public function updatProv($prov) {CrudSIDF::updateProv($prov);}   
 
     /**
      *  seccion lista tipos_proveedores
      */
-
-    // crear tipos de  proveedor  //----ALERT: CORREGIR creatTipoprov
-    public function creatTipoprov($Tprov)
-    {
-        CrudSIDF::createTProv($Tprov);
-    }
-
+    // crear tipos de  proveedor 
+    public function creatTipoprov($Tprov) {CrudSIDF::createTProv($Tprov);}
     // listar tipos_proveedores
-    public function listeProv()
-    {
-        CrudSIDF::listProv();
-    }
+    public function listeProv() {CrudSIDF::listProv();}
 
     /**
      *  seccion de VALES DE COMBUSTIBLE
@@ -417,9 +393,15 @@ class ControllerSIDF extends CrudSIDF
     public function searchLast() {CrudSIDF::searchLastV();}
 
     /**
-    *  seccion de ANTICIPOS
+    *  seccion de ANTICIPOS INICIO-->(08/10/2020) FIN -->(//2020)
     */
-    public function searchRemi($data){CrudSIDF::searchRemit($val);}
+    public function searchRemi($val){CrudSIDF::searchRemit($val);}
+
+    public function searchDesti($val){CrudSIDF::searchDestin($val);}
+
+    public function readClaveF($val){CrudSIDF::readClaveFlete($val);}
+
+    public function searchFleteA($val){CrudSIDF::searchFleteV($val);}
 
 }
 

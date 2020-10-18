@@ -37,16 +37,13 @@
                 <input type="search" ng-class="form.search2 ? 'form-control is-valid' : 'form-control'" ng-keyup="search2($event.target.value)" ng-model="form.search2" placeholder="Busqueda por ID del Vale"  ng-disabled="showDisable">
                 <div class="input-group-append">
                     <span ng-class="form.search2 ? 'input-group-text btn-danger cursor' : 'input-group-text' " ng-click="emptySearch()">
-          <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' ">
-          </i>
-        </span>
+                    <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' "></i>
+                    </span>
                 </div>
             </div>
             <div class="positionFloat cursor" ng-if="!ban3">
                 <div ng-repeat="searchItems in items2">
-                    <p ng-click="llenado(searchItems)">
-                        {{ searchItems.idvale }} 
-                    </p>
+                    <p ng-click="llenado(searchItems)">{{ searchItems.idvale }}</p>
                 </div>
             </div>
         </div>
@@ -56,7 +53,7 @@
       <form name="clientes">
         <div class="form-group" id="imprimirDiv">
             <div ng-show="mostrarAlert">
-                <h4> <b class="alert-danger-message">Los datos ya han sido actualizados hoy</b></h4>
+                <h4><b class="alert-danger-message">Los datos ya han sido actualizados hoy</b></h4>
             </div>
 
             <div class="row"> <!-- COL DE NO VALE Y FECHA-->
@@ -67,8 +64,7 @@
                         <i class="fas fa-key"></i>
                         <input type="text"  ng-model="cliente.idvale"
                             placeholder="######" name="idvale" 
-                            ng-class=" cliente.idvale ? 'form-control is-valid' : 'form-control'"
-                              disabled>
+                            ng-class=" cliente.idvale ? 'form-control is-valid' : 'form-control'" disabled>
                     </div>
                 </div>
 
@@ -88,7 +84,8 @@
                         <b class="alert-danger-message" ng-show="validadores[6]">
                             *
                         </b></label>
-                    <div class="input-group">
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-user"></i>
                         <input type="search" ng-model="cliente.nombrecliente"  ng-class="form.search2 ? 'form-control is-valid' : 'form-control'" ng-keyup="searchC($event.target.value)"  
                             placeholder="Buscar Cliente" ng-disabled="showDisable"  required>
     
@@ -109,7 +106,8 @@
                         <b class="alert-danger-message" ng-show="validadores[0]">
                             *
                         </b></label>
-                    <div class="input-group">
+                    <div class="inner-addon  right-addon">
+                        <i class="fas fa-sort-numeric-up-alt"></i>
                         <input type="search" ng-model="cliente.claveF" ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="search($event.target.value)" ng-model="form.search"
                             placeholder="Clave Flete" ng-disabled="showDisable"  required>
     
@@ -129,7 +127,7 @@
                             *
                         </b></label>
                     <div class="inner-addon  right-addon">
-                        
+                        <i class="fas fa-file-alt"></i>
                         <input type="text" ng-model="cliente.desc" name="descripcion" placeholder="Descripcion."
                             ng-class=" cliente.desc ? 'form-control is-valid' : 'form-control'"
                             maxlength="18" disabled  required>
@@ -176,7 +174,7 @@
                             *
                         </b></label>
                     <div class="inner-addon  right-addon">
-                        
+                        <i class="fas fa-car"></i>
                         <input type="text" ng-model="cliente.placa" name="curp" placeholder="Placa de Equipo"
                             ng-class="cliente.placa ? 'form-control is-valid' : 'form-control'"
                             maxlength="18" disabled>

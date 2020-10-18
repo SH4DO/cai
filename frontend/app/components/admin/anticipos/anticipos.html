@@ -19,9 +19,6 @@
                     <div class="col-md-2 col-xs-2 col-lg-2">
                       <i class="fas fa-print icon" ng-click="viewTemplate('vale-imprimir')" ng-disabled="showImpCliente"></i>
                   </div>
-                    <div class="col-md-2 col-xs-2 col-lg-2">
-                      <i class="fas fa-cog icon" data-toggle="modal" data-target="#DivCombs" ng-click="verPrecios()"></i>     
-                  </div>
                 </div>
             </div>
         </div>
@@ -31,7 +28,7 @@
 
         <form name="anticipos">
             <div  class="form-group">
-                <div class="row">
+                <div class="row"> <!--col de id y fecha-->
                     <div class="col-md-2 col-xs-2 col-lg-2">
                         <label><b>No. Folio</b></label>
                         <div class="inner-addon  right-addon">
@@ -49,8 +46,127 @@
                     </div>
                     <div class="col-md-6 col-xs-6 col-lg-6">
                         <label><b>Lugar de expedici&oacute;n</b></label>
-                        <input type="text" ng-model="anticp.lugar"  ng-class="anticp.fecha ? 'form-control is-valid' : 'form-control'"  
+                        <input type="text" ng-model="anticp.lugar"  ng-class="anticp.lugar ? 'form-control is-valid' : 'form-control'"  
                         placeholder="Lugar de exp." ng-disabled="showDisable"  required>
+                    </div>
+                </div>
+                <hr><h5><b>REMITENTE.</b></h5><hr> <!--col de remitente-->
+                <div class="row"> 
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Cliente</b></label>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-user"></i>
+                            <input type="search" ng-model="anticp.cliente"  ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="searchC($event.target.value)"  
+                                placeholder="Buscar Cliente" ng-disabled="showDisable"  required>
+        
+                        </div>
+                        <div class="positionFloat cursor" ng-if="!ban">
+                            <div ng-repeat="searchItems in items">
+                                <p ng-click="filtradoCl(searchItems)">
+                                    {{ searchItems.cliente}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Domicilio</b></label>
+                        <input type="text" ng-model="anticp.home"  ng-class="anticp.home ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Domicilio." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Mercanc&iacute;a</b></label>
+                        <input type="text" ng-model="anticp.merch"  ng-class="anticp.merch ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Mercancia." ng-disabled="showDisable"  required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Clave de Viaje</b></label>
+                        <div class="inner-addon  right-addon">
+                            <select name="clavef" ng-class=" anticp.clave ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.clave" ng-change="llenadoFlete()"  ng-disabled="showDisable" required>
+                                <option ng-repeat="flete in listFlete" value="{{flete.idviaje}}">
+                                    {{flete.flete}}
+                                </option>
+                            </select>
+                        </div> 
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Recolecta</b></label>
+                        <input type="text" ng-model="anticp.recolecta"  ng-class="anticp.recolecta ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Lugar de Carga." ng-disabled="showDisable"  required>
+                    </div>
+                    
+                </div>
+
+                <hr><h5><b>Destinatario.</b></h5><hr> <!--col de Destinatario-->
+                <div class="row">
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Destino</b></label>
+                        <input type="text" ng-model="anticp.destino"  ng-class="anticp.destino ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Destino." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Destinatario</b></label>
+                        <input type="text" ng-model="anticp.destinro"  ng-class="anticp.destinro ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Destinatario." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Domicilio</b></label>
+                        <input type="text" ng-model="anticp.homeD"  ng-class="anticp.homeD ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Domicilo del destinatario." ng-disabled="showDisable"  required>    
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Entrega en</b></label>
+                        <input type="text" ng-model="anticp.entrega"  ng-class="anticp.entrega ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Lugar de entrega." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Distancia</b></label>
+                        <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Distancia." ng-disabled="showDisable"  required>
+                    </div>
+                </div>
+
+                <hr><h5><b>Equipo y Operador.</b></h5><hr> <!--col de Equipo y operador-->
+                <div class="row">
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Operador</b></label>
+                        <input type="text" ng-model="anticp.destino"  ng-class="anticp.destino ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Destino." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Licencia</b></label>
+                        <input type="text" ng-model="anticp.destinro"  ng-class="anticp.destinro ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Destinatario." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Vigencia</b></label>
+                        <input type="text" ng-model="anticp.homeD"  ng-class="anticp.homeD ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Domicilo del destinatario." ng-disabled="showDisable"  required>    
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <label><b>Equipo</b></label>
+                        <input type="text" ng-model="anticp.entrega"  ng-class="anticp.entrega ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Lugar de entrega." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <label><b>----</b></label>
+                        <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Distancia." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <label><b>----</b></label>
+                        <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Distancia." ng-disabled="showDisable"  required>
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <label><b>----</b></label>
+                        <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Distancia." ng-disabled="showDisable"  required>
                     </div>
                 </div>
             </div>

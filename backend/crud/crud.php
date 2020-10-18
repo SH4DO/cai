@@ -1251,6 +1251,40 @@ class CrudSIDF extends Conection
         }
     }
 
+    //buscar destinatario
+    public function searchDestin($data) {
+        $query="";                  
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+     //llenar todas las claves de flete filtradas por cliente
+    public function readClaveFlete($data) {
+        $query="SELECT idviaje,flete FROM origenesd WHERE idclientes=$data ";                  
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    //buscar flete especifico
+    public function searchFleteV($data) {
+        $query="SELECT * FROM origenesd WHERE idviaje=$data";                  
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+
 } // end class CrudPCV .. 
 
 
