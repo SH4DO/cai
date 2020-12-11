@@ -3,7 +3,7 @@
     <div class="card-header">
         <div class="row">
             <div class="col-md-8 col-xs-8 col-lg-8">
-                <h4><i class="fas fa-users"></i> <b>ANTICIPOS.</b></h4>
+                <h4><i class="fas fa-users"></i> <b>ASIGNACI&Oacute;N DE VIAJE.</b></h4>
             </div>
             <div class="col-md-4 col-xs-4 col-lg-4">
                 <div class="row">
@@ -17,7 +17,8 @@
                         <i class="fas fa-undo icon" ng-click="buttonOption(3)" ng-disabled="showResetCliente"></i>
                     </div>
                     <div class="col-md-2 col-xs-2 col-lg-2">
-                      <i class="fas fa-print icon" ng-click="viewTemplate('vale-imprimir')" ng-disabled="showImpCliente"></i>
+                      <!--<i class="fas fa-print icon" data-toggle="modal" data-target="#DivCombs" ng-click="verPrecios()"></i>-->
+                      <label><i class="fas fa-print icon" data-toggle="modal" data-target="#imp"></i></label>
                   </div>
                 </div>
             </div>
@@ -25,9 +26,33 @@
     </div>
 
     <div class="card-body scroll" id="DivPrincipal">
+    
+    <!-- BARRA DE BUSQUEDA-->
+    <div class="row">
+        <div class="col-md-6 col-xs-6 col-lg-6"></div>
+        <div class="col-md-6 col-xs-6 col-lg-6">
+            <div class="input-group">
+                <input type="search" ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="search($event.target.value)" ng-model="form.search" placeholder="Busqueda por No. de Folio" ng-disabled="showDisableAUX"  >
+                <div class="input-group-append">
+                    <span ng-class="form.search ? 'input-group-text btn-danger cursor' : 'input-group-text' " ng-click="emptySearch()">
+                    <i ng-class="form.search ? 'fas fa-times cursor' : 'fas fa-search' "></i>
+                    </span>
+                </div>
+            </div>
+            <div class="positionFloat cursor" ng-if="!ban4">
+                <div ng-repeat="searchItems in items">
+                    <p ng-click="llenado(searchItems)">{{ searchItems.idviaje }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>       
 
         <form name="anticipos">
             <div  class="form-group">
+                <div ng-show="mostrarAlert3">
+                    <h4><i class="fas fa-truck"></i>&nbsp;&nbsp;&nbsp;<b class="alert-danger-message">{{mensajeStatus}}</b></h4>
+                </div>   
                 <div class="row"> <!--col de id y fecha-->
                     <div class="col-md-2 col-xs-2 col-lg-2">
                         <label><b>No. Folio</b></label>
@@ -41,13 +66,13 @@
                         <label><b>Fecha</b></label>
                         <div class="inner-addon  right-addon">   
                             <input type="date" name="fa"  ng-disabled="showDisable" ng-model="anticp.fecha"
-                                ng-class="anticp.fecha ? 'form-control is-valid' : 'form-control'" required>
+                                ng-class="anticp.fecha ? 'form-control is-valid' : 'form-control'">
                         </div>
                     </div>
                     <div class="col-md-6 col-xs-6 col-lg-6">
                         <label><b>Lugar de expedici&oacute;n</b></label>
                         <input type="text" ng-model="anticp.lugar"  ng-class="anticp.lugar ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Lugar de exp." ng-disabled="showDisable"  required>
+                        placeholder="Lugar de exp." ng-disabled="showDisable">
                     </div>
                 </div>
                 <hr><h5><b>REMITENTE.</b></h5><hr> <!--col de remitente-->
@@ -57,8 +82,7 @@
                         <div class="inner-addon  right-addon">
                             <i class="fas fa-user"></i>
                             <input type="search" ng-model="anticp.cliente"  ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="searchC($event.target.value)"  
-                                placeholder="Buscar Cliente" ng-disabled="showDisable"  required>
-        
+                                placeholder="Buscar Cliente" ng-disabled="showDisable" >  
                         </div>
                         <div class="positionFloat cursor" ng-if="!ban">
                             <div ng-repeat="searchItems in items">
@@ -70,108 +94,893 @@
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Domicilio</b></label>
-                        <input type="text" ng-model="anticp.home"  ng-class="anticp.home ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Domicilio." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-home"></i>
+                            <input type="text" ng-model="anticp.home"  ng-class="anticp.home ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Domicilio." disabled >
+                        </div>
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Mercanc&iacute;a</b></label>
-                        <input type="text" ng-model="anticp.merch"  ng-class="anticp.merch ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Mercancia." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-box"></i>
+                            <input type="text" ng-model="anticp.merch"  ng-class="anticp.merch ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Mercancia." disabled >
+                        </div>
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-xs-4 col-lg-4">
-                        <label><b>Clave de Viaje</b></label>
+                        <label><b>Clave Flete</b></label>
                         <div class="inner-addon  right-addon">
-                            <select name="clavef" ng-class=" anticp.clave ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.clave" ng-change="llenadoFlete()"  ng-disabled="showDisable" required>
-                                <option ng-repeat="flete in listFlete" value="{{flete.idviaje}}">
-                                    {{flete.flete}}
-                                </option>
-                            </select>
-                        </div> 
+                            <i class="fas fa-sort-numeric-up-alt"></i>
+                            <input type="search" ng-model="anticp.claveFlete" ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="searchFlete($event.target.value)"
+                                placeholder="Clave Flete" ng-disabled="showDisable">
+                        </div>
+                        <div class="positionFloat cursor" ng-if="!ban5">
+                            <div ng-repeat="searchItems in items">
+                                <p ng-click="llenadoFlete(searchItems)">
+                                    {{ searchItems.flete}}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Recolecta</b></label>
-                        <input type="text" ng-model="anticp.recolecta"  ng-class="anticp.recolecta ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Lugar de Carga." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-truck-loading"></i>
+                            <input type="text" ng-model="anticp.recolecta"  ng-class="anticp.recolecta ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Lugar de Carga." disabled>
+                        </div>
+
                     </div>
                     
                 </div>
 
-                <hr><h5><b>Destinatario.</b></h5><hr> <!--col de Destinatario-->
+                <hr><h5><b>DESTINATARIO.</b></h5><hr> <!--col de Destinatario-->
                 <div class="row">
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Destino</b></label>
-                        <input type="text" ng-model="anticp.destino"  ng-class="anticp.destino ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Destino." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" ng-model="anticp.destino"  ng-class="anticp.destino ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Destino." disabled>
+                        </div>
+
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Destinatario</b></label>
-                        <input type="text" ng-model="anticp.destinro"  ng-class="anticp.destinro ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Destinatario." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-map-pin"></i>
+                            <input type="text" ng-model="anticp.destinro"  ng-class="anticp.destinro ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Destinatario." disabled>
+                        </div>
+
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Domicilio</b></label>
-                        <input type="text" ng-model="anticp.homeD"  ng-class="anticp.homeD ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Domicilo del destinatario." ng-disabled="showDisable"  required>    
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-home"></i>
+                            <input type="text" ng-model="anticp.homeD"  ng-class="anticp.homeD ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Domicilo del destinatario." disabled >  
+                        </div> 
+  
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Entrega en</b></label>
-                        <input type="text" ng-model="anticp.entrega"  ng-class="anticp.entrega ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Lugar de entrega." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-truck-moving"></i>
+                            <input type="text" ng-model="anticp.entrega"  ng-class="anticp.entrega ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Lugar de entrega." disabled >
+                        </div>
+
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Distancia</b></label>
-                        <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Distancia." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-ruler-horizontal"></i>
+                            <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Distancia." disabled >
+                        </div>
                     </div>
                 </div>
 
-                <hr><h5><b>Equipo y Operador.</b></h5><hr> <!--col de Equipo y operador-->
+                <hr><h5><b>DATOS DE LA CARGA.</b></h5><hr> <!--col de datos de la carga-->
+                <div class="row">
+                    <div class="col-md-4 col-xs-4 col-lg-6">
+                        <label><b>Documentos</b></label>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-file-alt"></i>
+                            <input type="text" ng-model="anticp.documentos"  ng-class="anticp.documentos ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="------------" ng-disabled="showDisable" >
+                        </div>
+                    </div>
+        
+                    <div class="col-md-4 col-xs-4 col-lg-2">
+                        <label><b>Peso</b>
+                            <b class="alert-danger-message" ng-show="validadores[0]">
+                                No. Inv&aacute;lido
+                            </b></label>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-weight-hanging"></i>
+                            <input type="text" ng-model="anticp.peso"  ng-class="anticp.peso ? 'form-control is-valid' : 'form-control'"  ng-keyup="importeTon($event.target.value)"
+                            placeholder="Kg." ng-disabled="showDisable" >
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-2">
+                        <label><b>Tarifa convenida</b></label>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-dollar-sign"></i>
+                            <input type="text" ng-model="anticp.tipoT"  ng-class="anticp.tipoT ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="----" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-lg-2">
+                        <label><b>Carta porte</b></label>
+                        <div class="inner-addon  right-addon">  
+                            <i class="fas fa-envelope-open-text"></i>
+                            <input type="text" ng-model="anticp.carta"  ng-class="anticp.carta ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="0" ng-disabled="showDisable"  >
+                        </div>
+                    </div>
+                </div>
+
+                <hr><h5><b>EQUIPO Y OPERADOR.</b></h5><hr> <!--col de Equipo y operador-->
                 <div class="row">
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Operador</b></label>
-                        <input type="text" ng-model="anticp.destino"  ng-class="anticp.destino ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Destino." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" ng-model="anticp.operator"  ng-class="anticp.operator ? 'form-control is-valid' : 'form-control'" ng-keyup="searchOp($event.target.value)"
+                            placeholder="Nombre de Operador." ng-disabled="showDisable" >
+                        </div>
+
+                        <div class="positionFloat cursor" ng-if="!ban2">
+                            <div ng-repeat="searchItems in items">
+                                <p ng-click="filtradoOp(searchItems)">
+                                    {{ searchItems.nombre}}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Licencia</b></label>
-                        <input type="text" ng-model="anticp.destinro"  ng-class="anticp.destinro ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Destinatario." ng-disabled="showDisable"  required>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-id-card-alt"></i>
+                            <input type="text" ng-model="anticp.license"  ng-class="anticp.license ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Licencia." disabled>
+                        </div>
+
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-4">
                         <label><b>Vigencia</b></label>
-                        <input type="text" ng-model="anticp.homeD"  ng-class="anticp.homeD ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Domicilo del destinatario." ng-disabled="showDisable"  required>    
+                            <input type="date" ng-model="anticp.validity"  ng-class="anticp.validity ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Vigencia." disabled>   
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-xs-4 col-lg-4">
+                        <label><b>Conf. Veh&iacute;cular</b></label>
+                        <div class="inner-addon  right-addon">
+                            <i class="fas fa-clipboard-check"></i>
+                            <input type="text" ng-model="anticp.tarifa"  ng-class="anticp.tarifa ? 'form-control is-valid' : 'form-control'"  
+                            placeholder="Tipo de Veh&iacute;culo." disabled >
+                        </div>
+
+                    </div>
+                    <div class="col-md-2 col-xs-2 col-lg-2">
+                        <label><b>No. Tractor</b></label>
+                        <div class="inner-addon  right-addon">
+                           <!-- <i class="fas fa-truck"></i>-->
+                            <select name="tractor" ng-class="anticp.tractor ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.tractor" ng-change="llenadoTruck()" ng-click="" ng-disabled="showDisable" required>
+                                <option ng-repeat="equipo in listTruck" value="{{equipo.idequipo}}">
+                                    {{equipo.num_economico}}
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <label><b>Placas</b></label>
+                        <input type="text" ng-model="anticp.placasT"  ng-class="anticp.placasT ? 'form-control is-valid' : 'form-control'"  
+                               placeholder="Num. placas" disabled  >
+                    </div>
+                    <div class="col-md-2 col-xs-2 col-lg-2">
+                        <label><b>Remolque</b></label>
+                        <div class="inner-addon  right-addon">
+                            <select name="remolque" ng-class="anticp.remolque ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.remolque" ng-change="llenadoRemolque()" ng-disabled="showDisable" required>
+                                <option ng-repeat="equipo in listRemo" value="{{equipo.idequipo}}">
+                                    {{equipo.num_economico}}
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <label><b>Placas</b></label>
+                        <input type="text" ng-model="anticp.placasR1"  ng-class="anticp.placasR1 ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Num. placas" disabled >    
+                    </div>
+                    <div class="col-md-2 col-xs-2 col-lg-2">
+                        <label><b>Dolly</b></label>
+                        <div class="inner-addon  right-addon">
+                            <select name="dolly" ng-class="anticp.dolly ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.dolly" ng-change="llenadoDolly()" ng-disabled="showDisable2" required>
+                                <option ng-repeat="equipo in listDolly" value="{{equipo.idequipo}}">
+                                    {{equipo.num_economico}}
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <label><b>Placas</b></label>
+                        <input type="text" ng-model="anticp.placasD"  ng-class="anticp.placasD ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Num. placas" disabled >
+                    </div>
+                    <div class="col-md-2 col-xs-2 col-lg-2">
+                        <label><b>Remolque 2</b></label>
+                        <div class="inner-addon  right-addon">
+                            <select name="remolque2" ng-class="anticp.remolque2 ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.remolque2" ng-change="llenadoRemolque2()" ng-disabled="showDisable2" required>
+                                <option ng-repeat="equipo in listRemo2" value="{{equipo.idequipo}}">
+                                    {{equipo.num_economico}}
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <label><b>Placas</b></label>
+                        <input type="text" ng-model="anticp.placasR2"  ng-class="anticp.placasR2 ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="Num. placas" disabled>
+                    </div>
+                </div>
+
+
+                <hr><h5><b>SERVICIOS A COBRAR.</b></h5><hr> <!--col de datos de la carga-->
+                <div class="row">
+                    <div class="col-md-4 col-xs-4 col-lg-3">
+                        <label><b>Unidad de servicio</b></label>
+                        <input type="text" ng-model="anticp.servicio"  ng-class="anticp.servicio ? 'form-control is-valid' : 'form-control'"  
+                        value="Flete" placeholder="Flete" disabled>
+
+                        <select class="form-control" name="Servicios1" ng-class="anticp.servicio1 ? 'form-control is-valid' : 'form-control'"  
+                        required ng-model="anticp.servicio1" ng-disabled="showDisable">
+                            <option ng-repeat="op in serviciosOp" value="{{op}}">
+                                {{op}}
+                            </option>
+                        </select>
+
+                        <select class="form-control" name="Servicios2" ng-class="anticp.servicio2 ? 'form-control is-valid' : 'form-control'"  
+                        required ng-model="anticp.servicio2" ng-disabled="showDisable">
+                            <option ng-repeat="op in serviciosOp" value="{{op}}">
+                                {{op}}
+                            </option>
+                        </select>
+
+                        <select class="form-control" name="Servicios3" ng-class="anticp.servicio3 ? 'form-control is-valid' : 'form-control'"   
+                        required ng-model="anticp.servicio3" ng-disabled="showDisable">
+                            <option ng-repeat="op in serviciosOp" value="{{op}}">
+                                {{op}}
+                            </option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <label><b>Descripcion del servicio</b></label>
+                        <input type="text" ng-model="anticp.descripcionS"  ng-class="anticp.descripcionS ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="" disabled >
+                        <input type="text" ng-model="anticp.descripcionS1"  ng-class="anticp.descripcionS1 ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="" ng-disabled="showDisable"  >
+                        <input type="text" ng-model="anticp.descripcionS2"  ng-class="anticp.descripcionS2 ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="" ng-disabled="showDisable"  >
+                        <input type="text" ng-model="anticp.descripcionS3"  ng-class="anticp.descripcionS3 ? 'form-control is-valid' : 'form-control'"  
+                        placeholder="" ng-disabled="showDisable"  >
+                    </div>
+
+                    <div class="col-md-4 col-xs-4 col-lg-3">
+                        <label><b>Importe</b></label>
+                        <input type="text" ng-model="anticp.importe"  ng-class="anticp.importe ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled  >
+                        <input type="number" ng-model="anticp.importe1"  ng-class="anticp.importe1 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable"  >
+                        <input type="number"ng-model="anticp.importe2"  ng-class="anticp.importe2 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable" >
+                        <input type="number" ng-model="anticp.importe3"  ng-class="anticp.importe3 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable"  >
+                        
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-xs-3 col-lg-3">       
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <button class="btn btn-success btn-block marign-button"  ng-click="Operaciones()" ng-disabled="showDisable">
+                            Generar Total
+                            </button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 col-xs-3 col-lg-3">
-                        <label><b>Equipo</b></label>
-                        <input type="text" ng-model="anticp.entrega"  ng-class="anticp.entrega ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Lugar de entrega." ng-disabled="showDisable"  required>
+                        <button class="btn btn-success btn-block marign-button"   data-toggle="modal" data-target="#antcomp" >
+                            Anticipos y Complementos
+                        </button>
+                        <button class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#liquid" >
+                                Liquidaciones
+                        </button>
+                    </div>
+                    <div class="cold-md-3 col-xs-3 col-lg-3">
                     </div>
                     <div class="col-md-3 col-xs-3 col-lg-3">
-                        <label><b>----</b></label>
-                        <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Distancia." ng-disabled="showDisable"  required>
+
+                        <label ><b>SUBTOTAL</b></label> <br>
+                        <label ><b>I.V.A 16%</b></label><br>
+                        <label ><b>RETENCION 4%</b></label><br>
+                        <label ><b>IMPORTE TOTAL</b></label>
                     </div>
                     <div class="col-md-3 col-xs-3 col-lg-3">
-                        <label><b>----</b></label>
-                        <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Distancia." ng-disabled="showDisable"  required>
+                        <input type="text" ng-model="anticp.subtotal"  ng-class="anticp.subtotal ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
+                        <input type="text" ng-model="anticp.iva"  ng-class="anticp.iva ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
+                        <input type="text" ng-model="anticp.retencion"  ng-class="anticp.retencion ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
+                        <input type="text" ng-model="anticp.total"  ng-class="anticp.total ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
                     </div>
-                    <div class="col-md-3 col-xs-3 col-lg-3">
-                        <label><b>----</b></label>
-                        <input type="text" ng-model="anticp.distancia"  ng-class="anticp.distancia ? 'form-control is-valid' : 'form-control'"  
-                        placeholder="Distancia." ng-disabled="showDisable"  required>
+
+                </div>
+                <!--*************DIVS MODALES PARA ANTICIPOS, COMPLEMENTOS Y LIQUIDACIONES**********
+                    *********************************************************************************--->
+                <!-- TABLA DE ANTICIPOS Y COMPLEMENTOS**-->
+        <div class="modal fade" id="antcomp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="antcomp"><b>Agregar Anticipo o Complemento</b></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" >
+                        <label><b>Seleccione el tipo de operaci&oacute;n</b></label><br>
+                        <div class="inner-addon right-addon">
+                          <select name="operacionAC" ng-class="anticp.opeAC ? 'form-control is-valid' : 'form-control'" ng-model="anticp.opeAC" ng-change="operacionesAC()">
+                              <option ng-repeat="op in listOPAC" value="{{op}}">{{op}}</option>
+                          </select>
+                        </div>
+                        <div ng-show="mostrarAlert">
+                            <h5> <b class="alert-danger-message">La operaci&oacute;n  ya fue registrada</b></h5>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6 col-xs-6 col-lg-6">
+                              <label><b>Fecha</b></label>
+                              <div class="inner-addon  right-addon">   
+                                  <input type="date" name="fa"  ng-disabled="showDisableV" ng-model="anticp.ACfecha"
+                                      ng-class="anticp.ACfecha ? 'form-control is-valid' : 'form-control'">
+                              </div>
+                          </div>
+                          <div class="col-md-6 col-xs-6 col-lg-6">
+                              <label><b>Importe</b></label>
+                              <input type="text" ng-model="anticp.ACimporte" ng-class="anticp.ACimporte ? 'form-control is-valid' : 'form-control'" 
+                              placeholder="$0.00" ng-disabled="showDisableV">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12 col-xs-12 col-lg-12">
+                              <label ><b>Descripci&oacute;n</b></label>
+                              <input type="text" ng-model="anticp.ACdesc" ng-class="anticp.ACdesc ? 'form-control is-valid' : 'form-control'" 
+                              placeholder="Descripcion" ng-disabled="showDisableV">
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4 col-lg-4"></div>
+                            <div class="col-md-4 col-xs-4 col-lg-4">
+                              <button type="submit" class="btn btn-success btn-block" ng-click="agregaAC()" ng-disabled="showDisableV"><b>Agregar</b></button>
+                            </div>
+                            <div class="col-md-4 col-xs-4 col-lg-4"></div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <!--*********************************************************************-->
+        <!--********************TABLA DE LIQUIDACIONES***********************++-->
+        <div class="modal fade" id="liquid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="antcomp"><b>Liquidaciones</b></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" >
+                        <div ng-show="mostrarAlert2">
+                            <h5> <b class="alert-danger-message">La operaci&oacute;n de Liquidaci&oacute;n ya fue registrada</b></h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Fecha</b></label>
+                                <div class="inner-addon  right-addon">   
+                                    <input type="date" name="fa"  ng-disabled="showDisableL" ng-model="liquid.fecha"
+                                        ng-class="liquid.fecha ? 'form-control is-valid' : 'form-control'">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Vale de Combustible</b></label>
+                                <div class="inner-addon  right-addon">
+                                     <select name="vale" ng-class="liquid.vale ? 'form-control is-valid' : 'form-control'"  ng-model="liquid.vale" ng-change="llenadoVale()" ng-disabled="showDisableL" required>
+                                         <option ng-repeat="vale in listVale" value="{{vale.idvale}}">
+                                             {{vale.idvale}}
+                                         </option>
+                                     </select>
+                                 </div>
+                            </div>
+                        </div> <br>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6" >
+                                <label><b>Sueldo</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.sueldo" ng-class="liquid.sueldo ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Casetas</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.caseta" ng-class="liquid.caseta ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Aguas</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.aguas" ng-class="liquid.aguas ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Diesel</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.diesel" ng-class="liquid.diesel ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Vale de Combustible</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.importeVale" ng-class="liquid.importeVale ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Reparaciones (Ruta)</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.ruta" ng-class="liquid.ruta ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Maniobras (carga, descarga, Coordinaci&oacute;n)</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.maniobra" ng-class="liquid.maniobra ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Recarga Telef&oacute;nica</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.tel" ng-class="liquid.tel ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Estancias</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.estancia" ng-class="liquid.estancia ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <label><b>Pensiones</b></label>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6">
+                                <input type="text" ng-model="liquid.pension" ng-class="liquid.pension ? 'form-control is-valid' : 'form-control'" 
+                                placeholder="$0.00" ng-disabled="showDisableL">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4 col-lg-4"></div>
+                            <div class="col-md-4 col-xs-4 col-lg-4">
+                              <button type="submit" class="btn btn-success btn-block" ng-click="agregaLiquid()" ng-disabled="showDisableL"><b>Liquidar</b></button>
+                            </div>
+                            <div class="col-md-4 col-xs-4 col-lg-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <!--*********************************************************************-->
+        <!--************+SECCION DE IMPRESION**********************************-->
+        <!-- OPCIONES DE IMPRESION-->
+            <div class="modal fade" id="imp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" ><b>Seleccione la opcion a imprimir</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="false">&times;</span>
+                </button>
+             </div>
+            <div class="modal-body" >
+                <div class="row">
+                    <div class="col-md-3 col-xs-3 col-lg-4">
+                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalAnt">Anticipo</button>
+                    </div><br>
+
+                    <div class="col-md-3 col-xs-3 col-lg-4">
+                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalComp">Complementos</button>
+                    </div><br>
+
+                    <div class="col-md-3 col-xs-3 col-lg-4">
+                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalLiq" >Liquidacion</button>
+                    </div><br>
+                 </div>
+                                
+            </div>
+        </div>
+     </div>
+            </div>
+
+
+        <!----------------modal para anticipos--------------->
+            <div class="modal" id="modalAnt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+                <div class="modal-dialog modal-lg" role="dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5><i class="fas fa-clipboard"></i> <b>Anticipos.</b></h5>
+                            <div class="row">
+                                <div class="col-md-3 col-xs-3 col-lg-3">
+                                    <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir()"></i>
+                                </div>    
+                            </div>
+            
+            
+                        </div>
+            <div class="modal-body" id="imprimirDivAnt">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 col-lg-12">
+                        <img src="frontend/assets/img/membrete.jpg" alt="PCV" width="100%" height="100%">
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-md-8 col-xs-8 col-lg-8">
+                    <h4>ANTICIPO DE GASTOS.</h4>
+                </div>
+            </div>
+            <br>
+
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h5>No. folio: <strong>{{anticipo.idant}}</strong></h5>
+            </div>
+
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <h5>Fecha: <strong>{{anticipo.fechaImprimir}}</strong></h5>
+            </div>
+            
+        </div>
+        <br>
+
+        <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%; text-align:center;">
+            Recib&iacute; de  <strong>PORTEADORES DEL CENTRO DE VERACRUZ S. DE R.L. DE C.V.</strong> la cantidad de : 
+            <strong>{{anticipo.importe}}</strong> 
+            pesos <br>
+             por concepto del viaje:  <strong>{{anticp.descripcionS}}</strong> <br>
+             Cliente: <strong> {{anticp.cliente}} </strong> <br>
+              Equipo: <strong>{{anticp.tractor}}</strong> &nbsp;&nbsp; Placa: <strong>{{anticp.placasT}}</strong>
+                        
+                     
+             </p>   
+            <div class="row">
+               <!-- <div class="col-md-1 col-xs-1 col-lg-1"></div>-->
+                <div class="col-md-6 col-xs-6 col-lg-6">
+                    <strong><p style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%">
+                        ___________________________________ <br>
+                        Autoriza.
+                        </p></strong> 
+                </div>
+                <div class="col-md-6 col-xs-6 col-lg-6">
+                    <strong><p style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%">
+                        ___________________________________ <br>
+                      {{anticp.operator}}
+                    </p></strong> 
+                </div>
+
+            </div>
+        
+            
+        </div>
+        
+        </div>
+        
+        
+                </div>
+            </div>
+
+            
+        <!---------------------- modal para complementos-------------------->
+            <div class="modal" id="modalComp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+                <h5><i class="fas fa-clipboard"></i> <b>Complementos.</b></h5>
+                <div class="row">
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir2()"></i>
+                    </div>
+                
+                </div>
+              
+             </div>
+             <div class="modal-body" id="imprimirDiv">
+                <div class="row">
+            <div class="col-md-12 col-xs-12 col-lg-12">
+                <img src="frontend/assets/img/membrete.jpg" alt="PCV" width="100%" height="100%">
+            </div>
+        
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h4>COMPLEMENTOS.</h4>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h5>No. folio: <strong>{{valec.idvale}}</strong></h5>
+            </div>
+
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <h5>Fecha: <strong>{{valec.fecha}}</strong></h5>
+            </div>
+            
+        </div>
+        <br>
+
+        <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%; text-align:left; text-align: center;">
+            Recib&iacute; de  <strong>{{empresa}}</strong> la cantidad de : 
+            <strong>{{valec.cantidad}}</strong> 
+            pesos <br>
+             por concepto del viaje:  <strong>{{valec.descripcion}}</strong><br>
+             Cliente: <strong> {{valec.cliente}} </strong> <br>
+            Equipo: <strong>{{valec.equipo}}</strong> &nbsp;&nbsp; Placa: <strong>{{valec.placa}}</strong>
+                    
+                     
+        </p>   
+                
+            <div class="row">
+               <div class="col-md-6 col-xs-6 col-lg-6">
+                    <strong><p style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%">
+                        ___________________________________ <br>
+                        Autoriza.
+                        </p></strong> 
+                </div>
+                <div class="col-md-6 col-xs-6 col-lg-6">
+                    <strong><p style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%">
+                        ___________________________________ <br>
+                      {{valec.operador}}
+                    </p></strong> 
+                </div>
+
+            </div>
+                 
+             </div>
+            
+        </div>
+        
+    </div>
+            </div>
+        
+        <!-----------------Modal para liquidaciones--------------------------------------------------------->
+            <div class="modal" id="modalLiq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5><i class="fas fa-clipboard"></i> <b>Liquidaciones</b></h5>
+                <div class="row">
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir2()"></i>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-body">
+                <div class="row">
+            <div class="col-md-12 col-xs-12 col-lg-12">
+                <img src="frontend/assets/img/membrete.jpg" alt="PCV" width="100%" height="100%">
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h4>LIQUIDACION.</h4>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                <h5>No. folio de anticipo: <strong>{{valec.idvale}}</strong></h5>
+            </div>
+
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <h5>Fecha: <strong>{{valec.fecha}}</strong></h5>
+            </div>
+            
+        </div>
+        <br>
+
+<!---------------------------COLUMNAS------------------------>
+
+        <div class="row">
+            <div class="col-md-4 col-xs-4 col-lg-3">
+              <label><b></b></label><br>
+              <p class="etiquetas2">
+              
+                <label><b>Sueldo</b> </label><br>
+
+                <label><b>Casetas</b></label><br>
+
+                <label><b>Aguas</b></label><br>
+
+                <label><b>Diesel</b></label><br>
+
+                <label><b>Vales Combustible</b></label><br>
+              
+                <label><b>Reparacion</b></label><br>
+
+    
+                 <label><b>Maniobras</b></label><br>
+
+                <label><b>Recargas</b></label><br>
+
+                <label><b>Estancias</b></label><br>
+
+                <label><b>Pensiones</b></label><br>
+
+                <label><b>Otros</b></label>
+            </p>                 
+            </div>
+
+            <div class="col-md-6 col-xs-6 col-lg-5">
+             <label><b>Con Diesel</b></label>
+             <br>
+             
+            <input type="text" name="sueldoD" placeholder="$0.00"> 
+             
+            <input type="text" name="casetasD" placeholder="$0.00"> 
+             
+            <input type="text" name="aguasD" placeholder="$0.00"> 
+             
+            <input type="text" name="DieselD" placeholder="$0.00"> 
+             
+            <input type="text" name="valesD" placeholder="$0.00"> 
+             
+            <input type="text" name="reparacionD" placeholder="$0.00"> 
+             
+            <input type="text" name="maniobrasD" placeholder="$0.00"> 
+             
+            <input type="text" name="recargasD" placeholder="$0.00"> 
+             
+            <input type="text" name="estanciasD" placeholder="$0.00"> 
+             
+            <input type="text" name="pensionesD" placeholder="$0.00"> 
+             
+            <input type="text" name="otrosD" placeholder="$0.00"> 
+              
+            </div>
+
+            <div class="col-md-6 col-xs-6 col-lg-4">
+             <label><b>Sin Vale Combustible</b></label>
+             <br>
+             <input type="text" name="sueldoVC" placeholder="$0.00"> 
+             
+             <input type="text" name="casetasVC" placeholder="$0.00">
+              
+             <input type="text" name="aguasVC" placeholder="$0.00">
+             
+             <input type="text" name="DieselVC" placeholder="$0.00">
+             
+             <input type="text" name="valesVC" placeholder="$0.00">
+             
+             <input type="text" name="reparacionVC" placeholder="$0.00">
+         
+             <input type="text" name="maniobrasVC" placeholder="$0.00">
+             
+             <input type="text" name="recargasVC" placeholder="$0.00">
+             
+             <input type="text" name="estanciasVC" placeholder="$0.00">
+             
+             <input type="text" name="pensionesVC" placeholder="$0.00">
+
+             <input type="text" name="otrosVC" placeholder="$0.00">
+                           
+            </div>
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-md-4 col-xs-4 col-lg-3">
+          <p class="etiquetas3">  
+            <label><b>Suma</b></label><br>
+            <label><b>Anticipos</b></label><br>
+            <label><b>Complementos</b></label>
+            <br><br>
+            <label><b>Total</b></label><br>
+
+            <label><b>Flete</b></label><br>
+
+            <label><b>Unidad</b></label>
+          </p>  
+        </div>
+
+        <div class="col-md-6 col-xs-6 col-lg-5">
+          <input type="number" name="sumaD" placeholder="$0.00">
+          <input type="number" name="anticiposD" placeholder="$0.00">
+          <input type="number" name="complemtosD" placeholder="$0.00">
+          <br><br>
+          <input type="number" name="totalD" placeholder="$0.00">
+
+          <input type="number" name="fleteD" placeholder="$0.00">
+
+          <input type="number" name="UnidadD" placeholder="$0.00">
+
+        </div>
+
+        <div class="col-md-6 col-xs-6 col-lg-4">
+          <input type="number" name="sumaVC" placeholder="$0.00">
+          <input type="number" name="anticipoVC" placeholder="$0.00">
+          <input type="number" name="complementosVC" placeholder="$0.00">
+          <br><br>
+          <input type="number" name="totalVC" placeholder="$0.00">
+          
+          <input type="number" name="fleteVC" placeholder="$0.00">
+          
+          <input type="number" name="unidadVC" placeholder="$0.00">
+
+        </div>
+        
+      </div>
+                
+            </div>
+            
+        </div>
+
+                </div>
+            </div>
+        
+        <!--fin de impresion-->
+                
+            </div>
         </form>
 
-    </div>
-
+    </div> <!--div del div principal-->
 </div>
+
+
+
+

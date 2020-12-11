@@ -390,21 +390,60 @@ app.factory('vale', ['crudService', function(crudService) {
 //Anticipos Service
 app.factory('anticipos',['crudService', function(crudService){
     return{
+        search: function(val) {
+            return crudService.crudGet('searchAsigV&search=' + val);
+        },
+        searchAnticipo: function(val) {
+            return crudService.crudGet('searchAnt&search=' + val);
+        },
+        searchLiquid: function(val) {
+            return crudService.crudGet('searchLiquid&search=' + val);
+        },
+        updateViaje: function(data) {
+            return crudService.crudPost('upAsigViaje', data);
+        },   
         createAnticipo: function(data){
             return crudService.crudPost('anticipos', data); // crear anticipos
         },
-        searchRemitente: function(data){
-            return crudService.crudGet('searchRemi&search='+data);
+        createAnticpV: function(data){
+            return crudService.crudPost('anticpV', data); // crear anticipo(ventana emergente)
         },
-        searchDestinatario: function(data){
-            return crudService.crudGet('searchDesti&search='+data);
+        createComplement: function(data){
+            return crudService.crudPost('complement', data); // crear complemento
         },
-        readClaveF: function(data){
-            return crudService.crudGet('readClaveF&fl='+data);
+        createLiquid: function(data){
+            return crudService.crudPost('liquid', data); // crear liquidacion
+        },
+        searchLastViaje: function(){
+            return crudService.crudGet('searchLastViaje');
         },
         searchFlete: function(fc) { //buscar flete escogido
             return crudService.crudGet('searchFleteA&search='+fc); 
-        }
+        },
+        searchMerch: function(fc) { //metodo auxiliar para traer el nombre de la mercancia
+            return crudService.crudGet('searchMerch&search='+fc); 
+        },
+        readEquiposA: function(data) { //leer todos los equipos
+            return crudService.crudGet('TiposEquipoA&tp='+data); //products---> tprovs
+        },
+        searchEq: function(fc) { //buscar flete escogido
+            return crudService.crudGet('searchVE&search='+fc); 
+        },
+        readEquiposAfil: function(data,data2) { //leer todos los equipos
+            return crudService.crudGet('TiposEquipoAfil&tp='+data+"&fil="+data2); //products---> tprovs
+        },
+        readVales: function(data,data2,data3) { //leer todos los vales filtrados por cliente y flete
+            return crudService.crudGet('ListVales&cl='+data+"&fl="+data2+"&tr="+data3);
+        },
+        searchValeE: function(val) { //buscar vale especifico
+            return crudService.crudGet('searchValeEsp&val='+val); 
+        },
+        updatStatusV: function(val,val2) { //buscar vale especifico
+            return crudService.crudGet('updatStatusV&val='+val+"&val2="+val2); 
+        },
+        sumComplement: function(val) { //sumar todos los complementos
+            return crudService.crudGet('sumComplement&val='+val); 
+        },
     }
 }]);
 
@@ -422,7 +461,13 @@ app.factory('origenes', ['crudService', function(crudService) {
         },
         crearViaje: function(data){
             return crudService.crudPost('crearViaje', data);
-
+        },
+        updateViajes: function(data) {
+            return crudService.crudPost('upviaje', data);
+        },
+        searchViajes: function(data) {
+            return crudService.crudGet('searchviaje&search=' + data);
         }
+
     } // termina el return ....
 }]);

@@ -395,13 +395,38 @@ class ControllerSIDF extends CrudSIDF
     /**
     *  seccion de ANTICIPOS INICIO-->(08/10/2020) FIN -->(//2020)
     */
-    public function searchRemi($val){CrudSIDF::searchRemit($val);}
+    public function updateAsigViaje($val) {CrudSIDF::updateAsigV($val);}
 
-    public function searchDesti($val){CrudSIDF::searchDestin($val);}
+    public function createAnticipo($val) {CrudSIDF::creatAnticipo($val);}    
+    public function createAnticpV($val) {CrudSIDF::creatAntV($val);}
+    public function createComplement($val) {CrudSIDF::creatComp($val);}
+    public function createLiquid($val) {CrudSIDF::creatLiquid($val);}
 
-    public function readClaveF($val){CrudSIDF::readClaveFlete($val);}
-
+    public function searchAsigV($val) {CrudSIDF::searchAsignacionV($val);}
+    public function searchAnt($val) {CrudSIDF::searchAnticipo($val);}
+    public function searchLiquid($val) {CrudSIDF::searchLiquidacion($val);}
+    public function searchLastViaje(){CrudSIDF::searchLViaje();}
     public function searchFleteA($val){CrudSIDF::searchFleteV($val);}
+    public function searchMerch($val){CrudSIDF::searchMercha($val);}
+
+    public function listeTiposEA($val) {CrudSIDF::listEqAnticipo($val);}
+    public function listeTiposEAfil($val,$val2) {CrudSIDF::listEqAnticipoFil($val,$val2);}
+
+
+    public function listeVales($val,$val2,$val3) {CrudSIDF::listVales($val,$val2,$val3);}
+    public function searchValeEsp($val) {CrudSIDF::searchValEsp($val);}
+    public function updatStatusV($data,$data2) {CrudSIDF::updateStatusV($data,$data2);}
+    public function sumComplement($val) {CrudSIDF::sumarComplement($val);}
+
+////SECCION DE ORIGENES Y DESTINOS///
+
+//listar nombres clientes
+    public function listeCliente(){CrudSIDF::listCliente();}
+    public function creatViaje($product){CrudSIDF::createViaje($product);}
+     // actualizar viajes
+    public function updatViaje($client){CrudSIDF::updateViajes($client);}
+    public function searchviaje($data){CrudSIDF::searchViajes($data);}
+
 
 }
 

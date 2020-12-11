@@ -1074,7 +1074,6 @@ class CrudSIDF extends Conection
             return printf(json_encode(array('action' => "error")));
         }
     }
-
     /**
      *  seccion de busqueda de Fletes de viaje
      */
@@ -1174,7 +1173,7 @@ class CrudSIDF extends Conection
                   WHERE idvale LIKE '%$val%' AND V.claveop=O.idoperador AND V.tipocombs=C.idcomb";  
                   */
         $query="SELECT V.idvale, V.fechaval, V.cliente, V.claveflete, V.descflete, O.nombre, V.claveop, V.claveeq,
-        V.noeq, V.placaeq, V.gasolinera, V.tipocombs, C.precio, V.cantidad, V.importe, P.nombreprov
+        V.noeq, V.placaeq, V.gasolinera, V.tipocombs, C.precio, V.cantidad, V.importe, V.statusV, P.nombreprov
                 FROM vales V,operador O,combustibles C, proveedores P 
                 WHERE idvale LIKE '%$val%' AND V.claveop=O.idoperador AND V.tipocombs=C.idcomb AND V.gasolinera=P.idproveedor";                  
         $stm = Conection::DBconection()->prepare($query);
@@ -1222,7 +1221,7 @@ class CrudSIDF extends Conection
      */
     public function searchLastV()
     {
-        $query = "SELECT * FROM vales ORDER by idvale DESC LIMIT 1";
+        //$query = "SELECT * FROM vales ORDER by idvale DESC LIMIT 1";
         $query = "SELECT V.idvale,V.fechaval, V.claveflete, V.descflete,O.nombre, P.nombreprov, V.noeq,V.placaeq, V.tipocombs, V.cantidad, V.tipocombs
                   FROM vales V, proveedores P, operador O
                   WHERE V.gasolinera = P.idproveedor AND V.claveop=O.idoperador
@@ -1239,10 +1238,131 @@ class CrudSIDF extends Conection
     /**
      *  SECCION DE ANTICIPOS
      */
+
+    //crear un nuevo anticipo (Asignacion de viaje)
+    public function creatAnticipo($data) {
+        $query = "INSERT INTO viajes (fecha, lugarexp, idremi, idorde, idope, vehiculo, placas, documentos, 
+                                    peso, cartap, servicio, descS, importeS, total, statusA, statusL)
+            VALUES (:fecha, :lugarexp, :idremi, :idorde, :idope, :vehiculo, :placas, :documentos, :peso, :cartap, 
+                    :servicio, :descS, :importeS, :total, :statusA, :statusL)";
+        $stm = Conection::DBconection()->prepare($query);
+        $stm->bindParam(':fecha', $data->fecha, PDO::PARAM_STR);
+        $stm->bindParam(':lugarexp', $data->lugar, PDO::PARAM_STR);
+        $stm->bindParam(':idremi', $data->idcliente, PDO::PARAM_STR);
+        $stm->bindParam(':idorde',  $data->clave, PDO::PARAM_STR);
+        $stm->bindParam(':idope',  $data->idop, PDO::PARAM_STR);
+        $stm->bindParam(':vehiculo',  $data->vehiculo, PDO::PARAM_STR);
+        $stm->bindParam(':placas',  $data->vplacas, PDO::PARAM_STR);
+        $stm->bindParam(':documentos',  $data->documentos, PDO::PARAM_STR);
+        $stm->bindParam(':peso',  $data->peso, PDO::PARAM_STR);
+        $stm->bindParam(':cartap',  $data->carta, PDO::PARAM_STR);
+        $stm->bindParam(':servicio',  $data->services, PDO::PARAM_STR);
+        $stm->bindParam(':descS',  $data->descS, PDO::PARAM_STR);
+        $stm->bindParam(':importeS',  $data->importeS, PDO::PARAM_STR);
+        $stm->bindParam(':total',  $data->totales, PDO::PARAM_STR);
+        $stm->bindParam(':statusA',  $data->statusA, PDO::PARAM_STR);
+        $stm->bindParam(':statusL',  $data->statusL, PDO::PARAM_STR);
+        if ($stm->execute()) {
+            return printf(json_encode(array('action' => "success")));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    //actualizar los datos de la asginacion de viaje
+    public function updateAsigV($data) {
+        $query = "UPDATE viajes SET fecha=:fecha, lugarexp=:lugarexp, idremi=:idremi, idorde=:idorde,idope=:idope, vehiculo=:vehiculo,
+        placas=:placas, documentos=:documentos, peso=:peso, cartap=:cartap, servicio=:servicio, descS=:descS, importeS=:importeS,
+        total=:total, statusA=:statusA, statusL=:statusL    
+        WHERE  idviaje=:idviaje";
+        $stm = Conection::DBconection()->prepare($query);
+        $stm->bindParam(':idviaje', $data->idanticp, PDO::PARAM_STR);
+        $stm->bindParam(':fecha', $data->fecha, PDO::PARAM_STR);
+        $stm->bindParam(':lugarexp', $data->lugar, PDO::PARAM_STR);
+        $stm->bindParam(':idremi', $data->idcliente, PDO::PARAM_STR);
+        $stm->bindParam(':idorde',  $data->clave, PDO::PARAM_STR);
+        $stm->bindParam(':idope',  $data->idop, PDO::PARAM_STR);
+        $stm->bindParam(':vehiculo',  $data->vehiculo, PDO::PARAM_STR);
+        $stm->bindParam(':placas',  $data->vplacas, PDO::PARAM_STR);
+        $stm->bindParam(':documentos',  $data->documentos, PDO::PARAM_STR);
+        $stm->bindParam(':peso',  $data->peso, PDO::PARAM_STR);
+        $stm->bindParam(':cartap',  $data->carta, PDO::PARAM_STR);
+        $stm->bindParam(':servicio',  $data->services, PDO::PARAM_STR);
+        $stm->bindParam(':descS',  $data->descS, PDO::PARAM_STR);
+        $stm->bindParam(':importeS',  $data->importeS, PDO::PARAM_STR);
+        $stm->bindParam(':total',  $data->totales, PDO::PARAM_STR);
+        $stm->bindParam(':statusA',  $data->statusA, PDO::PARAM_STR);
+        $stm->bindParam(':statusL',  $data->statusL, PDO::PARAM_STR);
+        if ($stm->execute()) {
+            return printf(json_encode(array('action' => "success")));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }    
+
+    //crear un nuevo anticipo (vale de anticipo)
+    public function creatAntV($data) {
+        $query = "INSERT INTO anticipo (fecha, importe, descripcion, idviaje)
+            VALUES (:fecha, :importe, :descripcion, :idviaje)";
+        $stm = Conection::DBconection()->prepare($query);
+        $stm->bindParam(':fecha', $data->fecha, PDO::PARAM_STR);
+        $stm->bindParam(':importe', $data->importe, PDO::PARAM_STR);
+        $stm->bindParam(':descripcion', $data->desc, PDO::PARAM_STR);
+        $stm->bindParam(':idviaje',  $data->idviaje, PDO::PARAM_STR);
+        if ($stm->execute()) {
+            return printf(json_encode(array('action' => "success")));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
     
-    //buscar remitente
-    public function searchRemit($data) {
-        $query="";                  
+    //crear un nuevo complemento
+    public function creatComp($data) {
+        $query = "INSERT INTO complemento  (fecha, importe, descripcion, idviaje)
+            VALUES (:fecha, :importe, :descripcion, :idviaje)";
+        $stm = Conection::DBconection()->prepare($query);
+        $stm->bindParam(':fecha', $data->fecha, PDO::PARAM_STR);
+        $stm->bindParam(':importe', $data->importe, PDO::PARAM_STR);
+        $stm->bindParam(':descripcion', $data->desc, PDO::PARAM_STR);
+        $stm->bindParam(':idviaje',  $data->idviaje, PDO::PARAM_STR);
+        if ($stm->execute()) {
+            return printf(json_encode(array('action' => "success")));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    //crear una nueva liquidacion
+    public function creatLiquid($data) {
+        $query = "INSERT INTO liquidacion (fecha,sueldo,caseta,aguas,diesel,ruta,maniobra,tel,estancia,pension,idviaje, idcomb)
+            VALUES (:fecha, :sueldo,:caseta, :aguas, :diesel, :ruta, :maniobra, :tel, :estancia, :pension, :idviaje, :idcomb)";
+        $stm = Conection::DBconection()->prepare($query);
+        $stm->bindParam(':fecha', $data->fecha, PDO::PARAM_STR);
+        $stm->bindParam(':sueldo', $data->sueldo, PDO::PARAM_STR);
+        $stm->bindParam(':caseta', $data->caseta, PDO::PARAM_STR);
+        $stm->bindParam(':aguas', $data->aguas, PDO::PARAM_STR);
+        $stm->bindParam(':diesel',  $data->diesel, PDO::PARAM_STR);
+        $stm->bindParam(':ruta',  $data->ruta, PDO::PARAM_STR);
+        $stm->bindParam(':maniobra',  $data->maniobra, PDO::PARAM_STR);
+        $stm->bindParam(':tel',  $data->tel, PDO::PARAM_STR);
+        $stm->bindParam(':estancia',  $data->estancia, PDO::PARAM_STR);
+        $stm->bindParam(':pension',  $data->pension, PDO::PARAM_STR);
+        $stm->bindParam(':idviaje',  $data->idviaje, PDO::PARAM_STR);
+        $stm->bindParam(':idcomb',  $data->vale, PDO::PARAM_STR);
+        if ($stm->execute()) {
+            return printf(json_encode(array('action' => "success")));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+    
+    //buscar una asignacion de viaje
+    public function searchAsignacionV($val){   
+        $query="SELECT V.idviaje,V.fecha,V.lugarexp,V.idremi,C.cliente,C.domicilio,O.idorigen,O.flete,O.Lcarga,O.destino,O.destinatario,O.Odomicilio,
+        O.Lentrega,O.distancia,V.idope, P.nombre, P.num_licencia,P.vig_hasta,O.tarifas,V.vehiculo,V.placas,V.documentos,
+        V.peso,O.costo,V.cartap,V.servicio,V.descS,V.importeS,V.total,V.statusA,V.statusL
+        FROM viajes V, clientes C, origenesd O, operador P
+        WHERE V.idviaje LIKE '%$val%' AND V.idremi=C.idclientes AND V.idorde=O.idorigen AND V.idope=P.idoperador";                  
         $stm = Conection::DBconection()->prepare($query);
         if ($stm->execute()) {
             return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
@@ -1251,9 +1371,11 @@ class CrudSIDF extends Conection
         }
     }
 
-    //buscar destinatario
-    public function searchDestin($data) {
-        $query="";                  
+    //buscar una anticipo
+    public function searchAnticipo($val){   
+        $query="SELECT *
+        FROM anticipo
+        WHERE idviaje=$val";                  
         $stm = Conection::DBconection()->prepare($query);
         if ($stm->execute()) {
             return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
@@ -1261,10 +1383,23 @@ class CrudSIDF extends Conection
             return printf(json_encode(array('action' => "error")));
         }
     }
-
-     //llenar todas las claves de flete filtradas por cliente
-    public function readClaveFlete($data) {
-        $query="SELECT idviaje,flete FROM origenesd WHERE idclientes=$data ";                  
+    
+    //buscar una liquidacion
+    public function searchLiquidacion($val){   
+        $query="SELECT *
+        FROM liquidacion
+        WHERE idviaje=$val";                  
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    } 
+    
+    //buscar el ultimo anticipo (viaje) guardado
+    public function searchLViaje(){
+        $query = "SELECT * FROM viajes ORDER BY idviaje DESC LIMIT 1";
         $stm = Conection::DBconection()->prepare($query);
         if ($stm->execute()) {
             return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
@@ -1275,7 +1410,7 @@ class CrudSIDF extends Conection
 
     //buscar flete especifico
     public function searchFleteV($data) {
-        $query="SELECT * FROM origenesd WHERE idviaje=$data";                  
+        $query="SELECT * FROM origenesd WHERE idorigen=$data";                  
         $stm = Conection::DBconection()->prepare($query);
         if ($stm->execute()) {
             return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
@@ -1283,6 +1418,162 @@ class CrudSIDF extends Conection
             return printf(json_encode(array('action' => "error")));
         }
     }
+
+    //buscar mercancia especifica
+    public function searchMercha($data) {
+        $query="SELECT * FROM producto WHERE idproducto=$data";                  
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    //filtrar los equipos
+    public function listEqAnticipo($val) {
+        $query = "SELECT * FROM equipo_flotilla WHERE tipo='$val'";
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    //filtrar los equipos filtrando que no se repitan remolque 1 y 2
+    public function listEqAnticipoFil($val,$val2) {
+        $query = "SELECT * FROM equipo_flotilla WHERE tipo='$val' AND num_economico <> '$val2'";
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    //filtrar los vales por cliente y flete
+    public function listVales($val,$val2,$val3) {
+        $query = "SELECT * FROM vales WHERE cliente='$val' AND claveflete='$val2' AND placaeq='$val3'";
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    // buscar vale especifico
+    public function searchValEsp($val){   
+        $query="SELECT *FROM vales WHERE idvale=$val";                  
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    //hacer update al status del vale de combustible (02/12/2020)
+    public function updateStatusV($data,$data2){
+        $query = "UPDATE vales SET statusV='$data2'
+        WHERE  idvale=$data";
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode(array('action' => "success")));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    public function sumarComplement($val){
+        $query="SELECT SUM(importe) AS total FROM complemento WHERE idviaje=$val";                  
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    //SECCION DE ORIGENES Y DESTINOS
+    /////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+
+    public function listCliente()
+    {
+        $query = "SELECT * FROM clientes ORDER BY cliente ASC";
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+    public function createViaje($client)
+    {
+        $query = "INSERT INTO origenesd (idviaje, flete, descripcion, origen, destino, distancia, idclientes, Lcarga, destinatario, domicilio, Lentrega, tarifas, costo)
+            VALUES ( :idviaje,:flete,:descripcion,:origen,:destino,:distancia,:idclientes,:Lcarga,:destinatario,:domicilio,:Lentrega,:tarifas, :costo)";
+        $stm = Conection::DBconection()->prepare($query);
+        $stm->bindParam(':idviaje', $client->idviaje, PDO::PARAM_STR);
+        $stm->bindParam(':flete', $client->flete, PDO::PARAM_STR);
+        $stm->bindParam(':descripcion', $client->descripcion, PDO::PARAM_STR);
+        $stm->bindParam(':origen', $client->origen, PDO::PARAM_STR);
+        $stm->bindParam(':destino', $client->destino, PDO::PARAM_STR);
+        $stm->bindParam(':distancia', $client->distancia, PDO::PARAM_STR);
+        $stm->bindParam(':idclientes', $client->clave_m, PDO::PARAM_STR);
+        $stm->bindParam(':Lcarga', $client->Lcarga, PDO::PARAM_STR);
+        $stm->bindParam(':destinatario', $client->destinatario, PDO::PARAM_STR);
+        $stm->bindParam(':domicilio', $client->domicilio, PDO::PARAM_STR);
+        $stm->bindParam(':Lentrega', $client->Lentrega, PDO::PARAM_STR);
+        $stm->bindParam(':tarifas', $client->tarifas, PDO::PARAM_STR);
+        $stm->bindParam(':costo', $client->costo, PDO::PARAM_STR);
+
+        if ($stm->execute()) {
+            return printf(json_encode(array('action' => "success")));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    //Actualizar viaje
+    public function updateViajes($client)
+    {
+        $query = "UPDATE origenesd SET  descripcion=:descripcion,origen=:origen,destino=:destino,distancia=:distancia,idclientes=:clave_m,cliente=:mercancia,Lcarga=:Lcarga,destinatario=:destinatario,domicilio=:domicilio,Lentrega=:Lentrega,tarifas=:tarifas,costo=:costo WHERE flete=:flete";
+        $stm = Conection::DBconection()->prepare($query);
+        $stm->bindParam(':flete', $client->flete, PDO::PARAM_STR);
+        $stm->bindParam(':descripcion', $client->descripcion, PDO::PARAM_STR);
+        $stm->bindParam(':origen', $client->origen, PDO::PARAM_STR);
+        $stm->bindParam(':destino', $client->destino, PDO::PARAM_STR);
+        $stm->bindParam(':distancia', $client->distancia, PDO::PARAM_STR);
+        $stm->bindParam(':clave_m', $client->clave_m, PDO::PARAM_STR);
+        $stm->bindParam(':mercancia', $client->mercancia, PDO::PARAM_STR);
+         $stm->bindParam(':Lcarga', $client->Lcarga, PDO::PARAM_STR);
+        $stm->bindParam(':destinatario', $client->destinatario, PDO::PARAM_STR);
+        $stm->bindParam(':domicilio', $client->domicilio, PDO::PARAM_STR);
+        $stm->bindParam(':Lentrega', $client->Lentrega, PDO::PARAM_STR);
+        $stm->bindParam(':tarifas', $client->tarifas, PDO::PARAM_STR);
+        $stm->bindParam(':costo', $client->costo, PDO::PARAM_STR);
+        if ($stm->execute()) {
+            return printf(json_encode(array('action' => "success")));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }
+
+    public function searchViajes($data)
+    {
+        $query = "SELECT * FROM origenesd WHERE flete LIKE '%$data%' ORDER BY flete ASC";
+        $stm = Conection::DBconection()->prepare($query);
+        if ($stm->execute()) {
+            return printf(json_encode($stm->fetchAll(PDO::FETCH_ASSOC)));
+        } else {
+            return printf(json_encode(array('action' => "error")));
+        }
+    }    
+
+
 
 
 } // end class CrudPCV .. 

@@ -203,31 +203,113 @@
 				break;																			
 			/////////////////////////////////////////////////////////////
 			/*****************SECCION DE ANTICIPOS******************/
-			case 'searchRemi':
+			case 'searchAsigV':
 				header('Access-Control-Allow-Origin: * ');
 				header('Access-Control-Allow-Headers: * ');
 				$data = $_GET['search'];
-				ControllerSIDF::searchRemi($data);
+				ControllerSIDF::searchAsigV($data);
 				break;
-			case 'searchDesti':
+			case 'searchAnt':
 				header('Access-Control-Allow-Origin: * ');
 				header('Access-Control-Allow-Headers: * ');
 				$data = $_GET['search'];
-				ControllerSIDF::searchDesti($data);
+				ControllerSIDF::searchAnt($data);
 				break;
-			case 'readClaveF':
+			case 'searchLiquid':
 				header('Access-Control-Allow-Origin: * ');
 				header('Access-Control-Allow-Headers: * ');
-				$data = $_GET['fl'];
-				ControllerSIDF::readClaveF($data);
+				$data = $_GET['search'];
+				ControllerSIDF::searchLiquid($data);
+				break;							
+			case 'upAsigViaje':
+				// code...
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = json_decode(file_get_contents('php://input'));
+				ControllerSIDF::updateAsigViaje($data);
+				break;				
+			case 'anticipos':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$val= json_decode(file_get_contents('php://input'));
+				ControllerSIDF::createAnticipo($val);
 				break;
+			case 'anticpV':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$val= json_decode(file_get_contents('php://input'));
+				ControllerSIDF::createAnticpV($val);
+				break;
+			case 'complement':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$val= json_decode(file_get_contents('php://input'));
+				ControllerSIDF::createComplement($val);
+				break;
+			case 'liquid':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$val= json_decode(file_get_contents('php://input'));
+				ControllerSIDF::createLiquid($val);
+				break;
+			case 'searchLastViaje':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				ControllerSIDF::searchLastViaje();
+				break;													
 			case 'searchFleteA':
 				header('Access-Control-Allow-Origin: * ');
 				header('Access-Control-Allow-Headers: * ');
 				$fc = $_GET['search'];
 				ControllerSIDF::searchFleteA($fc);
-				break;														
-			/*******************************************************/
+				break;
+			case 'searchMerch':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$fc = $_GET['search'];
+				ControllerSIDF::searchMerch($fc);
+				break;
+			case 'TiposEquipoA':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$val = $_GET['tp'];
+				ControllerSIDF::listeTiposEA($val);
+				break;
+			case 'TiposEquipoAfil':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$val = $_GET['tp'];
+				$val2 = $_GET['fil'];
+				ControllerSIDF::listeTiposEAfil($val,$val2);
+				break;
+			case 'ListVales':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$val = $_GET['cl'];
+				$val2 = $_GET['fl'];
+				$val3 = $_GET['tr'];
+				ControllerSIDF::listeVales($val,$val2,$val3);
+				break;
+			case 'searchValeEsp':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['val'];
+				ControllerSIDF::searchValeEsp($data);
+				break;
+			case 'updatStatusV':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['val'];
+				$data2 = $_GET['val2'];
+				ControllerSIDF::updatStatusV($data,$data2);
+				break;																													
+			case 'sumComplement':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['val'];
+				ControllerSIDF::sumComplement($data);
+				break;
+				/*******************************************************/
 			// seccion de operadores ...
 			case 'operador':
 				header('Access-Control-Allow-Origin: * ');
@@ -485,7 +567,30 @@
 			        $id = $_GET['id'];
 			        ControllerSIDF::ValidarUpload($fecha, $id);
 					  break;
-
+////////////////////////////////////SECCION DE ORIGENES Y DESTINOS
+				case 'crearViaje':
+					header('Access-Control-Allow-Origin: * ');
+					header('Access-Control-Allow-Headers: * ');
+					$client = json_decode(file_get_contents('php://input'));
+					ControllerSIDF::creatViaje($client);
+				break;
+				case 'nomCliente':
+					header('Access-Control-Allow-Origin: * ');
+					header('Access-Control-Allow-Headers: * ');
+					ControllerSIDF::listeCliente();
+				break;
+				case 'upviaje':
+					header('Access-Control-Allow-Origin: * ');
+					header('Access-Control-Allow-Headers: * ');
+					$client = json_decode(file_get_contents('php://input'));
+					ControllerSIDF::updatViaje($client);
+				break;
+				case 'searchviaje':
+					header('Access-Control-Allow-Origin: * ');
+					header('Access-Control-Allow-Headers: * ');
+					$data = $_GET['search'];
+					ControllerSIDF::searchviaje($data);
+				break;
     } // end switch ...
   } // end function api
 } // end class PCV...
