@@ -3535,14 +3535,16 @@ app.controller("crudAnticipos",[
                                   else console.log("Cmp gg wei no quedo a seguirle :^(");
                                 });
                               }
-                              if($scope.validAC[2]===true || $scope.liquid.sueldo){
+                              if($scope.validAC[2]===true){
+                                anticipos.updatStatusV($scope.liquid.vale,"1").then(function succes(res){
+                                  if(res.action==="success") {
+                                    console.log("status de vale actualizado");
+                                  }
+                                  else console.log("algo salio mal no se hizo el update del vale");
+                                });
                                 anticipos.createLiquid($scope.liquid).then(function succes(res){
                                   if(res.action==="success") {
                                     console.log("liquidacion ya creado ya estas karnal :v");
-                                    anticipos.updatStatusV($scope.liquid.vale,"1").then(function succes(res){
-                                      if(res.action==="success") console.log("status de vale actualizado");
-                                      else console.log("algo salio mal no se hizo el update del vale");
-                                    });
                                   }
                                   else console.log("lqd gg wei no quedo a seguirle :^(");
                                 });
@@ -3897,8 +3899,6 @@ app.controller("crudAnticipos",[
     //Operaciones del importe y sumas
     $scope.Operaciones= function (){
 
-      if(Number.isInteger(importe1) || Number.is)
-
       let val=0, val1=0,val2=0,val3=0,auxt=0, subt=0, ivaA=0;
       if($scope.anticp.importe) {subt+=(parseFloat($scope.anticp.importe));}
       if($scope.anticp.importe1) {subt+=(parseFloat($scope.anticp.importe1));}
@@ -4016,7 +4016,7 @@ app.controller("crudAnticipos",[
 
       if(!$scope.validAC[2]){
         let util1, utilpor1;
-          $scope.validAC[2]=false;
+          $scope.validAC[2]=true;
           $scope.showDisableL=false;
           $scope.mostrarAlert2=true;
           anticipos.sumComplement($scope.anticp.idanticp).then(function succes(res){
