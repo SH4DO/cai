@@ -435,8 +435,17 @@ app.factory('anticipos',['crudService', function(crudService){
         readVales: function(data,data2,data3) { //leer todos los vales filtrados por cliente y flete
             return crudService.crudGet('ListVales&cl='+data+"&fl="+data2+"&tr="+data3);
         },
+        readCompl: function(data) { //leer todos los complementos del viaje seleccionado
+            return crudService.crudGet('listeCompl&data='+data);
+        },
+        searchComp: function(val) { //buscar complemento especifico
+            return crudService.crudGet('searchCompEsp&val='+val); 
+        },
         searchValeE: function(val) { //buscar vale especifico
             return crudService.crudGet('searchValeEsp&val='+val); 
+        },
+        searchTruck: function(val) { //buscar vale especifico
+            return crudService.crudGet('searchTruck&val='+val); 
         },
         updatStatusV: function(val,val2) { //buscar vale especifico
             return crudService.crudGet('updatStatusV&val='+val+"&val2="+val2); 
@@ -467,6 +476,12 @@ app.factory('origenes', ['crudService', function(crudService) {
         },
         searchViajes: function(data) {
             return crudService.crudGet('searchviaje&search=' + data);
+        },
+        readProducto: function() {
+            return crudService.crudGet('nomProducto');
+        },
+        validarFlete: function(data) {
+            return crudService.crudGet('validarClave&flete=' + data);
         }
 
     } // termina el return ....

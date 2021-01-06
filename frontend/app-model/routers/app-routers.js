@@ -432,48 +432,36 @@ app.factory('changeMenu', function(){
       switch (data) {
         case 'anticipos':
           document.getElementById('anti').className = "nav-item nav-link active btn-primary";
-          document.getElementById('comp').className = "nav-item nav-link";
-          document.getElementById('liqui').className = "lnav-item nav-link";
           document.getElementById('origen').className = "lnav-item nav-link";
           document.getElementById('val').className = "lnav-item nav-link";
           document.getElementById('repor').className = "lnav-item nav-link";
           break;
         case 'complementos':
           document.getElementById('anti').className = "nav-item nav-link";
-          document.getElementById('comp').className = "nav-item nav-link active btn-primary";
-          document.getElementById('liqui').className = "lnav-item nav-link";
           document.getElementById('origen').className = "lnav-item nav-link";
           document.getElementById('val').className = "lnav-item nav-link";
           document.getElementById('repor').className = "lnav-item nav-link";
          break;
         case 'liquidaciones':
           document.getElementById('anti').className = "nav-item nav-link";
-          document.getElementById('comp').className = "nav-item nav-link";
-          document.getElementById('liqui').className = "lnav-item nav-link active btn-primary";
           document.getElementById('origen').className = "lnav-item nav-link";
           document.getElementById('val').className = "lnav-item nav-link";
           document.getElementById('repor').className = "lnav-item nav-link";
          break;
          case 'origenesdestinos':
           document.getElementById('anti').className = "nav-item nav-link";
-          document.getElementById('comp').className = "nav-item nav-link";
-          document.getElementById('liqui').className = "lnav-item nav-link ";
           document.getElementById('origen').className = "lnav-item nav-link active btn-primary";
           document.getElementById('val').className = "lnav-item nav-link";
           document.getElementById('repor').className = "lnav-item nav-link";
          break;
          case 'vales':
           document.getElementById('anti').className = "nav-item nav-link";
-          document.getElementById('comp').className = "nav-item nav-link";
-          document.getElementById('liqui').className = "lnav-item nav-link ";
           document.getElementById('origen').className = "lnav-item nav-link";
           document.getElementById('val').className = "lnav-item nav-link active btn-primary";
           document.getElementById('repor').className = "lnav-item nav-link";
          break;
          case 'reportes':
           document.getElementById('anti').className = "nav-item nav-link";
-          document.getElementById('comp').className = "nav-item nav-link";
-          document.getElementById('liqui').className = "lnav-item nav-link";
           document.getElementById('origen').className = "lnav-item nav-link";
           document.getElementById('val').className = "lnav-item nav-link";
           document.getElementById('repor').className = "lnav-item nav-link  active btn-primary";

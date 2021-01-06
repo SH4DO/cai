@@ -63,22 +63,20 @@
 
             <div class="col-md-3 col-xs-3 col-lg-3">
               <label><b>Clave de Flete:</b></label>
+               <b class="alert-danger-message" ng-show="validflete">
+                                 Ya existe
+                      </b>
                 <div class="inner-addon  right-addon">
-                    <input type="text" name="flete" class="form-control" ng-model="cliente.flete" placeholder="Ingrese clave de flete" ng-required="true" ng-disabled="showDisable">
-                    <span class="messages" ng-show="(vales.flete.$touched)">
-                    <span ng-show="vales.flete.$error.required" style="color: red"> Campo obligatorio *.</span>
+                    <input type="text" name="flete" class="form-control" ng-model="cliente.flete" placeholder="Ingrese clave de flete" ng-required="true"   ng-disabled="showDisable" ng-keyup="verificaFlete($event.target.value)">
+                    
                   </div>
           </div>
-
 
             <div class="col-md-3 col-xs-3 col-lg-6">
               <label><b>Descripcion:</b> </label>
                 <div class="inner-addon right-addon">
                      <i class="fas fa-file-alt"></i>
-                    <input type="text" class="form-control" ng-model="cliente.descripcion" name="descripcion" placeholder="Descripcion viaje"  ng-required="true"ng-disabled="showDisable" maxlength="50">
-                    <span class="messages" ng-show="(vales.flete.$touched)">
-                    <span ng-show="vales.flete.$error.required" style="color: red"> Campo obligatorio *.</span>
-                                  
+                    <input type="text" class="form-control" ng-model="cliente.descripcion" name="descripcion" placeholder="Descripcion viaje"  ng-required="true"ng-disabled="showDisable" maxlength="50">                              
                 </div>
                           
           </div>
@@ -111,8 +109,6 @@
                 <i class="fas fa-ruler-horizontal"></i>
                 <input type="numero" class="form-control" name="distancia" ng-model="cliente.distancia"
                 placeholder="Km" ng-required="true" maxlength="5" ng-pattern="numeros" ng-disabled="showDisable">
-                <span class="messages" ng-show="(vales.flete.$touched)">
-                    <span ng-show="vales.flete.$error.required" style="color: red"> Campo obligatorio *.</span>
               </div>
           </div>
                       
@@ -125,7 +121,7 @@
 
 <div class="row">
 
-<div class="col-md-3 col-xs-3 col-lg-2">
+<div class="col-md-2 col-xs-2 col-lg-2">
   <label><b>No. Cliente:</b></label>
   <div class="inner-addon  right-addon">
     <i class="fas fa-sort-numeric-up-alt"></i>
@@ -133,8 +129,9 @@
   </div>
 </div>
 
-<div class="col-md-3 col-xs-3 col-lg-5">
+<div class="col-md-5 col-xs-5 col-lg-5">
   <label><b>Cliente:</b></label>
+  <!--
   <div class="inner-addon  right-addon">
   <select name="mercancia" ng-class=" cliente.mercancia ? 'form-control is-valid' : 'form-control'"  ng-model="cliente.mercancia"  ng-required="true" ng-click="resetLisr()" ng-disabled="showDisable" ng-change="clave()">
       <option value=""> -Seleccione una opcion-</option>
@@ -143,7 +140,27 @@
       </option>
     </select>
   </div>
+-->
+<div class="inner-addon  right-addon">
+    <i class="fas fa-user"></i>
+    <input type="search" ng-model="cliente.nombrecl"  ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="searchC($event.target.value)"  
+        placeholder="Buscar Cliente" ng-disabled="showDisable" >  
+</div>
+<div class="positionFloat cursor" ng-if="!ban2">
+    <div ng-repeat="searchItems in items">
+        <p ng-click="filtradoCl(searchItems)">
+            {{ searchItems.cliente}}
+        </p>
+    </div>
+</div>
 
+</div>
+
+<div class="col-md-5 col-xs-5 col-lg-5">
+  <label><b>Mercancia:</b></label>
+  <div class="inner-addon  right-addon">
+    <input type="text" class="form-control" ng-model="cliente.Omercancia" placeholder="mercancia a transportar"  ng-model="cliente.mercancia" ng-disabled="showDisable">
+  </div>
 </div>
                      
 </div>
@@ -205,12 +222,10 @@
   <label><b>Tipo tarifa:</b></label>
   <select class="form-control" name="tarifas"  ng-required="true" ng-model="cliente.tarifas" ng-disabled="showDisable">
     <option value="">Seleccione una opcion</option>
-    <option value="Tonelada">TONELADA</option>
-    <option value="SENCILLO">SENCILLO</option>
-    <option value="FULL">FULL</option>
+    <option value="Tonelada">Tonelada</option>
+    <option value="T3-S2">Sencillo</option>
+    <option value="T3-S2-R4">Full</option>
   </select>
-  <span class="messages" ng-show="(vales.flete.$touched)">
-                    <span ng-show="vales.flete.$error.required" style="color: red"> Campo obligatorio *.</span>
 </div>
 
 <div class="col-md-3 col-xs-3 col-lg-3">

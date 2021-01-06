@@ -290,12 +290,31 @@
 				$val3 = $_GET['tr'];
 				ControllerSIDF::listeVales($val,$val2,$val3);
 				break;
+			case 'listeCompl':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$val = $_GET['data'];
+				ControllerSIDF::listeCompl($val);
+				break;				
 			case 'searchValeEsp':
 				header('Access-Control-Allow-Origin: * ');
 				header('Access-Control-Allow-Headers: * ');
 				$data = $_GET['val'];
 				ControllerSIDF::searchValeEsp($data);
 				break;
+
+			case 'searchCompEsp':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['val'];
+				ControllerSIDF::searchCompEsp($data);
+				break;
+			case 'searchTruck':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['val'];
+				ControllerSIDF::searchTruck($data);
+				break;				
 			case 'updatStatusV':
 				header('Access-Control-Allow-Origin: * ');
 				header('Access-Control-Allow-Headers: * ');
@@ -309,6 +328,12 @@
 				$data = $_GET['val'];
 				ControllerSIDF::sumComplement($data);
 				break;
+			case 'statusEquipo':
+				header('Access-Control-Allow-Origin: * ');
+				header('Access-Control-Allow-Headers: * ');
+				$data = $_GET['val'];
+				ControllerSIDF::sumComplement($data);
+				break;	
 				/*******************************************************/
 			// seccion de operadores ...
 			case 'operador':
@@ -590,6 +615,12 @@
 					header('Access-Control-Allow-Headers: * ');
 					$data = $_GET['search'];
 					ControllerSIDF::searchviaje($data);
+				break;
+				case 'validarClave':
+					header('Access-Control-Allow-Origin: * ');
+					header('Access-Control-Allow-Headers: * ');
+					$data = $_GET['flete'];
+					ControllerSIDF::validarF($data);
 				break;
     } // end switch ...
   } // end function api

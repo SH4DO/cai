@@ -2799,9 +2799,11 @@ app.controller("valeImp", [
 
     var formatDate = function (fecha) {
       var date = new Date(fecha);
-      var dat2 =date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear();
+      var aux =parseInt(date.getMonth())+1;
+      var dat2 =date.getDate()+"/"+aux+"/"+date.getFullYear();
       return dat2;
     };
+
 
     /**
      * TESTITO
@@ -3008,6 +3010,7 @@ app.controller("crudVales", [
     $scope.showValueCombs=true;
     $scope.mostrarAlert=false;
     $scope.mostrarAlert2=false;
+    $scope.mostrarStatusVale=false;
     $scope.precios= new Array();
     $scope.validadores = new Array();
     
@@ -3094,6 +3097,7 @@ app.controller("crudVales", [
         $scope.cliente.precioCombustible =$scope.precios[($scope.cliente.combs)-1];
         $scope.cliente.importe=($scope.cliente.precioCombustible)*($scope.cliente.cantidadcombs);
         console.log($scope.cliente.importe);
+
       }
     };
     // llenar lista de opciones de Combustibles....   
@@ -3125,12 +3129,13 @@ app.controller("crudVales", [
         // buton de guardar .....
         case 1:
           {
+            $scope.mostrarStatusVale=false;
             $scope.showCreateCliente = true;
             $scope.showDisable = false;
             $scope.showDisableSearch = false;              
             $scope.showSaveCliente = false;
             $scope.showResetCliente = false;
-            //$scope.cliente = {};
+            $scope.cliente = {};
             $scope.band = false;
             $scope.cliente.fecha=new Date();
             console.log($scope.cliente.fecha);
@@ -3364,8 +3369,8 @@ app.controller("crudVales", [
       $scope.cliente.cantidadcombs=search.cantidad;
       $scope.cliente.importe=search.importe;    
       
-      if(search.statusV==="1") {$scope.showDisable = true; $scope.showDisableSearch = false;}
-      else $scope.showDisable = false;
+      if(search.statusV==="1") {$scope.showDisable = true; $scope.showDisableSearch = false;     $scope.mostrarStatusVale=true;}
+      else {$scope.showDisable = false;  $scope.mostrarStatusVale=false;}
     }; // ......
 
     // actualizar lista
@@ -3395,7 +3400,7 @@ app.controller("crudVales", [
       $scope.validadores[6]=true;
       
       if($scope.validadores[0]==true || $scope.validadores[1]==true || $scope.validadores[2]==true || $scope.validadores[3]==true
-         || $scope.validadores[4]==true || $scope.validadores[5]==true || $scope.validadores[6]==true){
+         || $scope.validadores[4]==true || $scope.validadores[5]==true || $scope.validadores[6]==true || $scope.cliente.importe===0){
           data=true;}
       
       console.log($scope.validadores);
@@ -3425,9 +3430,13 @@ app.controller("crudAnticipos",[
   "vale",
   function($scope, anticipos, equipo, crudOperator, client,vale){
     $scope.listanticp;
+    $scope.listCompl;
     $scope.anticp = {};
     $scope.anticipo = {};
     $scope.complement = {};
+    $scope.liquidm = {};
+    $scope.compI={};
+    $scope.tractoraux = "";
     $scope.liquid = {};
     $scope.search = "";
     $scope.showMessage = true;
@@ -3447,13 +3456,16 @@ app.controller("crudAnticipos",[
     $scope.listRemo2;
     $scope.listDolly;
     $scope.listVale;
-    $scope.serviciosOp=["Estad\u00EDas","Maniobras","Cargos por Seguro","Peajes","Reparto","Otros"];
+    $scope.serviciosOp=["","Estad\u00EDas","Maniobras","Cargos por Seguro","Peajes","Reparto","Otros"];
     $scope.validTarifa=true;
     $scope.validAC=[false,false,false];
     $scope.auxliar;
     $scope.mensajeStatus="";
     $scope.validadores = new Array();
     $scope.verificarAnticipo =false ;
+    $scope.auxnum = ["","",""];
+    $scope.validadores = new Array();
+    $scope.validarButtons = [true,true,false,true,true];
 
     $scope.listOPAC=["Anticipo","Complemento"];
 
@@ -3463,8 +3475,16 @@ app.controller("crudAnticipos",[
           {
             $scope.showDisable = false; 
             $scope.showDisableL = false;    
-            $scope.showDisableAUX = false;         
+            $scope.showDisableAUX = false;
+            $scope.mostrarAlert=false;
+            $scope.mostrarAlert2=false;
+            $scope.mostrarAlert3=false;     
+            $scope.validAC=[false,false,false];
+            $scope.listVale=[ ];    
             $scope.anticp = {};
+            $scope.anticipo = {};
+            $scope.complement = {};
+            $scope.liquid = {};
             $scope.anticp.fecha=new Date();
             $scope.liquid.fecha=new Date();
             listTractor();
@@ -3474,102 +3494,110 @@ app.controller("crudAnticipos",[
           }
           break;
         case 2:
-          unirCadenas();
-          auxviaje=0;
-          $scope.showDisable = true;                   
-              len = Object.keys($scope.anticp).length;
-              if (len > 0) {
-                if ($scope.anticp.idanticp != null) {    
-                  
-                  console.log("TES: "+$scope.anticp.idcliente);
-                  // actualizar ASIGNACION DE VIAJE .....
-                    anticipos.updateViaje($scope.anticp).then(function succes(res) {
-                     if (res.action === "success") {
-                       $scope.ban = true;
+          if(validar()){ //true
+            console.log("FALTA ALGUN CAMPO POR LLENAR");                
+          }
+          else{
+            unirCadenas();
+            auxviaje=0;
+            $scope.showDisable = true;                   
+                len = Object.keys($scope.anticp).length;
+                if (len > 0) {
+                  if ($scope.anticp.idanticp != null) {    
+                    
+                    // actualizar ASIGNACION DE VIAJE .....
+                      anticipos.updateViaje($scope.anticp).then(function succes(res) {
+                       if (res.action === "success") {
+                         $scope.ban = true;
+                          Swal.fire({
+                          position: "center",
+                          type: "success",
+                          title: "Datos actualizado",
+                          showConfirmButton: false,
+                          timer: 1000,
+                        });
+                        //$scope.mensajeStatus=""; 
+                        // segui testeando          
+                              $scope.anticipo.idviaje=$scope.anticp.idanticp;
+                              $scope.complement.idviaje=$scope.anticp.idanticp;
+                              $scope.liquid.idviaje=$scope.anticp.idanticp;
+                              console.log("el valor del id traido es de: "+$scope.anticp.idanticp);
+                              console.log("el valor de valid AC es: "+$scope.validAC[0]);
+                              if($scope.validAC[0]===true && $scope.verificarAnticipo===false){
+                                anticipos.createAnticpV($scope.anticipo).then(function succes(res){
+                                  if(res.action==="success") console.log("anticipo ya creado ya estas karnal :v");
+                                  else console.log("gg wei no quedo a seguirle :^(");
+                                });
+                              } 
+                              if($scope.validAC[1]===true){
+                                anticipos.createComplement($scope.complement).then(function succes(res){
+                                  if(res.action==="success") console.log("complemento ya creado ya estas karnal :v");
+                                  else console.log("Cmp gg wei no quedo a seguirle :^(");
+                                });
+                              }
+                              if($scope.validAC[2]===true || $scope.liquid.sueldo){
+                                anticipos.createLiquid($scope.liquid).then(function succes(res){
+                                  if(res.action==="success") {
+                                    console.log("liquidacion ya creado ya estas karnal :v");
+                                    anticipos.updatStatusV($scope.liquid.vale,"1").then(function succes(res){
+                                      if(res.action==="success") console.log("status de vale actualizado");
+                                      else console.log("algo salio mal no se hizo el update del vale");
+                                    });
+                                  }
+                                  else console.log("lqd gg wei no quedo a seguirle :^(");
+                                });
+                              }
+                        $scope.anticp = {};
+                        $scope.anticipo = {};
+                        $scope.complement = {};
+                        $scope.liquid = {};
+                        $scope.mostrarAlert3=false;                               
+                        }  else {
+                          console.log(res);
+                        }
+                      });
+                  } else {
+                    anticipos.createAnticipo($scope.anticp).then(function succes(res) {
+                      if(res.action === "success") {
+                        $scope.ban = true;
                         Swal.fire({
                         position: "center",
                         type: "success",
-                        title: "Datos actualizado",
+                        title: "Datos exitosamente agregados",
                         showConfirmButton: false,
                         timer: 1000,
                       });
-                      //$scope.mensajeStatus=""; 
-                      // segui testeando          
-                            $scope.anticipo.idviaje=$scope.anticp.idanticp;
-                            $scope.complement.idviaje=$scope.anticp.idanticp;
-                            $scope.liquid.idviaje=$scope.anticp.idanticp;
-                            console.log("el valor del id traido es de: "+$scope.anticp.idanticp);
-                            console.log("el valor de valid AC es: "+$scope.validAC[0]);
-                            if($scope.validAC[0]===true && $scope.verificarAnticipo===false){
-                              anticipos.createAnticpV($scope.anticipo).then(function succes(res){
-                                if(res.action==="success") console.log("anticipo ya creado ya estas karnal :v");
-                                else console.log("gg wei no quedo a seguirle :^(");
-                              });
-                            } 
-                            if($scope.validAC[1]===true){
-                              anticipos.createComplement($scope.complement).then(function succes(res){
-                                if(res.action==="success") console.log("complemento ya creado ya estas karnal :v");
-                                else console.log("Cmp gg wei no quedo a seguirle :^(");
-                              });
-                            }
-                            if($scope.validAC[2]===true){
-                              anticipos.createLiquid($scope.liquid).then(function succes(res){
-                                if(res.action==="success") {
-                                  console.log("liquidacion ya creado ya estas karnal :v");
-                                  anticipos.updatStatusV($scope.liquid.vale,"1").then(function succes(res){
-                                    if(res.action==="success") console.log("status de vale actualizado");
-                                    else console.log("algo salio mal no se hizo el update del vale");
-                                  });
-                                }
-                                else console.log("lqd gg wei no quedo a seguirle :^(");
-                              });
-                            }
-                      $scope.anticp = {};
-                      $scope.mostrarAlert3=false;                               
-                      }  else {
+                      $scope.anticp= {};
+                       //testear
+                      anticipos.searchLastViaje().then(function succes(res2){              
+                          $.each(res2, function(key,val){
+                              $scope.anticipo.idviaje=val.idviaje;
+                              $scope.complement.idviaje=val.idviaje;
+                              $scope.liquid.idviaje=val.idviaje;
+                              console.log("el valor del id traido es de: "+val.idviaje);
+                              console.log("valor a enviar: ");
+                              console.log($scope.anticipo);
+                              if($scope.validAC[0]===true){
+                                anticipos.createAnticpV($scope.anticipo).then(function succes(res){
+                                  if(res.action==="success") console.log("anticipo ya creado ya estas karnal :v");
+                                  else console.log("gg wei no quedo a seguirle :^(");
+                                });
+                              }       
+                          });
+                      });
+                    }
+                      else{
                         console.log(res);
                       }
-                    });
-                } else {
-                  anticipos.createAnticipo($scope.anticp).then(function succes(res) {
-                    if(res.action === "success") {
-                      $scope.ban = true;
-                      Swal.fire({
-                      position: "center",
-                      type: "success",
-                      title: "Datos exitosamente agregados",
-                      showConfirmButton: false,
-                      timer: 1000,
-                    });
-                    $scope.anticp= {};
-                     //testear
-                    anticipos.searchLastViaje().then(function succes(res2){              
-                        $.each(res2, function(key,val){
-                            $scope.anticipo.idviaje=val.idviaje;
-                            $scope.complement.idviaje=val.idviaje;
-                            $scope.liquid.idviaje=val.idviaje;
-                            console.log("el valor del id traido es de: "+val.idviaje);
-                            console.log("valor a enviar: ");
-                            console.log($scope.anticipo);
-                            if($scope.validAC[0]===true){
-                              anticipos.createAnticpV($scope.anticipo).then(function succes(res){
-                                if(res.action==="success") console.log("anticipo ya creado ya estas karnal :v");
-                                else console.log("gg wei no quedo a seguirle :^(");
-                              });
-                            }       
-                        });
-                    });
+                    }); // fin de crear anticipo
                   }
-                    else{
-                      console.log(res);
-                    }
-                  }); // fin de crear anticipo
-                }
-              } else {
-                $scope.showDisable = false;
-                $scope.showDisable2 = false;
-                $scope.anticp= {};
-              }                                                          
+                } else {
+                  $scope.showDisable = false;
+                  $scope.showDisable2 = false;
+                  $scope.anticp= {};
+                }  
+          } // fin del else de validar
+                                                        
           break;
         case 3:
           //$scope.editBan = false;
@@ -3608,6 +3636,7 @@ app.controller("crudAnticipos",[
       $scope.complement={};
       $scope.liquid={};
       $scope.validAC=[false,false,false];
+      $scope.mostrarAlert=false;
       if(name!==""){
         $scope.ban4=false;
         $scope.listC=anticipos.search(name).then(function succes(res){
@@ -3650,13 +3679,8 @@ app.controller("crudAnticipos",[
       $scope.ban = true;
       $scope.anticp.cliente=search.cliente;
       $scope.anticp.idcliente=search.idclientes;
-      $scope.anticp.home=search.domicilio;
-      anticipos.searchMerch(search.clave_mercancia).then(function succes(res){
-        $.each(res,function(key,val){
-          $scope.anticp.merch=val.nombre_producto;
-        });
-      });      
-      //listClaveF();
+      $scope.anticp.home=search.domicilio;     
+      
     }
 
     //LLenar select con los equipos tipo tractor
@@ -3803,17 +3827,22 @@ app.controller("crudAnticipos",[
       $scope.anticp.destino=val.destino;
       $scope.anticp.destinro=val.destinatario;
       $scope.anticp.homeD=val.Odomicilio;
+      $scope.anticp.merch=val.Omercancia;
       $scope.anticp.entrega=val.Lentrega;
       $scope.anticp.distancia=val.distancia;
       $scope.anticp.tarifa=val.tarifas;
       $scope.anticp.tipoT=val.costo;
       $scope.anticp.descripcionS=val.descripcion;
-      if(val.tarifas!=="Tonelada"){ $scope.anticp.importe=val.costo;}
+      //$scope.anticp.merch=val.mercancia;
+      if(val.tarifas!=="Tonelada"){ 
+        $scope.anticp.importe=val.costo;
+        //prender o apagar dolly y remolque 2
+        if(val.tarifas==="T3-S2") {$scope.showDisable2=true;}
+          else {$scope.showDisable2=false;}
+      }
       else {$scope.anticp.importe=""; $scope.validTarifa=false;
             }
-      //prender o apagar dolly y remolque 2
-      if(val.tarifas==="T3-S2") {$scope.showDisable2=true;}
-      else {$scope.showDisable2=false;}
+
         
 
     }; // ......
@@ -3867,17 +3896,20 @@ app.controller("crudAnticipos",[
 
     //Operaciones del importe y sumas
     $scope.Operaciones= function (){
+
+      if(Number.isInteger(importe1) || Number.is)
+
       let val=0, val1=0,val2=0,val3=0,auxt=0, subt=0, ivaA=0;
       if($scope.anticp.importe) {subt+=(parseFloat($scope.anticp.importe));}
-      if($scope.anticp.importe1) {subt+=$scope.anticp.importe1;}
-      if($scope.anticp.importe2) {subt+=$scope.anticp.importe2;}
-      if($scope.anticp.importe3) {subt+=$scope.anticp.importe3;}
+      if($scope.anticp.importe1) {subt+=(parseFloat($scope.anticp.importe1));}
+      if($scope.anticp.importe2) {subt+=(parseFloat($scope.anticp.importe2));}
+      if($scope.anticp.importe3) {subt+=(parseFloat($scope.anticp.importe3));}
       val=parseInt($scope.anticp.importe);
 
       if($scope.anticp.servicio1=="Reparto") val1=$scope.anticp.importe1;
       if($scope.anticp.servicio2=="Reparto") val2=$scope.anticp.importe2;
       if($scope.anticp.servicio3=="Reparto") val3=$scope.anticp.importe3;
-      $scope.anticp.subtotal=subt.toFixed(2);
+      $scope.anticp.subtotal=parseFloat(subt).toFixed(2);  //CORREGIR /////////////////
       ivaA=subt*0.16;
       $scope.anticp.iva=ivaA.toFixed(2);
       auxt=((val+val1+val2+val3)*0.04);
@@ -3889,13 +3921,13 @@ app.controller("crudAnticipos",[
     $scope.importeTon = function (val){
       let aux;
       //if($scope.anticp.tarifa==="Tonelada"){$scope.anticp.importe=$scope.anticp.tipoT; $scope.validTarifa = validTonelada(val);}
-      if($scope.anticp.tarifa==="T3-S2-R4" && val<30){
-        $scope.validadores[0]=true; //$scope.showDisable2=true;
+      if(($scope.anticp.tarifa==="T3-S2-R4" && val<30) || ($scope.anticp.tarifa==="T3-S2" && val>32)){
+        $scope.validadores[5]=true; //$scope.showDisable2=true;
       }
-      else $scope.validadores[0]=false;
+      else $scope.validadores[5]=false;
       
       if($scope.validTarifa==false && $scope.anticp.tarifa==="Tonelada"){
-        if(validTonelada(val)){$scope.showDisable2=true; $scope.anticp.dolly=""; $scope.anticp.remolque2="";}
+        if(validTonelada(val)){$scope.showDisable2=true; $scope.anticp.dolly=""; $scope.anticp.remolque2=""; $scope.anticp.placasD=""; $scope.anticp.placasR2="";}
         else $scope.showDisable2=false;
         aux=(val*$scope.anticp.tipoT).toFixed(2);
         $scope.anticp.importe=aux;
@@ -3904,10 +3936,13 @@ app.controller("crudAnticipos",[
 
     //operaciones de Anticipos y Complementos
     $scope.operacionesAC= function () {
+
+      if($scope.anticp.fecha){
       $scope.showDisableV=true;
       console.log($scope.anticp.cliente);
       if($scope.anticp.opeAC=="Anticipo"){
         console.log($scope.anticipo);
+        $scope.validAC[1]=false;
         if(!$scope.validAC[0]){
           $scope.anticp.ACfecha=new Date();
           $scope.anticp.ACimporte="";
@@ -3923,22 +3958,32 @@ app.controller("crudAnticipos",[
         }
       }
       else{
+        if($scope.anticp.statusL==="1"){
+          $scope.validAC[1]=true;
+        }
+        $scope.anticp.ACfecha=new Date();
+        $scope.anticp.ACimporte="";
+        $scope.anticp.ACdesc= "";
+        $scope.showDisableV=false;
+        $scope.mostrarAlert=false;
         console.log($scope.complement);
-        if(!$scope.validAC[1]){
-          $scope.anticp.ACfecha=new Date();
+        if($scope.anticp.statusL==="1"){
+          $scope.showDisableV=true;
+          $scope.mostrarAlert=false;
+          $scope.anticp.ACfecha="";
           $scope.anticp.ACimporte="";
           $scope.anticp.ACdesc= "";
-          $scope.showDisableV=false;
-          $scope.mostrarAlert=false;
-        }else{
-          $scope.mostrarAlert=true;
-          console.log("Mensaje alerta: Complemebto ya creado");
         }
+      }
+      }
+      else{
+        console.log("NO SE HA DADO A NUEVO PARA ABRIR LOS FORMULARIOS");
       }
     }
 
     //agregar anticipo o complemento
     $scope.agregaAC = function(){
+
       $scope.showDisableV=true;
       if($scope.anticp.opeAC=="Anticipo"){
         $scope.validAC[0]=true;
@@ -3963,55 +4008,88 @@ app.controller("crudAnticipos",[
         $scope.anticp.ACfecha="";
         $scope.anticp.ACimporte="";
         $scope.anticp.ACdesc="";
-        $scope.anticp.opeAC="";
+        $scope.anticp.opeAC=""
     }
 
     //agregar liquidacion
     $scope.agregaLiquid = function(){
 
       if(!$scope.validAC[2]){
-        let util1, util2, utilpor1, utilpor2;
-          $scope.validAC[2]=true;
-          $scope.showDisableL=true;
+        let util1, utilpor1;
+          $scope.validAC[2]=false;
+          $scope.showDisableL=false;
           $scope.mostrarAlert2=true;
           anticipos.sumComplement($scope.anticp.idanticp).then(function succes(res){
             $.each(res, function(key,val){
               if(val.total!=null) {$scope.liquid.sumCom=val.total;}
               else $scope.liquid.sumCom=0;
               
-              console.log("suma exitosa: "+val.total);
               $scope.importesLiquid();
-              util1=((parseFloat($scope.anticp.total)-parseFloat($scope.liquid.total))).toFixed(2);
+              //util1=((parseFloat($scope.anticp.subtotal)-parseFloat($scope.liquid.total))).toFixed(2);
+              util1=((parseFloat($scope.anticp.subtotal)-parseFloat($scope.liquid.suma))).toFixed(2);
               utilpor1=((util1*100)/parseFloat($scope.anticp.total)).toFixed(2);
-              util2=((parseFloat($scope.anticp.total)-parseFloat($scope.liquid.total)+parseFloat($scope.liquid.importeVale))).toFixed(2);
-              utilpor2=((util2*100)/parseFloat($scope.anticp.total)).toFixed(2);  
+              let color = '';
+
+              $scope.liquidm.suma = parseFloat($scope.liquid.suma).toFixed(2);
+              $scope.liquidm.anticipo = parseFloat($scope.anticipo.importe).toFixed(2);
+              $scope.liquidm.complementos = parseFloat($scope.liquid.sumCom).toFixed(2);
+              $scope.liquidm.total = parseFloat($scope.liquid.total).toFixed(2);
+              $scope.liquidm.fletes = parseFloat($scope.anticp.subtotal).toFixed(2);
+              $scope.liquidm.util = parseFloat(util1).toFixed(2);
+
+              if(utilpor1<30 ) color = 'red';
+              else if(utilpor1>30 && utilpor1<40) color='orange';
+              else if(utilpor1>40) color = 'green';
+
               /********************/
-              Swal.fire({
+              const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success'
+                },
+                buttonsStyling: false
+              })              
+              //let sumaux = $scope.liquid.suma.toFixed(2);
+              //let sumaux = $scope.liquid.suma.toFixed(2);
+              //let sumaux = $scope.liquid.suma.toFixed(2);
+              swalWithBootstrapButtons.fire({
                   position: "center",
                   type: "success",
                   title: "Liquidacion Agregada",
                    html:
                    "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'>" +
-                   "<b>Suma: </div><div class='col-md-6 col-xs-6 col-lg-6'>"+$scope.liquid.suma+"</b></div></div>"+
-                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b>Anticipos: </div><div class='col-md-6 col-xs-6 col-lg-6'>"+$scope.anticipo.importe+"</b></div></div>"+
-                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b>Complementos: </div><div class='col-md-6 col-xs-6 col-lg-6'>"+$scope.liquid.sumCom+"</b></div></div>"+
-                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b>Total: </div><div class='col-md-6 col-xs-6 col-lg-6'>"+$scope.liquid.total+"</b></div></div>"+
-                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b>Flete: </div><div class='col-md-6 col-xs-6 col-lg-6'>"+$scope.anticp.total+"</b></div></div>"+
-                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b>Utilidad: </div><div class='col-md-6 col-xs-6 col-lg-6'>"+util1
-                      +"("+utilpor1+"%)"+"</b></div></div>"+
-                   "<br><h4>Sin Importe de Combustible:</h4><br>"+
-                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b>Total: </div><div class='col-md-6 col-xs-6 col-lg-6'>"+(parseFloat($scope.liquid.total)-parseFloat($scope.liquid.importeVale)).toFixed(2)+"</b></div></div>"+
-                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b>Utilidad: </div><div class='col-md-6 col-xs-6 col-lg-6'>"+util2
-+"("+utilpor2+"%)"+"</b></div></div>",
+                   "<b><span class='float-right'>Total de gastos de viaje: </span></div><div class='col-md-6 col-xs-6 col-lg-6'><span class='float-right'> $"+parseFloat($scope.liquid.suma).toFixed(2)+" </span></b></div></div><br>"+
+                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6' ><b><span class='float-right'>Anticipos:</span> </div><div class='col-md-6 col-xs-6 col-lg-6'><span class='float-right'> $ -"+parseFloat($scope.anticipo.importe).toFixed(2)+"</span></b></div></div>"+
+                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b><span class='float-right'>Complementos: </span></div><div class='col-md-6 col-xs-6 col-lg-6'><span class='float-right'> $ -"+parseFloat($scope.liquid.sumCom).toFixed(2)+"</span></b></div></div>"+
+                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b><span class='float-right'>Vale de Combustible: </span></div><div class='col-md-6 col-xs-6 col-lg-6'><span class='float-right'> $ -"+parseFloat($scope.liquid.importeVale).toFixed(2)+"</span></b></div></div>"+
+                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b><span class='float-right'>Sueldo a pagar: </span></div><div class='col-md-6 col-xs-6 col-lg-6'><span class='float-right'> $ "+parseFloat(parseFloat($scope.liquid.total).toFixed(2)-parseFloat($scope.liquid.importeVale).toFixed(2)).toFixed(2)+"</span></b></div></div>"+
+                   "<br><div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b><span class='float-right'>Importe de fletes : </span></div><div class='col-md-6 col-xs-6 col-lg-6'><span class='float-right'> $ "+parseFloat($scope.anticp.subtotal).toFixed(2)+"</span></b></div></div>"+
+                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b><span class='float-right' >Utilidad: </span></div><div class='col-md-6 col-xs-6 col-lg-6'><span class='float-right' style='color:"+color+";'> $"+parseFloat(util1).toFixed(2)+"</span></b></div></div>"+
+                   "<div class='row'> <div class='col-md-6 col-xs-6 col-lg-6'><b><span class='float-right'>Utilidad en porcentaje: </span></div><div class='col-md-6 col-xs-6 col-lg-6'><span class='float-right'  style='color:"+color+";'> "+utilpor1+"%</span></b></div></div>",                   
+                  confirmButtonText: 'Aceptar',
+                  showConfirmButton: true,
                    
-                  showConfirmButton: false,
-                   timer: 6000,
                 });
               });           
           });  
           
       }
-    }
+    };
+
+    //funcion para generar la liquidacion
+    $scope.generarLiquid = function(){
+      let aux=0;
+      $scope.liquidm.sueldo=$scope.liquid.sueldo;
+      console.log("testitoooo :cccc"+$scope.anticp.idviaje);
+      if($scope.liquid.caseta) $scope.liquidm.caseta=$scope.liquid.caseta; else $scope.liquidm.caseta=parseFloat(aux).toFixed(2);
+      if($scope.liquid.aguas)$scope.liquidm.aguas=$scope.liquid.aguas; else $scope.liquidm.aguas=parseFloat(aux).toFixed(2);
+      if($scope.liquid.diesel)$scope.liquidm.diesel=$scope.liquid.diesel; else $scope.liquidm.diesel=parseFloat(aux).toFixed(2);
+      if($scope.liquid.ruta)$scope.liquidm.ruta=$scope.liquid.ruta; else $scope.liquidm.ruta=parseFloat(aux).toFixed(2);
+      if($scope.liquid.maniobra)$scope.liquidm.maniobra=$scope.liquid.maniobra; else $scope.liquidm.maniobra=parseFloat(aux).toFixed(2);
+      if($scope.liquid.tel)$scope.liquidm.tel=$scope.liquid.tel; else $scope.liquidm.tel=parseFloat(aux).toFixed(2);
+      if($scope.liquid.estancia)$scope.liquidm.estancia=$scope.liquid.estancia; else $scope.liquidm.estancia=parseFloat(aux).toFixed(2);
+      if($scope.liquid.pension)$scope.liquidm.pension=$scope.liquid.pension; else $scope.liquidm.pension=parseFloat(aux).toFixed(2);
+      $scope.importesLiquid();
+    };
 
     // llenar los datos desplegados en la lista ....
     $scope.llenado = function (search) {
@@ -4020,6 +4098,7 @@ app.controller("crudAnticipos",[
       $scope.ban4=true;
       $scope.form.search = "";
       $scope.showDisable = false;
+      $scope.mostrarAlert2=false;
       $scope.anticp.idanticp = search.idviaje;
       $scope.anticp.fecha = formatDate(search.fecha);
       $scope.anticp.lugar = search.lugarexp;
@@ -4028,6 +4107,7 @@ app.controller("crudAnticipos",[
       $scope.anticp.home = search.domicilio;
       $scope.anticp.clave= search.idorigen;
       $scope.anticp.claveFlete = search.flete;
+      $scope.anticp.merch = search.Omercancia;
       $scope.anticp.recolecta = search.Lcarga;
       $scope.anticp.destino = search.destino;
       $scope.anticp.destinro = search.destinatario;
@@ -4068,21 +4148,21 @@ app.controller("crudAnticipos",[
       if(arrS.length == 1){
         $scope.anticp.servicio = arrS[0];
         $scope.anticp.descripcionS = arrDs[0];
-        $scope.anticp.importe = arrIs[0];
+        $scope.anticp.importe = parseFloat(arrIs[0]).toFixed(2);
       }
       else if(arrS.length == 2){
         $scope.anticp.servicio = arrS[0];$scope.anticp.servicio1 = arrS[1];
 
         $scope.anticp.descripcionS = arrDs[0];$scope.anticp.descripcionS1 = arrDs[1];
 
-        $scope.anticp.importe = arrIs[0];$scope.anticp.importe1 =Number(arrIs[1]);
+        $scope.anticp.importe = parseFloat(arrIs[0]).toFixed(2);$scope.anticp.importe1 = parseFloat(arrIs[1]).toFixed(2);
       }
       else if(arrS.length == 3){
         $scope.anticp.servicio = arrS[0];$scope.anticp.servicio1 = arrS[1];$scope.anticp.servicio2 = arrS[2];
 
         $scope.anticp.descripcionS = arrDs[0];$scope.anticp.descripcionS1 = arrDs[1];$scope.anticp.descripcionS2 = arrDs[2];
 
-        $scope.anticp.importe = arrIs[0];$scope.anticp.importe1 =Number(arrIs[1]);$scope.anticp.importe2 =Number(arrIs[2]);
+        $scope.anticp.importe = parseFloat(arrIs[0]).toFixed(2);$scope.anticp.importe1 =parseFloat(arrIs[1]).toFixed(2);$scope.anticp.importe2 =parseFloat(arrIs[2]).toFixed(2);
       }
       else if(arrS.length == 4){
         $scope.anticp.servicio = arrS[0];$scope.anticp.servicio1 = arrS[1];
@@ -4091,22 +4171,23 @@ app.controller("crudAnticipos",[
         $scope.anticp.descripcionS = arrDs[0];$scope.anticp.descripcionS1 = arrDs[1];
         $scope.anticp.descripcionS2 = arrDs[2];$scope.anticp.descripcionS3 = arrDs[3];
 
-        $scope.anticp.importe = arrIs[0];$scope.anticp.importe1 =Number(arrIs[1]);
-        $scope.anticp.importe2 =Number(arrIs[2]);$scope.anticp.importe3 =Number(arrIs[3]);
+        $scope.anticp.importe = parseFloat(arrIs[0]).toFixed(2);$scope.anticp.importe1 =parseFloat(arrIs[1]).toFixed(2);
+        $scope.anticp.importe2 =parseFloat(arrIs[2]).toFixed(2);$scope.anticp.importe3 =parseFloat(arrIs[3]).toFixed(2);
       }
 
       let arrT =search.total.split("/");
-      $scope.anticp.subtotal = Number(arrT[0]);
-      $scope.anticp.iva= Number(arrT[1]);
-      $scope.anticp.retencion= Number(arrT[2]);
-      $scope.anticp.total= Number(arrT[3]);
+      $scope.anticp.subtotal = parseFloat(arrT[0]).toFixed(2);
+      $scope.anticp.iva= parseFloat(arrT[1]).toFixed(2);
+      $scope.anticp.retencion= parseFloat(arrT[2]).toFixed(2);
+      $scope.anticp.total= parseFloat(arrT[3]).toFixed(2);
 
       $scope.mostrarAlert3=true;
-      if(search.statusA!=""){$scope.anticp.statusA = search.statusA; $scope.validAC[0]=true; $scope.verificarAnticipo=true;}
+      if(search.statusA!=""){$scope.anticp.statusA = search.statusA; $scope.validAC[0]=true; $scope.verificarAnticipo=true; $scope.validarButtons[0]=false;}
+      else $scope.validarButtons[0]=true;
       if(search.statusL!=""){$scope.anticp.statusL = search.statusL; $scope.validAC[2]=true; 
                              $scope.mensajeStatus="VIAJE LIQUIDADO"; $scope.showDisable=true;
-                            $scope.showDisable2=true;}
-      else {$scope.mensajeStatus="VIAJE EN TR\u00C1NSITO"; $scope.showDisable=false;}                     
+                            $scope.showDisable2=true; $scope.validarButtons[3]=false;}
+      else {$scope.mensajeStatus="VIAJE EN TR\u00C1NSITO"; $scope.showDisable=false;$scope.showDisableL=false; $scope.validarButtons[3]=true;}                     
       
 
       // VALIDAR SI EXISTE O NO ANTICIPOS, COMPLEMENTOS Y/o LIQUDICACION , CAMBIAR POSIBLEMENTE A OTRA FUNCTION
@@ -4119,6 +4200,7 @@ app.controller("crudAnticipos",[
             $scope.anticipo.importe=val.importe;
             $scope.anticipo.desc=val.descripcion;
             $scope.anticipo.idviaje=val.idviaje;
+            $scope.auxnum[0]=NumeroALetras(val.importe).toLowerCase();
             console.log($scope.anticipo);
           });
         });
@@ -4126,11 +4208,13 @@ app.controller("crudAnticipos",[
 
       //validar si existe la liqudiacion
       if(search.statusL==="1"){
+        $scope.showDisableV=true;
         $scope.showDisableL=true;
         anticipos.searchLiquid(search.idviaje).then(function succes(res) {
           $.each(res, function(key,val){
             $scope.liquid.idliq=val.idliquid;
             $scope.liquid.fecha=formatDate(val.fecha);
+            $scope.liquid.fechaImprimir=formatDate2(val.fecha);
             $scope.liquid.vale=val.idcomb;
             $scope.liquid.sueldo=val.sueldo;
             $scope.liquid.caseta=val.caseta;
@@ -4142,6 +4226,7 @@ app.controller("crudAnticipos",[
             $scope.liquid.estancia=val.estancia;
             $scope.liquid.pension=val.pension;
             $scope.liquid.idviaje=val.idviaje;
+            $scope.llenadoVale();
           });
         });
       } 
@@ -4151,7 +4236,22 @@ app.controller("crudAnticipos",[
         else $scope.showDisable2=false; 
       }
 
-
+      anticipos.readCompl($scope.anticp.idanticp).then(function succes(res) {
+        $scope.listCompl=res;
+        if(res.length){
+          $scope.validarButtons[1]=false;
+          $scope.validarButtons[2]=true;
+        }
+        else{
+          $scope.validarButtons[1]=true;
+          $scope.validarButtons[2]=false;          
+        }
+        });
+      anticipos.searchTruck(arrV[0]).then(function succes(res) {
+          $.each(res, function(key,val){
+              $scope.tractoraux=val.num_economico;
+            });
+        });        
       console.log(arrS);      
     }; // ......  
     
@@ -4163,6 +4263,23 @@ app.controller("crudAnticipos",[
             $.each(res, function(key,val){
               $scope.liquid.importeVale=val.importe;
               $scope.liquid.valeComb=val.idvale;
+            });
+          }); 
+      }
+      else{
+        console.log("no hay datos en equipo ID");
+      }
+    };
+
+    // llenar datos del complemento para imprimir
+    $scope.llenarComp = function (){
+      let idE=$scope.compI.folio;
+      if ($scope.compI.folio !== "") {
+         anticipos.searchComp(idE).then(function succes(res){
+            $.each(res, function(key,val){
+              $scope.compI.fecha=formatDate2(val.fecha);
+              $scope.compI.importe=val.importe;
+              $scope.auxnum[1]=NumeroALetras(val.importe).toLowerCase();
             });
           }); 
       }
@@ -4220,8 +4337,8 @@ app.controller("crudAnticipos",[
 
     //var validar la tarifa y peso cuando es tonelada true = sencillo false=full
     var validTonelada = function (val){
-      if(val<28) return true;
-      else if (28<val && val<52) return false;
+      if(val<30) return true;
+      else if (30<val && val<52) return false;
       //corregir a futuro y retirar else o preguntar
       else return false;
     };
@@ -4234,14 +4351,31 @@ app.controller("crudAnticipos",[
 
     var formatDate2 = function (fecha) {
       var date = new Date(fecha);
-      var dat2 =date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear();
+      var aux =parseInt(date.getMonth())+1;
+      var dat2 =date.getDate()+"/"+aux+"/"+date.getFullYear();
       return dat2;
     };
+
+    $scope.limpiarServicio = function(val){
+      if(val==="" && ($scope.anticp.importe1 || $scope.anticp.descripcionS1)) {
+        $scope.anticp.importe1 ="";
+        $scope.anticp.descripcionS1=""; 
+      }
+      else if(val==="" && ($scope.anticp.importe2 || $scope.anticp.descripcionS2)) {
+        $scope.anticp.importe2 ="";
+        $scope.anticp.descripcionS2 =""; 
+      }
+      else if(val==="" && ($scope.anticp.importe3 || $scope.anticp.descripcionS3)) {
+        $scope.anticp.importe3 ="";
+        $scope.anticp.descripcionS3 =""; 
+      }
+    }
 
     // function para tener los totales de liquidacion
     $scope.importesLiquid = function(){
       let vaux=[0,0,0,0,0,0,0,0,0,0];
       let aux=0,aux2=0,aux3=0,aux4=0,aux5=0,aux6=0,aux7=0,aux8=0,aux9=0,aux10=0,aux11="";
+      let util1, utilpor1;
       if($scope.liquid.sueldo) aux=parseFloat($scope.liquid.sueldo);
       if($scope.liquid.caseta) aux2=parseFloat($scope.liquid.caseta);
       if($scope.liquid.aguas) aux3=parseFloat($scope.liquid.aguas);
@@ -4252,20 +4386,45 @@ app.controller("crudAnticipos",[
       if($scope.liquid.tel) aux8=parseFloat($scope.liquid.tel);
       if($scope.liquid.estancia) aux9=parseFloat($scope.liquid.estancia);
       if($scope.liquid.pension) aux10=parseFloat($scope.liquid.pension);
-      /*
-      $scope.liquid.suma= parseFloat($scope.liquid.sueldo) + $scope.liquid.caseta + $scope.liquid.aguas +
-                          $scope.liquid.diesel + $scope.liquid.importeVale + $scope.liquid.ruta + 
-                          $scope.liquid.maniobra + $scope.liquid.tel + $scope.liquid.estancia +
-                          $scope.liquid.pension;
-                          */
                
       $scope.liquid.suma= (aux+aux2+aux3+aux4+aux5+aux6+aux7+aux8+aux9+aux10).toFixed(2);
       if($scope.liquid.sumCom)
       $scope.liquid.total=(parseFloat($scope.liquid.suma)-parseFloat($scope.anticipo.importe)-parseFloat($scope.liquid.sumCom)).toFixed(2);
-      else       $scope.liquid.total=(parseFloat($scope.liquid.suma)-parseFloat($scope.anticipo.importe)).toFixed(2);                             
+      else       $scope.liquid.total=(parseFloat($scope.liquid.suma)-parseFloat($scope.anticipo.importe)).toFixed(2);
+      
+      // para imprimir 
+      if($scope.anticp.statusL!==""){
+        anticipos.sumComplement($scope.anticp.idanticp).then(function succes(res){
+          $.each(res, function(key,val){
+            if(val.total!=null) {$scope.liquid.sumCom=val.total;}
+            else $scope.liquid.sumCom=0;
+            
+            if($scope.liquid.sumCom)
+            $scope.liquid.total=(parseFloat($scope.liquid.suma)-parseFloat($scope.anticipo.importe)-parseFloat($scope.liquid.sumCom)).toFixed(2);
+            else       $scope.liquid.total=(parseFloat($scope.liquid.suma)-parseFloat($scope.anticipo.importe)).toFixed(2);
+            console.log("el valor de la suma de complementos es : "+$scope.liquid.sumCom);
+            util1=((parseFloat($scope.anticp.subtotal)-parseFloat($scope.liquid.suma))).toFixed(2);
+            utilpor1=((util1*100)/parseFloat($scope.anticp.total)).toFixed(2);
+      
+            $scope.liquidm.suma = parseFloat($scope.liquid.suma).toFixed(2);
+            $scope.liquidm.anticipo = parseFloat($scope.anticipo.importe).toFixed(2);
+            $scope.liquidm.complementos = parseFloat($scope.liquid.sumCom).toFixed(2);
+            $scope.liquidm.total = parseFloat($scope.liquid.total).toFixed(2);
+            $scope.liquidm.fletes = parseFloat($scope.anticp.subtotal).toFixed(2);
+            $scope.liquidm.util = parseFloat(util1).toFixed(2);
+            // sueldo = (subtotal - suma)- vale 
+            $scope.liquidm.sueldo =parseFloat(parseFloat($scope.liquid.total).toFixed(2)-parseFloat($scope.liquid.importeVale).toFixed(2)).toFixed(2);
+            //$scope.liquidm.sueldo = parseFloat($scope.anticp.subtotal).toFixed(2)-parseFloat($scope.liquid.suma).toFixed(2);  
+          });
+          });
+
+
+
+
+      }
     };
 
-    //testitooooo :3
+    //imprimir anticipo
     $scope.imprimir = function(){
       const $elementoParaConvertir = document.getElementById('imprimirDivAnt');
       html2pdf()
@@ -4297,6 +4456,269 @@ app.controller("crudAnticipos",[
 
     };
 
+    //imprimir complemento
+    $scope.imprimir2 = function(){
+      const $elementoParaConvertir = document.getElementById('imprimirDivComp');
+      html2pdf()
+        .set({
+          margin: 0.2,
+          filename: 'complemento.pdf',
+          image:{
+             type:'jpeg',
+             quality: 0.98
+          },
+          html2canvas:{
+            scale: 3,
+            letterRendering: true,
+          },
+          jsPDF: {
+            unit: "in",
+            format: "letter",
+            //orientation: 'portrait'
+            //precision: 16
+          }
+        })
+        .from($elementoParaConvertir)
+        .save()
+        .catch(err => console.log(err))
+        .finally()
+        .then( ()=>{
+          console.log("GUARDADO!")
+        })
+
+    }; 
+    
+    //imprimir liquidacion
+    $scope.imprimir3 = function(){
+      const $elementoParaConvertir = document.getElementById('imprimirDivLiq');
+      html2pdf()
+        .set({
+          margin: 0.2,
+          filename: 'liquidacion.pdf',
+          image:{
+             type:'jpeg',
+             quality: 0.98
+          },
+          html2canvas:{
+            scale: 3,
+            letterRendering: true,
+          },
+          jsPDF: {
+            unit: "in",
+            format: "letter",
+            //orientation: 'portrait'
+            //precision: 16
+          }
+        })
+        .from($elementoParaConvertir)
+        .save()
+        .catch(err => console.log(err))
+        .finally()
+        .then( ()=>{
+          console.log("GUARDADO!")
+        })
+
+    };
+
+    var validar = function (){
+      for(i=0;i<12;i++) $scope.validadores[i]=false;
+      let data=false;
+      if($scope.anticp.fecha==null || $scope.anticp.fecha=="")
+      $scope.validadores[0]=true;
+      if($scope.anticp.lugar==null || $scope.anticp.lugar=="")
+        $scope.validadores[1]=true;
+      if($scope.anticp.cliente==null || $scope.anticp.cliente=="")
+      $scope.validadores[2]=true;
+      if($scope.anticp.claveFlete==null || $scope.anticp.claveFlete=="")
+      $scope.validadores[3]=true;
+      if($scope.anticp.documentos==null || $scope.anticp.documentos=="")
+      $scope.validadores[4]=true;
+      if($scope.anticp.peso==null || $scope.anticp.peso=="")
+      $scope.validadores[5]=true;
+      if($scope.anticp.carta==null || $scope.anticp.carta=="")
+      $scope.validadores[6]=true;
+      if($scope.anticp.operator==null || $scope.anticp.operator=="")
+      $scope.validadores[7]=true;
+      if(($scope.anticp.tractor==null||$scope.anticp.tractor=="") && $scope.showDisable==false)
+      $scope.validadores[8]=true;
+      if(($scope.anticp.remolque==null||$scope.anticp.remolque=="") && $scope.showDisable==false)
+      $scope.validadores[9]=true;
+      if(($scope.anticp.dolly==null||$scope.anticp.dolly=="") && $scope.showDisable2==false)
+      $scope.validadores[10]=true;
+      if(($scope.anticp.remolque2==null||$scope.anticp.remolque2=="") && $scope.showDisable2==false)
+      $scope.validadores[11]=true;
+      if($scope.anticp.subtotal==null || $scope.anticp.subtotal=="") $scope.validadores[12]=true;
+
+      if($scope.validadores[0]==true || $scope.validadores[1]==true || $scope.validadores[2]==true || $scope.validadores[3]==true
+         || $scope.validadores[4]==true || $scope.validadores[5]==true || $scope.validadores[6]==true || $scope.validadores[7]==true
+         || $scope.validadores[8]==true || $scope.validadores[9]==true || $scope.validadores[10]==true || $scope.validadores[11]==true
+         || $scope.validadores[12]==true){
+          data=true;}
+      
+      console.log($scope.validadores);
+      console.log("El valor que retornara data es: "+data);
+      return data;
+    }
+    
+    
+    /******/
+        /**
+     * convertir numeros a letras
+     */
+    function Unidades(num){
+
+      switch(num)
+      {
+          case 1: return "UN";
+          case 2: return "DOS";
+          case 3: return "TRES";
+          case 4: return "CUATRO";
+          case 5: return "CINCO";
+          case 6: return "SEIS";
+          case 7: return "SIETE";
+          case 8: return "OCHO";
+          case 9: return "NUEVE";
+      }
+  
+      return "";
+  }//Unidades() 
+  function Decenas(num){
+  
+      decena = Math.floor(num/10);
+      unidad = num - (decena * 10);
+  
+      switch(decena)
+      {
+          case 1:
+              switch(unidad)
+              {
+                  case 0: return 'DIEZ';
+                  case 1: return 'ONCE';
+                  case 2: return 'DOCE';
+                  case 3: return 'TRECE';
+                  case 4: return 'CATORCE';
+                  case 5: return 'QUINCE';
+                  default: return 'DIECI' + Unidades(unidad);
+              }
+          case 2:
+              switch(unidad)
+              {
+                  case 0: return 'VEINTE';
+                  default: return 'VEINTI' + Unidades(unidad);
+              }
+          case 3: return DecenasY('TREINTA', unidad);
+          case 4: return DecenasY('CUARENTA', unidad);
+          case 5: return DecenasY('CINCUENTA', unidad);
+          case 6: return DecenasY('SESENTA', unidad);
+          case 7: return DecenasY('SETENTA', unidad);
+          case 8: return DecenasY('OCHENTA', unidad);
+          case 9: return DecenasY('NOVENTA', unidad);
+          case 0: return Unidades(unidad);
+      }
+  }//Unidades()  
+  function DecenasY(strSin, numUnidades) {
+      if(numUnidades == 1) return strSin + ' Y ' + 'UNO'
+      if (numUnidades > 0)
+      return strSin + ' Y ' + Unidades(numUnidades)
+  
+      return strSin;
+  }//DecenasY()  
+  function Centenas(num) {
+      let centenas = Math.floor(num / 100);
+      let decenas = num - (centenas * 100);
+  
+      switch(centenas)
+      {
+          case 1:
+              if (decenas > 0)
+                  return 'CIENTO ' + Decenas(decenas);
+              return 'CIEN';
+          case 2: return 'DOSCIENTOS ' + Decenas(decenas);
+          case 3: return 'TRESCIENTOS ' + Decenas(decenas);
+          case 4: return 'CUATROCIENTOS ' + Decenas(decenas);
+          case 5: return 'QUINIENTOS ' + Decenas(decenas);
+          case 6: return 'SEISCIENTOS ' + Decenas(decenas);
+          case 7: return 'SETECIENTOS ' + Decenas(decenas);
+          case 8: return 'OCHOCIENTOS ' + Decenas(decenas);
+          case 9: return 'NOVECIENTOS ' + Decenas(decenas);
+      }
+  
+      return Decenas(decenas);
+  }//Centenas()  
+  function Seccion(num, divisor, strSingular, strPlural) {
+      let cientos = Math.floor(num / divisor)
+      let resto = num - (cientos * divisor)
+  
+      letras = '';
+  
+      if (cientos > 0)
+          if (cientos > 1)
+              letras = Centenas(cientos) + ' ' + strPlural;
+          else
+              letras = strSingular;
+  
+      if (resto > 0)
+          letras += '';
+  
+      return letras;
+  }//Seccion() 
+  function Miles(num) {
+      let divisor = 1000;
+      let cientos = Math.floor(num / divisor)
+      let resto = num - (cientos * divisor)
+  
+      let strMiles = Seccion(num, divisor, 'UN MIL', 'MIL');
+      let strCentenas = Centenas(resto);
+  
+      if(strMiles == '')
+          return strCentenas;
+  
+      return strMiles + ' ' + strCentenas;
+  }//Miles()  
+  function Millones(num) {
+      let divisor = 1000000;
+      let cientos = Math.floor(num / divisor)
+      let resto = num - (cientos * divisor)
+  
+      let strMillones = Seccion(num, divisor, 'UN MILLON DE', 'MILLONES DE');
+      let strMiles = Miles(resto);
+  
+      if(strMillones == '')
+          return strMiles;
+  
+      return strMillones + ' ' + strMiles;
+  }//Millones() 
+  function NumeroALetras(num) {
+      let data = {
+          numero: num,
+          enteros: Math.floor(num),
+          centavos: (((Math.round(num * 100)) - (Math.floor(num) * 100))),
+          letrasCentavos: '',
+          letrasMonedaPlural: '',//“PESOS”, 'Dólares', 'Bolívares', 'etcs'
+          letrasMonedaSingular: '', //“PESO”, 'Dólar', 'Bolivar', 'etc'
+  
+          letrasMonedaCentavoPlural: '',
+          letrasMonedaCentavoSingular: ''
+      };
+  
+      if (data.centavos > 0) {
+          data.letrasCentavos = 'CON ' + (function (){
+              if (data.centavos == 1)
+                  return Millones(data.centavos) + ' ' + data.letrasMonedaCentavoSingular;
+              else
+                  return Millones(data.centavos) + ' ' + data.letrasMonedaCentavoPlural;
+              })();
+      };
+  
+      if(data.enteros == 0)
+          return 'CERO ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
+      if (data.enteros == 1)
+          return Millones(data.enteros) + ' ' + data.letrasMonedaSingular + ' ' + data.letrasCentavos;
+      else
+          return Millones(data.enteros) + ' ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
+  }//NumeroALetras()
+    /******/
+
   },
 ]);
 
@@ -4313,7 +4735,8 @@ app.controller("crudOrigenesD", [
   "client",
   "products",
   "origenes",
-  function ($scope, client, products, origenes) {
+  "anticipos",
+  function ($scope, client, products, origenes,anticipos) {
     $scope.listCliente;
     $scope.cliente = {};
     $scope.search = "";
@@ -4326,6 +4749,7 @@ app.controller("crudOrigenesD", [
     $scope.editBan = false;
     $scope.mercancia = {};
     $scope.express = "\\d+";
+    $scope.listC;
 
     // agregar ID cliente.
    $scope.clave = function () {
@@ -4340,6 +4764,37 @@ app.controller("crudOrigenesD", [
         $scope.listproduct = res;
       });
     }; //....
+
+/**BUSCAR CLIENTES POR UN SEARCH*/
+    //seccion de busqueda de Remitente (Cliente)
+    $scope.ban2=true;
+    $scope.items = [];
+    $scope.searchC = function(name){
+      if(name!==""){
+        $scope.ban2= false;
+        $scope.listC=client.search(name).then(function succes(res){
+          $scope.items = res;
+        });
+      }
+      else{
+        $scope.ban2 = true;
+      }
+    };
+
+    //llenar los datos del cliente
+    $scope.filtradoCl = function (search){
+      $scope.ban2 = true;
+      $scope.cliente.nombrecl=search.cliente;
+      $scope.cliente.clave_m=search.idclientes;
+      anticipos.searchMerch(search.clave_mercancia).then(function succes(res){
+        $.each(res,function(key,val){
+          $scope.cliente.Omercancia=val.nombre_producto;
+        });
+      });      
+      //listClaveF();
+    }    
+/************************************/
+/*************************************/
 
     // boton de guardar, crear, modificar y refrescar ....
     $scope.buttonOption = function (option) {
@@ -4461,7 +4916,7 @@ app.controller("crudOrigenesD", [
       $scope.showEditCliente = false;
       $scope.band = true;
       $scope.ban = true;
-      $scope.cliente.idviaje = search.idviaje;
+      $scope.cliente.idviaje = search.idorigen;
       $scope.cliente.flete = search.flete
       $scope.cliente.descripcion = search.descripcion;
       $scope.cliente.origen = search.origen;
@@ -4470,14 +4925,33 @@ app.controller("crudOrigenesD", [
       $scope.cliente.Lcarga = search.Lcarga;
       $scope.cliente.destinatario = search.destinatario;
       $scope.cliente.clave_m = search.idclientes;
-      $scope.cliente.mercancia = search.cliente;
-      $scope.cliente.domicilio = search.domicilio;
+      $scope.cliente.nombrecl = search.cliente
+      $scope.cliente.Omercancia = search.Omercancia;
+      $scope.cliente.domicilio = search.Odomicilio;
       $scope.cliente.Lentrega = search.Lentrega;
       $scope.cliente.tarifas = search.tarifas;
       $scope.cliente.costo = search.costo;
 
 
     }; // ......
+
+    //funcion para verificar que el flete no exista
+    $scope.verificaFlete = function (flete) {
+      origenes.validarFlete(flete).then(function (res) {
+        if(res.length){
+          $scope.validflete = true;
+          $scope.validfletenext = true;
+          //showMessage("CLAVE EXISTENTE", "success");
+          console.log("el flete ya existe");
+          console.log(res);
+        }else{
+          $scope.validflete = false;
+          $scope.validfletenext = false;
+          console.log("el flete no se encontro en la bd");
+        }
+       
+      });
+    };
 
     // actualizar lista
     $scope.resetLisr = function () {

@@ -63,14 +63,20 @@
                         </div>
                     </div>
                     <div class="col-md-3 col-xs-3 col-lg-3">
-                        <label><b>Fecha</b></label>
+                        <label><b>Fecha</b>
+                            <b class="alert-danger-message" ng-show="validadores[0]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">   
                             <input type="date" name="fa"  ng-disabled="showDisable" ng-model="anticp.fecha"
                                 ng-class="anticp.fecha ? 'form-control is-valid' : 'form-control'">
                         </div>
                     </div>
                     <div class="col-md-6 col-xs-6 col-lg-6">
-                        <label><b>Lugar de expedici&oacute;n</b></label>
+                        <label><b>Lugar de expedici&oacute;n</b>
+                            <b class="alert-danger-message" ng-show="validadores[1]">
+                                *
+                            </b></label></label>
                         <input type="text" ng-model="anticp.lugar"  ng-class="anticp.lugar ? 'form-control is-valid' : 'form-control'"  
                         placeholder="Lugar de exp." ng-disabled="showDisable">
                     </div>
@@ -78,7 +84,10 @@
                 <hr><h5><b>REMITENTE.</b></h5><hr> <!--col de remitente-->
                 <div class="row"> 
                     <div class="col-md-4 col-xs-4 col-lg-4">
-                        <label><b>Cliente</b></label>
+                        <label><b>Cliente</b>
+                            <b class="alert-danger-message" ng-show="validadores[2]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">
                             <i class="fas fa-user"></i>
                             <input type="search" ng-model="anticp.cliente"  ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="searchC($event.target.value)"  
@@ -112,7 +121,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-xs-4 col-lg-4">
-                        <label><b>Clave Flete</b></label>
+                        <label><b>Clave Flete</b>
+                            <b class="alert-danger-message" ng-show="validadores[3]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">
                             <i class="fas fa-sort-numeric-up-alt"></i>
                             <input type="search" ng-model="anticp.claveFlete" ng-class="form.search ? 'form-control is-valid' : 'form-control'" ng-keyup="searchFlete($event.target.value)"
@@ -191,7 +203,10 @@
                 <hr><h5><b>DATOS DE LA CARGA.</b></h5><hr> <!--col de datos de la carga-->
                 <div class="row">
                     <div class="col-md-4 col-xs-4 col-lg-6">
-                        <label><b>Documentos</b></label>
+                        <label><b>Documentos</b>
+                            <b class="alert-danger-message" ng-show="validadores[4]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">
                             <i class="fas fa-file-alt"></i>
                             <input type="text" ng-model="anticp.documentos"  ng-class="anticp.documentos ? 'form-control is-valid' : 'form-control'"  
@@ -201,8 +216,9 @@
         
                     <div class="col-md-4 col-xs-4 col-lg-2">
                         <label><b>Peso</b>
-                            <b class="alert-danger-message" ng-show="validadores[0]">
-                                No. Inv&aacute;lido
+                            <b class="alert-danger-message" ng-show="validadores[5]">
+                                Peso no permitido para la conf. veh&iacute;cular
+                             <!--   No. Inv&aacute;lido-->
                             </b></label>
                         <div class="inner-addon  right-addon">
                             <i class="fas fa-weight-hanging"></i>
@@ -219,7 +235,10 @@
                         </div>
                     </div>
                     <div class="col-md-4 col-xs-4 col-lg-2">
-                        <label><b>Carta porte</b></label>
+                        <label><b>Carta porte</b>
+                            <b class="alert-danger-message" ng-show="validadores[6]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">  
                             <i class="fas fa-envelope-open-text"></i>
                             <input type="text" ng-model="anticp.carta"  ng-class="anticp.carta ? 'form-control is-valid' : 'form-control'"  
@@ -231,7 +250,10 @@
                 <hr><h5><b>EQUIPO Y OPERADOR.</b></h5><hr> <!--col de Equipo y operador-->
                 <div class="row">
                     <div class="col-md-4 col-xs-4 col-lg-4">
-                        <label><b>Operador</b></label>
+                        <label><b>Operador</b>
+                            <b class="alert-danger-message" ng-show="validadores[7]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">
                             <i class="fas fa-user"></i>
                             <input type="text" ng-model="anticp.operator"  ng-class="anticp.operator ? 'form-control is-valid' : 'form-control'" ng-keyup="searchOp($event.target.value)"
@@ -272,7 +294,10 @@
 
                     </div>
                     <div class="col-md-2 col-xs-2 col-lg-2">
-                        <label><b>No. Tractor</b></label>
+                        <label><b>No. Tractor</b>
+                            <b class="alert-danger-message" ng-show="validadores[8]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">
                            <!-- <i class="fas fa-truck"></i>-->
                             <select name="tractor" ng-class="anticp.tractor ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.tractor" ng-change="llenadoTruck()" ng-click="" ng-disabled="showDisable" required>
@@ -287,7 +312,10 @@
                                placeholder="Num. placas" disabled  >
                     </div>
                     <div class="col-md-2 col-xs-2 col-lg-2">
-                        <label><b>Remolque</b></label>
+                        <label><b>Remolque</b>
+                            <b class="alert-danger-message" ng-show="validadores[9]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">
                             <select name="remolque" ng-class="anticp.remolque ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.remolque" ng-change="llenadoRemolque()" ng-disabled="showDisable" required>
                                 <option ng-repeat="equipo in listRemo" value="{{equipo.idequipo}}">
@@ -301,7 +329,10 @@
                         placeholder="Num. placas" disabled >    
                     </div>
                     <div class="col-md-2 col-xs-2 col-lg-2">
-                        <label><b>Dolly</b></label>
+                        <label><b>Dolly</b>
+                            <b class="alert-danger-message" ng-show="validadores[10]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">
                             <select name="dolly" ng-class="anticp.dolly ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.dolly" ng-change="llenadoDolly()" ng-disabled="showDisable2" required>
                                 <option ng-repeat="equipo in listDolly" value="{{equipo.idequipo}}">
@@ -315,7 +346,10 @@
                         placeholder="Num. placas" disabled >
                     </div>
                     <div class="col-md-2 col-xs-2 col-lg-2">
-                        <label><b>Remolque 2</b></label>
+                        <label><b>Remolque 2</b>
+                            <b class="alert-danger-message" ng-show="validadores[11]">
+                                *
+                            </b></label>
                         <div class="inner-addon  right-addon">
                             <select name="remolque2" ng-class="anticp.remolque2 ? 'form-control is-valid' : 'form-control'"  ng-model="anticp.remolque2" ng-change="llenadoRemolque2()" ng-disabled="showDisable2" required>
                                 <option ng-repeat="equipo in listRemo2" value="{{equipo.idequipo}}">
@@ -339,21 +373,21 @@
                         value="Flete" placeholder="Flete" disabled>
 
                         <select class="form-control" name="Servicios1" ng-class="anticp.servicio1 ? 'form-control is-valid' : 'form-control'"  
-                        required ng-model="anticp.servicio1" ng-disabled="showDisable">
+                        required ng-model="anticp.servicio1" ng-disabled="showDisable" ng-click="limpiarServicio($event.target.value)">
                             <option ng-repeat="op in serviciosOp" value="{{op}}">
                                 {{op}}
                             </option>
                         </select>
 
                         <select class="form-control" name="Servicios2" ng-class="anticp.servicio2 ? 'form-control is-valid' : 'form-control'"  
-                        required ng-model="anticp.servicio2" ng-disabled="showDisable">
+                        required ng-model="anticp.servicio2" ng-disabled="showDisable" ng-click="limpiarServicio($event.target.value)">
                             <option ng-repeat="op in serviciosOp" value="{{op}}">
                                 {{op}}
                             </option>
                         </select>
 
                         <select class="form-control" name="Servicios3" ng-class="anticp.servicio3 ? 'form-control is-valid' : 'form-control'"   
-                        required ng-model="anticp.servicio3" ng-disabled="showDisable">
+                        required ng-model="anticp.servicio3" ng-disabled="showDisable" ng-click="limpiarServicio($event.target.value)">
                             <option ng-repeat="op in serviciosOp" value="{{op}}">
                                 {{op}}
                             </option>
@@ -361,7 +395,7 @@
 
                     </div>
                     <div class="col-md-6 col-xs-6 col-lg-6">
-                        <label><b>Descripcion del servicio</b></label>
+                        <label><b>Descripci&oacute;n del servicio</b></label>
                         <input type="text" ng-model="anticp.descripcionS"  ng-class="anticp.descripcionS ? 'form-control is-valid' : 'form-control'"  
                         placeholder="" disabled >
                         <input type="text" ng-model="anticp.descripcionS1"  ng-class="anticp.descripcionS1 ? 'form-control is-valid' : 'form-control'"  
@@ -374,10 +408,10 @@
 
                     <div class="col-md-4 col-xs-4 col-lg-3">
                         <label><b>Importe</b></label>
-                        <input type="text" ng-model="anticp.importe"  ng-class="anticp.importe ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled  >
-                        <input type="number" ng-model="anticp.importe1"  ng-class="anticp.importe1 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable"  >
-                        <input type="number"ng-model="anticp.importe2"  ng-class="anticp.importe2 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable" >
-                        <input type="number" ng-model="anticp.importe3"  ng-class="anticp.importe3 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable"  >
+                        <input type="text" style="text-align:right;" ng-model="anticp.importe"  ng-class="anticp.importe ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled  >
+                        <input type="double" style="text-align:right;" ng-model="anticp.importe1"  ng-class="anticp.importe1 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable" ng-pattern="numeros" >
+                        <input type="double" style="text-align:right;" ng-model="anticp.importe2"  ng-class="anticp.importe2 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable" ng-pattern="numeros">
+                        <input type="double" style="text-align:right;" ng-model="anticp.importe3"  ng-class="anticp.importe3 ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" ng-disabled="showDisable" ng-pattern="numeros" >
                         
                     </div>
                     
@@ -389,8 +423,14 @@
                     </div>
                     <div class="col-md-3 col-xs-3 col-lg-3">
                         <button class="btn btn-success btn-block marign-button"  ng-click="Operaciones()" ng-disabled="showDisable">
-                            Generar Total
-                            </button>
+                            Generar Total                          
+                            </button>                          
+                    </div>
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <br>
+                    <b class="alert-danger-message"  ng-show="validadores[12]">
+                        *Obligatorio
+                    </b>
                     </div>
                 </div>
                 <div class="row">
@@ -405,19 +445,20 @@
                     <div class="cold-md-3 col-xs-3 col-lg-3">
                     </div>
                     <div class="col-md-3 col-xs-3 col-lg-3">
-
+                        <br>
+                        <span class="float-right">
                         <label ><b>SUBTOTAL</b></label> <br>
                         <label ><b>I.V.A 16%</b></label><br>
                         <label ><b>RETENCION 4%</b></label><br>
                         <label ><b>IMPORTE TOTAL</b></label>
+                    </span>
                     </div>
                     <div class="col-md-3 col-xs-3 col-lg-3">
-                        <input type="text" ng-model="anticp.subtotal"  ng-class="anticp.subtotal ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
-                        <input type="text" ng-model="anticp.iva"  ng-class="anticp.iva ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
-                        <input type="text" ng-model="anticp.retencion"  ng-class="anticp.retencion ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
-                        <input type="text" ng-model="anticp.total"  ng-class="anticp.total ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
+                        <input type='double'  style="text-align:right;" ng-model="anticp.subtotal"  ng-class="anticp.subtotal ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
+                        <input type="double"   style="text-align:right;"ng-model="anticp.iva"  ng-class="anticp.iva ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
+                        <input type="double"   style="text-align:right;"ng-model="anticp.retencion"  ng-class="anticp.retencion ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
+                        <input type="double"  style="text-align:right;" ng-model="anticp.total"  ng-class="anticp.total ? 'form-control is-valid' : 'form-control'"  placeholder="$0.00" disabled>
                     </div>
-
                 </div>
                 <!--*************DIVS MODALES PARA ANTICIPOS, COMPLEMENTOS Y LIQUIDACIONES**********
                     *********************************************************************************--->
@@ -470,6 +511,28 @@
                             </div>
                             <div class="col-md-4 col-xs-4 col-lg-4"></div>
                         </div>
+                        <br><br>
+                        <div class="row">
+                            
+                                <table class="table" ng-if="validAC[1]" >
+                                    <thead class="bg-success">
+                                        <tr>
+                                            <td><span class="text-white">No Complemento.</span></td>
+                                            <td><span class="text-white">Fecha</span></td>
+                                            <td><span class="text-white">Importe</span></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in listCompl">
+                                            <td >{{item.idcomp}}</td>
+                                            <td ><span class='float-left'>{{item.fecha | date:'dd-MM-yyyy'}}</span></td>
+                                            <td >$ {{item.importe}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                           
+                
+                        </div>
                     </div>
                 </div>
             </div>
@@ -493,7 +556,7 @@
                             <div class="col-md-6 col-xs-6 col-lg-6">
                                 <label><b>Fecha</b></label>
                                 <div class="inner-addon  right-addon">   
-                                    <input type="date" name="fa"  ng-disabled="showDisableL" ng-model="liquid.fecha"
+                                    <input type="date" name="fa"  disabled ng-model="liquid.fecha"
                                         ng-class="liquid.fecha ? 'form-control is-valid' : 'form-control'">
                                 </div>
                             </div>
@@ -615,8 +678,8 @@
         <!--*********************************************************************-->
         <!--************+SECCION DE IMPRESION**********************************-->
         <!-- OPCIONES DE IMPRESION-->
-            <div class="modal fade" id="imp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
-    <div class="modal-dialog" role="document">
+    <div class="modal fade" id="imp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+        <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" ><b>Seleccione la opcion a imprimir</b></h5>
@@ -626,23 +689,41 @@
              </div>
             <div class="modal-body" >
                 <div class="row">
-                    <div class="col-md-3 col-xs-3 col-lg-4">
-                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalAnt">Anticipo</button>
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalAnt" ng-disabled="validarButtons[0]">Anticipo</button>
                     </div><br>
-
-                    <div class="col-md-3 col-xs-3 col-lg-4">
-                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalComp">Complementos</button>
+                </div>
+                <div class="row">    
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalComp" ng-disabled="validarButtons[1]">Complementos</button>
                     </div><br>
+                    <div class="col-md-6 col-xs-6 col-lg-6" ng-show="validarButtons[2]">
+                        <label><b>Seleccione el complemento: </b></label>
+                        <div class="inner-addon  right-addon">
+                            <select name="dolly" ng-class="anticp.dolly ? 'form-control is-valid' : 'form-control'"  ng-model="compI.folio" ng-change="llenarComp()" >
+                                <option ng-repeat="item in listCompl" value="{{item.idcomp}}">
+                                    {{item.idcomp}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
 
-                    <div class="col-md-3 col-xs-3 col-lg-4">
-                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalLiq" >Liquidacion</button>
+                </div>
+                <div class="row">  
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalLiq" ng-disabled="validarButtons[3]"  ng-click="generarLiquid()">Liquidacion</button>
                     </div><br>
                  </div>
-                                
+                <div class="row">  
+                    <div class="col-md-6 col-xs-6 col-lg-6">
+                        <button type="submit" class="btn btn-success btn-block marign-button" data-toggle="modal" data-target="#modalLiq" ng-disabled="validarButtons[4]" >Carta Porte</button>
+                    </div><br>
+                </div>
+                </div>                  
             </div>
         </div>
-     </div>
-            </div>
+    </div>
+            
 
 
         <!----------------modal para anticipos--------------->
@@ -650,13 +731,17 @@
                 <div class="modal-dialog modal-lg" role="dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5><i class="fas fa-clipboard"></i> <b>Anticipos.</b></h5>
+                                <h5><i class="fas fa-clipboard"></i> <b>Anticipos.</b></h5>
                             <div class="row">
                                 <div class="col-md-3 col-xs-3 col-lg-3">
                                     <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir()"></i>
+                                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="col-md-3 col-xs-3 col-lg-3">
+                                    <i class="fas fa-times icon" class="close" data-dismiss="modal" aria-label="Close"></i>
+
                                 </div>    
                             </div>
-            
+
             
                         </div>
             <div class="modal-body" id="imprimirDivAnt">
@@ -685,12 +770,12 @@
         <br>
 
         <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%; text-align:center;">
-            Recib&iacute; de  <strong>PORTEADORES DEL CENTRO DE VERACRUZ S. DE R.L. DE C.V.</strong> la cantidad de : 
-            <strong>{{anticipo.importe}}</strong> 
+            Recib&iacute; de  <strong>PORTEADORES DEL CENTRO DE VERACRUZ S. DE R.L. DE C.V.</strong> la cantidad de : <br>
+            <strong>{{anticipo.importe}} {{auxnum[0]}}</strong> 
             pesos <br>
              por concepto del viaje:  <strong>{{anticp.descripcionS}}</strong> <br>
              Cliente: <strong> {{anticp.cliente}} </strong> <br>
-              Equipo: <strong>{{anticp.tractor}}</strong> &nbsp;&nbsp; Placa: <strong>{{anticp.placasT}}</strong>
+              Equipo: <strong>{{tractoraux}}</strong> &nbsp;&nbsp; Placa: <strong>{{anticp.placasT}}</strong>
                         
                      
              </p>   
@@ -731,11 +816,16 @@
                     <div class="col-md-3 col-xs-3 col-lg-3">
                         <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir2()"></i>
                     </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-times icon" class="close" data-dismiss="modal" aria-label="Close"></i>
+
+                    </div>                      
                 
                 </div>
               
              </div>
-             <div class="modal-body" id="imprimirDiv">
+             <div class="modal-body" id="imprimirDivComp">
                 <div class="row">
             <div class="col-md-12 col-xs-12 col-lg-12">
                 <img src="frontend/assets/img/membrete.jpg" alt="PCV" width="100%" height="100%">
@@ -751,23 +841,23 @@
 
         <div class="row">
             <div class="col-md-8 col-xs-8 col-lg-8">
-                <h5>No. folio: <strong>{{valec.idvale}}</strong></h5>
+                <h5>No. folio: <strong>{{compI.folio}}</strong></h5>
             </div>
 
             <div class="col-md-4 col-xs-4 col-lg-4">
-                <h5>Fecha: <strong>{{valec.fecha}}</strong></h5>
+                <h5>Fecha: <strong>{{compI.fecha}}</strong></h5>
             </div>
             
         </div>
         <br>
 
         <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%; text-align:left; text-align: center;">
-            Recib&iacute; de  <strong>{{empresa}}</strong> la cantidad de : 
-            <strong>{{valec.cantidad}}</strong> 
+            Recib&iacute; de  <strong>PORTEADORES DEL CENTRO DE VERACRUZ S. DE R.L. DE C.V.</strong> la cantidad de : <br>
+            <strong>{{compI.importe}} {{auxnum[1]}}</strong> 
             pesos <br>
-             por concepto del viaje:  <strong>{{valec.descripcion}}</strong><br>
-             Cliente: <strong> {{valec.cliente}} </strong> <br>
-            Equipo: <strong>{{valec.equipo}}</strong> &nbsp;&nbsp; Placa: <strong>{{valec.placa}}</strong>
+            por concepto del viaje:  <strong>{{anticp.descripcionS}}</strong> <br>
+            Cliente: <strong> {{anticp.cliente}} </strong> <br>
+             Equipo: <strong>{{tractoraux}}</strong> &nbsp;&nbsp; Placa: <strong>{{anticp.placasT}}</strong>
                     
                      
         </p>   
@@ -782,7 +872,7 @@
                 <div class="col-md-6 col-xs-6 col-lg-6">
                     <strong><p style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 300%">
                         ___________________________________ <br>
-                      {{valec.operador}}
+                        {{anticp.operator}}
                     </p></strong> 
                 </div>
 
@@ -803,12 +893,17 @@
                 <h5><i class="fas fa-clipboard"></i> <b>Liquidaciones</b></h5>
                 <div class="row">
                     <div class="col-md-3 col-xs-3 col-lg-3">
-                        <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir2()"></i>
+                        <i class="fas fa-print icon" data-toggle="tooltip" data-placement="top" title="Imprmir" ng-disabled="showSave" ng-click="imprimir3()"></i>
                     </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="col-md-3 col-xs-3 col-lg-3">
+                        <i class="fas fa-times icon" class="close" data-dismiss="modal" aria-label="Close"></i>
+
+                    </div>                      
                 </div>
                 
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="imprimirDivLiq">
                 <div class="row">
             <div class="col-md-12 col-xs-12 col-lg-12">
                 <img src="frontend/assets/img/membrete.jpg" alt="PCV" width="100%" height="100%">
@@ -817,18 +912,18 @@
         </div>
         <div class="row">
             <div class="col-md-8 col-xs-8 col-lg-8">
-                <h4>LIQUIDACION.</h4>
+                <h4>LIQUIDACI&Oacute;N.</h4>
             </div>
         </div>
         <br>
 
         <div class="row">
             <div class="col-md-8 col-xs-8 col-lg-8">
-                <h5>No. folio de anticipo: <strong>{{valec.idvale}}</strong></h5>
+                <h5>No. folio de anticipo: <strong>{{anticp.idanticp}}</strong></h5>
             </div>
 
             <div class="col-md-4 col-xs-4 col-lg-4">
-                <h5>Fecha: <strong>{{valec.fecha}}</strong></h5>
+                <h5>Fecha: <strong>{{liquid.fechaImprimir}}</strong></h5>
             </div>
             
         </div>
@@ -836,132 +931,166 @@
 
 <!---------------------------COLUMNAS------------------------>
 
+
         <div class="row">
-            <div class="col-md-4 col-xs-4 col-lg-3">
-              <label><b></b></label><br>
-              <p class="etiquetas2">
-              
-                <label><b>Sueldo</b> </label><br>
-
-                <label><b>Casetas</b></label><br>
-
-                <label><b>Aguas</b></label><br>
-
-                <label><b>Diesel</b></label><br>
-
-                <label><b>Vales Combustible</b></label><br>
-              
-                <label><b>Reparacion</b></label><br>
-
-    
-                 <label><b>Maniobras</b></label><br>
-
-                <label><b>Recargas</b></label><br>
-
-                <label><b>Estancias</b></label><br>
-
-                <label><b>Pensiones</b></label><br>
-
-                <label><b>Otros</b></label>
-            </p>                 
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+               <label><b><span class='float-right'>Sueldo</span></b></label>
             </div>
-
-            <div class="col-md-6 col-xs-6 col-lg-5">
-             <label><b>Con Diesel</b></label>
-             <br>
-             
-            <input type="text" name="sueldoD" placeholder="$0.00"> 
-             
-            <input type="text" name="casetasD" placeholder="$0.00"> 
-             
-            <input type="text" name="aguasD" placeholder="$0.00"> 
-             
-            <input type="text" name="DieselD" placeholder="$0.00"> 
-             
-            <input type="text" name="valesD" placeholder="$0.00"> 
-             
-            <input type="text" name="reparacionD" placeholder="$0.00"> 
-             
-            <input type="text" name="maniobrasD" placeholder="$0.00"> 
-             
-            <input type="text" name="recargasD" placeholder="$0.00"> 
-             
-            <input type="text" name="estanciasD" placeholder="$0.00"> 
-             
-            <input type="text" name="pensionesD" placeholder="$0.00"> 
-             
-            <input type="text" name="otrosD" placeholder="$0.00"> 
-              
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquid.sueldo}}</span></b>
             </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
 
-            <div class="col-md-6 col-xs-6 col-lg-4">
-             <label><b>Sin Vale Combustible</b></label>
-             <br>
-             <input type="text" name="sueldoVC" placeholder="$0.00"> 
-             
-             <input type="text" name="casetasVC" placeholder="$0.00">
-              
-             <input type="text" name="aguasVC" placeholder="$0.00">
-             
-             <input type="text" name="DieselVC" placeholder="$0.00">
-             
-             <input type="text" name="valesVC" placeholder="$0.00">
-             
-             <input type="text" name="reparacionVC" placeholder="$0.00">
-         
-             <input type="text" name="maniobrasVC" placeholder="$0.00">
-             
-             <input type="text" name="recargasVC" placeholder="$0.00">
-             
-             <input type="text" name="estanciasVC" placeholder="$0.00">
-             
-             <input type="text" name="pensionesVC" placeholder="$0.00">
-
-             <input type="text" name="otrosVC" placeholder="$0.00">
-                           
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Casetas</span></b></label>
             </div>
-      </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquidm.caseta}}</span></b>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Aguas</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquidm.aguas}}</span></b>           
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Diesel</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquidm.diesel}}</span></b>             
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+            <label><b><span class='float-right'>Vales Combustible</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquid.importeVale}}</span></b>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Reparacion</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquidm.ruta}}</span></b>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Maniobras</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquidm.maniobra}}</span></b>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Recargas</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquidm.tel}}</span></b>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Estancias</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquidm.estancia}}</span></b>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Pensiones</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ {{liquidm.pension}}</span></b>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <label><b><span class='float-right'>Otros</span></b></label>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3">
+                <b><span class='float-right'>$ </span></b>
+            </div>
+            <div class="col-md-3 col-xs-3 col-lg-3"></div>
+        </div>
+
       <hr>
 
       <div class="row">
-        <div class="col-md-4 col-xs-4 col-lg-3">
+        <div class="col-md-3 col-xs-3 col-lg-3">
           <p class="etiquetas3">  
-            <label><b>Suma</b></label><br>
-            <label><b>Anticipos</b></label><br>
-            <label><b>Complementos</b></label>
+            <b>Gastos de viaje:</b><br>
+            <b>Anticipos:</b><br>
+            <b>Complementos:</b><br>
+            <b>Total:</b><br>
             <br><br>
-            <label><b>Total</b></label><br>
 
-            <label><b>Flete</b></label><br>
-
-            <label><b>Unidad</b></label>
+            <b>Importe de fletes:</b><br>
+           <b>Utilidad:</b>
           </p>  
         </div>
 
-        <div class="col-md-6 col-xs-6 col-lg-5">
-          <input type="number" name="sumaD" placeholder="$0.00">
-          <input type="number" name="anticiposD" placeholder="$0.00">
-          <input type="number" name="complemtosD" placeholder="$0.00">
+        <div class="col-md-3 col-xs-3 col-lg-3">
+            <p class="etiquetas3">
+            <b><span class='float-right'>$ {{liquidm.suma}}</span></b><br>
+            <b><span class='float-right'>$ {{liquidm.anticipo}}</span></b><br>
+            <b><span class='float-right'>$ {{liquidm.complementos}}</span></b><br>
+            <b><span class='float-right'>$ {{liquidm.total}}</span></b><br>
           <br><br>
-          <input type="number" name="totalD" placeholder="$0.00">
 
-          <input type="number" name="fleteD" placeholder="$0.00">
 
-          <input type="number" name="UnidadD" placeholder="$0.00">
+          <b><span class='float-right'>$ {{liquidm.fletes}}</span></b><br>
 
+          <b><span class='float-right'>$ {{liquidm.util}}</span></b><br>
+            </p>
         </div>
 
-        <div class="col-md-6 col-xs-6 col-lg-4">
-          <input type="number" name="sumaVC" placeholder="$0.00">
-          <input type="number" name="anticipoVC" placeholder="$0.00">
-          <input type="number" name="complementosVC" placeholder="$0.00">
-          <br><br>
-          <input type="number" name="totalVC" placeholder="$0.00">
-          
-          <input type="number" name="fleteVC" placeholder="$0.00">
-          
-          <input type="number" name="unidadVC" placeholder="$0.00">
-
+        <div class="col-md-3 col-xs-3 col-lg-3"> 
+            <br><br><br><br><br><br>
+            <label><b>Sueldo a Pagar:</b></label><br>
+          </div>
+        <div class="col-md-3 col-xs-3 col-lg-3">
+            <br><br><br><br><br><br>
+            <b><span >$ {{liquidm.sueldo}}</span></b><br>
         </div>
         
       </div>

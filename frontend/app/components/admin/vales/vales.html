@@ -56,6 +56,10 @@
                 <h4><b class="alert-danger-message">Los datos ya han sido actualizados hoy</b></h4>
             </div>
 
+            <div ng-show="mostrarStatusVale">
+                <h4><b class="alert-danger-message">Vale relacionado</b></h4>
+            </div>
+
             <div class="row"> <!-- COL DE NO VALE Y FECHA-->
                 <div class="col-md-3 col-xs-3 col-lg-3">
                     <label><b>No. Vale</b>
@@ -206,7 +210,7 @@
                     <div class="inner-addon right-addon">
                         <select name="combs" ng-class="cliente.combs ? 'form-control is-valid' : 'form-control'" ng-model="cliente.combs" ng-change="precioCombs()" ng-click="" ng-disabled="showDisable" required>
                             <option ng-repeat="combs in listcombs" value="{{combs.idcomb}}">
-                                {{combs.nombrecomb}}
+                                {{combs.nombrecomb }} (${{combs.precio}})
                             </option>
                         </select>
                     </div>
@@ -229,7 +233,7 @@
                 <div class="col-md-3 col-xs-3 col-lg-3">
                     <label><b>Cantidad</b>
                         <b class="alert-danger-message" ng-show="validadores[5]">
-                            *
+                            *No  inv&aacute;lido
                         </b>
                     </label>
                     <div class="inner-addon  right-addon">
@@ -237,7 +241,7 @@
                         <input type="text" ng-model="cliente.cantidadcombs"
                             placeholder="0" name="cantidadComb"  ng-keyup="generarImporte()"
                             ng-class=" cliente.cantidadcombs? 'form-control is-valid' : 'form-control'"
-                            ng-pattern="numeros" ng-disabled="showDisable"  ng-required="true">
+                            ng-pattern="/^[0-9]+$/" ng-disabled="showDisable"  ng-required="true">
                     </div>
                 </div>
 
@@ -245,9 +249,8 @@
                     <label><b>Importe</b></label>
                     <div class="inner-addon  right-addon">
 
-                        <input type="text" ng-model="cliente.importe"
-                            placeholder="$0.00" name="nimss" maxlength="11"
-                            ng-class=" cliente.importe ? 'form-control is-valid' : 'form-control'"
+                        <input type="double" ng-model="cliente.importe"
+                            placeholder="$0.00" ng-class=" cliente.importe ? 'form-control is-valid' : 'form-control'"
                             ng-pattern="numeros" disabled required>
                     </div>
                 </div>

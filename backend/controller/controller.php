@@ -414,9 +414,13 @@ class ControllerSIDF extends CrudSIDF
 
 
     public function listeVales($val,$val2,$val3) {CrudSIDF::listVales($val,$val2,$val3);}
+    public function listeCompl($val) {CrudSIDF::listComplement($val);}
     public function searchValeEsp($val) {CrudSIDF::searchValEsp($val);}
+    public function searchCompEsp($val) {CrudSIDF::searchComEsp($val);}
+    public function searchTruck($val) {CrudSIDF::searchTruckEsp($val);}
     public function updatStatusV($data,$data2) {CrudSIDF::updateStatusV($data,$data2);}
     public function sumComplement($val) {CrudSIDF::sumarComplement($val);}
+    public function statusEquipo($val) {CrudSIDF::estatusEquipo($val);}
 
 ////SECCION DE ORIGENES Y DESTINOS///
 
@@ -426,6 +430,7 @@ class ControllerSIDF extends CrudSIDF
      // actualizar viajes
     public function updatViaje($client){CrudSIDF::updateViajes($client);}
     public function searchviaje($data){CrudSIDF::searchViajes($data);}
+    public function validarF($data){CrudSIDF::validarClave($data);}
 
 
 }
